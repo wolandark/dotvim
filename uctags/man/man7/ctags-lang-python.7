@@ -1,0 +1,544 @@
+'\" t
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "CTAGS-LANG-PYTHON" "7" "" "6.1.0" "Universal Ctags"
+.SH NAME
+ctags-lang-python \- Random notes about tagging python source code with Universal Ctags
+.SH SYNOPSIS
+.nf
+\fBctags\fP ... \-\-languages=+Python ...
+\fBctags\fP ... \-\-language\-force=Python ...
+\fBctags\fP ... \-\-map\-Python=+.py ...
+.fi
+.sp
+.SH DESCRIPTION
+.sp
+This man page gathers random notes about tagging python source code.
+.SH TAGGING IMPORT STATEMENTS
+.SS Summary
+.sp
+\fIimport X\fP
+.INDENT 0.0
+.INDENT 3.5
+.TS
+box center;
+l|l|l|l.
+T{
+name
+T}	T{
+kind
+T}	T{
+role
+T}	T{
+other noticeable fields
+T}
+_
+T{
+X
+T}	T{
+module
+T}	T{
+imported
+T}	T{
+N/A
+T}
+.TE
+.UNINDENT
+.UNINDENT
+.sp
+\fIimport X as Y\fP
+.INDENT 0.0
+.INDENT 3.5
+.TS
+box center;
+l|l|l|l.
+T{
+name
+T}	T{
+kind
+T}	T{
+role
+T}	T{
+other noticeable fields
+T}
+_
+T{
+X
+T}	T{
+module
+T}	T{
+indirectlyImported
+T}	T{
+N/A
+T}
+_
+T{
+Y
+T}	T{
+namespace
+T}	T{
+definition
+T}	T{
+nameref:module:X
+T}
+.TE
+.UNINDENT
+.UNINDENT
+.sp
+\fIfrom X import *\fP
+.INDENT 0.0
+.INDENT 3.5
+.TS
+box center;
+l|l|l|l.
+T{
+name
+T}	T{
+kind
+T}	T{
+role
+T}	T{
+other noticeable fields
+T}
+_
+T{
+\fIX\fP
+T}	T{
+module
+T}	T{
+namespace
+T}	T{
+N/A
+T}
+.TE
+.UNINDENT
+.UNINDENT
+.sp
+\fIfrom X import Y\fP
+.INDENT 0.0
+.INDENT 3.5
+.TS
+box center;
+l|l|l|l.
+T{
+name
+T}	T{
+kind
+T}	T{
+role
+T}	T{
+other noticeable fields
+T}
+_
+T{
+\fIX\fP
+T}	T{
+module
+T}	T{
+namespace
+T}	T{
+N/A
+T}
+_
+T{
+\fIY\fP
+T}	T{
+unknown
+T}	T{
+imported
+T}	T{
+scope:module:\fIX\fP
+T}
+.TE
+.UNINDENT
+.UNINDENT
+.sp
+\fIfrom X import Y as Z\fP
+.INDENT 0.0
+.INDENT 3.5
+.TS
+box center;
+l|l|l|l.
+T{
+name
+T}	T{
+kind
+T}	T{
+role
+T}	T{
+other noticeable fields
+T}
+_
+T{
+\fIX\fP
+T}	T{
+module
+T}	T{
+namespace
+T}	T{
+N/A
+T}
+_
+T{
+\fIY\fP
+T}	T{
+unknown
+T}	T{
+indirectlyImported
+T}	T{
+scope:module:\fIX\fP
+T}
+_
+T{
+\fIZ\fP
+T}	T{
+unknown
+T}	T{
+definition
+T}	T{
+nameref:unknown:\fIY\fP
+T}
+.TE
+.UNINDENT
+.UNINDENT
+.\" ===================== ==== ========== ================== ===================
+.\" input code            name kind       role               other noticeable fields
+.\" ===================== ==== ========== ================== ===================
+.\" import X              X    module     imported
+.\" import X as Y         X    module     indirectlyImported
+.\" import X as Y         Y    namespace  definition         nameref:module:X
+.\" from X import *       X    module     namespace
+.\" from X import Y       X    module     namespace
+.\" from X import Y       Y    unknown    imported           scope:module:X
+.\" from X import Y as Z  X    module     namespace
+.\" from X import Y as Z  Y    unknown    indirectlyImported scope:module:X
+.\" from X import Y as Z  Z    unknown    definition         nameref:unknown:Y
+.\" ===================== ==== ========== ================== ===================
+.
+.\" a table having merged cells cannot be converted to man page
+.
+.\" +--------------------+------------------------------------------------------+
+.\" |input code          |output tags                                           |
+.\" |                    +----+----------+------------------+-------------------+
+.\" |                    |name| kind     |role              |other noticeable fields  |
+.\" +====================+====+==========+==================+===================+
+.\" |import X            |X   | module   |imported          |                   |
+.\" +--------------------+----+----------+------------------+-------------------+
+.\" |import X as Y       |X   | module   |indirectlyImported|                   |
+.\" |                    +----+----------+------------------+-------------------+
+.\" |                    |Y   | namespace|definition        |nameref:module:X   |
+.\" +--------------------+----+----------+------------------+-------------------+
+.\" |from X import *     |X   | module   |namespace         |                   |
+.\" +--------------------+----+----------+------------------+-------------------+
+.\" |from X import Y     |X   | module   |namespace         |                   |
+.\" |                    +----+----------+------------------+-------------------+
+.\" |                    |Y   | unknown  |imported          |scope:module:X     |
+.\" +--------------------+----+----------+------------------+-------------------+
+.\" |from X import Y as Z|X   | module   |namespace         |                   |
+.\" |                    +----+----------+------------------+-------------------+
+.\" |                    |Y   | unknown  |indirectlyImported|scope:module:X     |
+.\" |                    +----+----------+------------------+-------------------+
+.\" |                    |Z   | unknown  |definition        |nameref:unknown:Y  |
+.\" +--------------------+----+----------+------------------+-------------------+
+.
+.SS Examples
+.sp
+\(dqinput.py\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+import X0
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-o \- \-\-extras=+r \-\-fields=+rzK input.py\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+X0      input.py        /^import X0$/;\(dq kind:module     roles:imported
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+A tag for an imported module has \fBmodule\fP kind with \fBimported\fP role.  The
+module is not defined here; it is defined in another file. So the tag for the
+imported module is a reference tag; specify \fB\-\-extras=+r\fP (or
+\fB\-\-extras=+{reference}\fP) option for tagging it.  \(dqroles:\(dq field enabled with
+\fB\-\-fields=+r\fP is for recording the module is \(dqimported\(dq to the tag file.
+.sp
+\(dqinput.py\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+import X1 as Y1
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-o \- \-\-extras=+r \-\-fields=+rzK \-\-fields\-Python=+{nameref} input.py\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+X1      input.py        /^import X1 as Y1$/;\(dq   kind:module     roles:indirectlyImported
+Y1      input.py        /^import X1 as Y1$/;\(dq   kind:namespace  roles:def       nameref:module:X1
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqY1\(dq introduces a new name and is defined here. So \(dqY1\(dq is tagged as a
+definition tag.  \(dqX1\(dq is imported in a way that its name cannot be used
+in this source file. For letting client tools know that the name cannot be used,
+\fBindirectlyImported\fP role is assigned for \(dqX1\(dq.  \(dqY1\(dq is the name for
+accessing objects defined in the module imported via \(dqX1\(dq.  For recording this
+relationship, \fBnameref:\fP field is attached to the tag of \(dqY1\(dq.  Instead of
+\fBmodule\fP kind, \fBnamespace\fP kind is assigned to \(dqY1\(dq because \(dqY1\(dq itself
+isn\(aqt a module.
+.sp
+\(dqinput.py\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+from X2 import *
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-o \- \-\-extras=+r \-\-fields=+rzK input.py\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+X2      input.py        /^from X2 import *$/;\(dq  kind:module     roles:namespace
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+The module is not defined here; it is defined in another file. So the tag for
+the imported module is a reference tag. Unlike \(dqX0\(dq in \(dqimport X0\(dq, \(dqX2\(dq may not
+be used because the names defined in \(dqX2\(dq can be used in this source file. To represent
+the difference \fBnamespace\fP role is attached to \(dqX2\(dq instead of \fBimported\fP\&.
+.sp
+\(dqinput.py\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+from X3 import Y3
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-o \- \-\-extras=+r \-\-fields=+rzKZ input.py\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+X3      input.py        /^from X3 import Y3$/;\(dq kind:module     roles:namespace
+Y3      input.py        /^from X3 import Y3$/;\(dq kind:unknown    scope:module:X3 roles:imported
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqY3\(dq is a name for a language object defined in \(dqX3\(dq module. \(dqscope:module:X3\(dq
+attached to \(dqY3\(dq represents this relation between \(dqY3\(dq and \(dqX3\(dq. ctags
+assigns \fBunknown\fP kind to \(dqY3\(dq because ctags cannot know whether \(dqY3\(dq is a
+class, a variable, or a function from the input file.
+.sp
+\(dqinput.py\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+from X4 import Y4 as Z4
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-o \- \-\-extras=+r \-\-fields=+rzKZ input.py\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+X4      input.py        /^from X4 import Y4 as Z4$/;\(dq   kind:module     roles:namespace
+Y4      input.py        /^from X4 import Y4 as Z4$/;\(dq   kind:unknown    scope:module:X4 roles:indirectlyImported
+Z4      input.py        /^from X4 import Y4 as Z4$/;\(dq   kind:unknown    roles:def       nameref:unknown:Y4
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqY4\(dq is similar to \(dqY3\(dq of \(dqfrom X3 import Y3\(dq but the name cannot be used here.
+\fBindirectlyImported\fP role assigned to \(dqY4\(dq representing this. \(dqZ4\(dq is the name for
+accessing the language object named in \(dqY4\(dq in \(dqX4\(dq module. \(dqnameref:unknown:Y4\(dq
+attached to \(dqZ4\(dq and \(dqscope:module:X4\(dq attached to \(dqY4\(dq represent the relations.
+.SH LAMBDA EXPRESSION AND TYPE HINT
+.SS Summary
+.sp
+\fIid = lambda var0: var0\fP
+.INDENT 0.0
+.INDENT 3.5
+.TS
+box center;
+l|l|l|l.
+T{
+name
+T}	T{
+kind
+T}	T{
+role
+T}	T{
+other noticeable fields
+T}
+_
+T{
+\fIid\fP
+T}	T{
+function
+T}	T{
+definition
+T}	T{
+signature:(\fIvar0\fP)
+T}
+.TE
+.UNINDENT
+.UNINDENT
+.sp
+\fIid_t: Callable[[int], int] = lambda var1: var1\fP
+.INDENT 0.0
+.INDENT 3.5
+.TS
+box center;
+l|l|l|l.
+T{
+name
+T}	T{
+kind
+T}	T{
+role
+T}	T{
+other noticeable fields
+T}
+_
+T{
+\fIid_t\fP
+T}	T{
+variable
+T}	T{
+definition
+T}	T{
+typeref:typename:\fICallable[[int], int]\fP nameref:function:anonFuncN
+T}
+_
+T{
+anonFuncN
+T}	T{
+function
+T}	T{
+definition
+T}	T{
+signature:(\fIvar1\fP)
+T}
+.TE
+.UNINDENT
+.UNINDENT
+.SS Examples
+.sp
+\(dqinput.py\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+from typing import Callable
+id = lambda var0: var0
+id_t: Callable[[int], int] = lambda var1: var1
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-o \- \-\-sort=no \-\-fields=+KS \-\-fields\-Python=+{nameref} \-\-extras=+{anonymous} input.py\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+id      input.py        /^id = lambda var0: var0$/;\(dq    function        signature:(var0)
+id_t    input.py        /^id_t: Callable[[int], int] = lambda var1: var1$/;\(dq\e
+        variable        typeref:typename:Callable[[int], int]   nameref:function:anonFunc84011d2c0101
+anonFunc84011d2c0101    input.py        /^id_t: Callable[[int], int] = lambda var1: var1$/;\(dq\e
+        function        signature:(var1)
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+If a variable (\(dqid\(dq) with no type hint is initialized with a lambda expression,
+ctags assigns \fBfunction\fP kind for the tag of \(dqid\(dq.
+.sp
+If a variable (\(dqid_t\(dq) with a type hint is initialized with a lambda expression,
+ctags assigns \fBvariable\fP kind for the tag of \(dqid_t\(dq with \fBtyperef:\fP and
+\fBnameref:\fP fields. ctags fills \fBtyperef:\fP field with the value of the type
+hint. The way of filling \fBnameref:\fP is a bit complicated.
+.sp
+For the lambda expression used in initializing the type\-hint\(aqed variable, ctags
+creates \fBanonymous\fP extra tag (\(dqanonFunc84011d2c0101\(dq). ctags fills the
+\fBnameref:\fP field of \(dqid_t\(dq with the name of \fBanonymous\fP extra tag:
+\(dqnameref:function:anonFunc84011d2c0101\(dq.
+.sp
+You may think why ctags does so complicated, and why ctags doesn\(aqt emit
+following tags output for the input:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+id      input.py        /^id = \e\e$/;\(dq   function        signature:(var0)
+id_t    input.py        /^id_t: \e\e$/;\(dq  function        typeref:typename:Callable[[int], int]   signature:(var1)
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+There is a reason. The other languages of ctags obey the following rule: ctags fills
+\fBtyperef:\fP field for a tag of a callable object (like function) with the type
+of its return value. If we consider \(dqid_t\(dq is a function, its \fBtyperef:\fP field
+should have \(dqtypename:int\(dq. However, for filling \fBtyperef:\fP with \(dqtypename:int\(dq,
+ctags has to analyze \(dqCallable[[int], int]\(dq deeper. We don\(aqt want to do so.
+.SH SEE ALSO
+.sp
+ctags(1), ctags\-client\-tools(7), ctags\-lang\-iPythonCell(7)
+.\" Generated by docutils manpage writer.
+.

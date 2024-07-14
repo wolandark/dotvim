@@ -1,0 +1,22 @@
+{
+    "name": "vim-php/phpctags",
+    "description": "An enhanced php ctags index generator.",
+    "keywords": ["ctags"],
+    "type": "library",
+    "require": {
+        "php": ">=7.0",
+        "nikic/php-parser": "^4.13"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0"
+    },
+    "autoload": {
+        "classmap": ["PHPCtags.class.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "tests\\PHPCTags\\": "tests/"
+        }
+    },
+    "bin": ["bin/phpctags"]
+}

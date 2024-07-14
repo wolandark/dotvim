@@ -1,0 +1,17 @@
+g:tokyonight_current_word	tokyonight.txt	/*g:tokyonight_current_word*
+g:tokyonight_cursor	tokyonight.txt	/*g:tokyonight_cursor*
+g:tokyonight_disable_italic_comment	tokyonight.txt	/*g:tokyonight_disable_italic_comment*
+g:tokyonight_enable_italic	tokyonight.txt	/*g:tokyonight_enable_italic*
+g:tokyonight_menu_selection_background	tokyonight.txt	/*g:tokyonight_menu_selection_background*
+g:tokyonight_style	tokyonight.txt	/*g:tokyonight_style*
+g:tokyonight_transparent_background	tokyonight.txt	/*g:tokyonight_transparent_background*
+tokyonight	tokyonight.txt	/*tokyonight*
+tokyonight-airline	tokyonight.txt	/*tokyonight-airline*
+tokyonight-credits	tokyonight.txt	/*tokyonight-credits*
+tokyonight-install	tokyonight.txt	/*tokyonight-install*
+tokyonight-licence	tokyonight.txt	/*tokyonight-licence*
+tokyonight-lightline	tokyonight.txt	/*tokyonight-lightline*
+tokyonight-options	tokyonight.txt	/*tokyonight-options*
+tokyonight-ports	tokyonight.txt	/*tokyonight-ports*
+tokyonight-statusline	tokyonight.txt	/*tokyonight-statusline*
+tokyonight.txt	tokyonight.txt	/*tokyonight.txt*

@@ -1,0 +1,233 @@
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "CTAGS-LANG-ASM" "7" "" "6.1.0" "Universal Ctags"
+.SH NAME
+ctags-lang-asm \- Random notes about tagging Assembly language source code with Universal Ctags
+.SH SYNOPSIS
+.nf
+\fBctags\fP ... \-\-languages=+Asm ...
+\fBctags\fP ... \-\-language\-force=Asm ...
+\fBctags\fP ... \-\-map\-Asm=+.asm ...
+\fBctags\fP ... \-\-map\-Asm=+.ASM ...
+\fBctags\fP ... \-\-map\-Asm=+.s ...
+\fBctags\fP ... \-\-map\-Asm=+.S ...
+.fi
+.sp
+.SH DESCRIPTION
+.sp
+This man page gathers random notes about tagging assembly language
+source code.
+.sp
+The parser of Universal Ctags has been extended to support the source
+code to be processed with \fIGNU assembler\fP (\fIGas\fP).
+.SH PARAMETERS
+.sp
+The Asm parser has some parameters for adapting it to different
+assembler implementations.
+.sp
+Writing a parser for assembly language source code is not easy because
+the syntax for the language differ depending on the implementations of
+assemblers and target CPU architectures. For example, in \fINASM\fP, \fI;\fP
+is a starter of a line comment. On the other hand, in Gas for i386,
+\fI;\fP is a line separator. The parameters explained this man page are
+for mitigating the gaps of syntax.
+.sp
+Use \fB\-\-param\-Asm.{parameter}={value}\fP option for adjusting the value
+for a parameter. For example:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+$ ctags ... \-\-param\-Asm.runCPreProcessor=false ...
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+This command line sets \fBfalse\fP to \fBrunCPreProcessor\fP parameter.
+.sp
+\fB\-\-list\-params=Asm\fP lists available parameters available in the
+Asm parser.
+.SS \fBrunCPreProcessor\fP: running C preprocessor
+.sp
+By default, the CPreProcessor parser processes the assembly language
+source code before the Asm parser does.
+.sp
+The main effects of running the CPreProcessor parser;
+.INDENT 0.0
+.IP \(bu 2
+lines started from \fI//\fP are stripped as comments,
+.IP \(bu 2
+areas surrounded by the pair of \fI/*\fP and \fI*/\fP are
+stripped as comments, and
+.IP \(bu 2
+macros defined with \fI#define\fP are extracted as tags.
+.UNINDENT
+.sp
+Set \fBrunCPreProcessor\fP to \fBfalse\fP for disabling the CPreProcessor
+parser running before the Asm parser.
+.SS \fBcommentCharsAtBOL\fP: adjusting line comment starter at the beginning of line
+.sp
+By default, the Asm parser ignores lines starting from \fI;\fP, \fI*\fP, or
+\fI@\fP as comments. \fI//\fP is also ignored if \fIrunCPreProcessor\fP is \fItrue\fP\&.
+.sp
+\fBcommentCharsAtBOL\fP is for changing the characters for line comments.
+\fIBOL\fP is acronym standing for \(dqthe beginning of line.\(dq The characters
+act as comment starters only if they are at the beginning
+of lines.
+.sp
+The next example if for assembler input using \fI!\fP and \fI>\fP as the comment starter:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+$ ctags ... \-\-param\-Asm.commentCharsAtBOL=\(aq!>\(aq ...
+.EE
+.UNINDENT
+.UNINDENT
+.SS \fBcommentCharsInMOL\fP: adjusting line comment starter in the middle of line
+.sp
+Some dialects of assemblers support comments starting from the middle of line.
+A \fI;\fP character starts a comment anywhere on the line in Gas for CRIS for example.
+.sp
+\fBcommentCharsInMOL\fP is for specifying the character for line comments.
+\fIMOL\fP is acronym standing for \(dqthe middle of line.\(dq Unlike characters
+specified with \fBcommentCharsAtBOL\fP, the characters specified with
+\fBcommentCharsInMOL\fP act as comment starts even if they are in the
+middle of lines.
+.sp
+By default, the Asm parser has no \fBcommentCharsInMOL\fP characters.
+.SS \fBextraLinesepChars\fP: adding line separators
+.sp
+The Asm parser processes its input line\-oriented way.  By default, the
+parser recognizes \fIn\fP as a line separator.  \fBextraLinesepChars\fP is
+for adding more line separators.
+.sp
+In Gas for AArch64, the \fI;\fP character can be used as line separators.
+The next example for adjusting the Asm parser to the extra line
+separator:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+$ ctags ... \-\-param\-Asm.extraLinesepChars=\(aq;\(aq ...
+.EE
+.UNINDENT
+.UNINDENT
+.SH EXPANDING C PREPROCESSOR MACROS
+.sp
+The Asm parser has the ability to expand \fBC preprocessor macros\fP
+before parsing.
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+Don\(aqt confuse C preprocessor macros and assembler implementation
+specific macros. The Asm parser expands only C preprocessor macros.
+.UNINDENT
+.UNINDENT
+.sp
+Specifying following options are must for expansion:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+\-\-param\-Asm.runCPreProcessor=true
+\-\-fields=+{signature}
+\-\-fields\-CPreProcessor=+{macrodef}
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+With the above options, the parser expands macros defined in command
+line with \fB\-D\fP option. See ctags(1) about the way to define a macro
+with the \fB\-D\fP option.
+.sp
+With \fB\-\-param\-CPreProcessor._expand=1\fP option, the parser expands
+macros defined in the current input file in addition to macros defined
+with the \fB\-D\fP option.
+.sp
+Though the parser expands macros, the parser doesn\(aqt extract language
+objects like labels as you expect. You must adjust the parser specific
+parameters to utilize the macro expansion feature effectively. See
+.SS An example of macro expansion
+.sp
+\(dqinput.S\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+#define ENTRY(LABEL) .global LABEL      ;\e
+LABEL
+
+ENTRY(main):
+        nop
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-o \- \-\-param\-Asm.useCPreProcessor=1 \-\-param\-CPreProcessor._expand=1 \-\-fields=+{signature} \-\-fields\-CPreProcessor=+{macrodef} \-\-param\-Asm.extraLinesepChars=; \-\-fields\-CPreProcessor=+{macrodef} input.S\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+ENTRY   input.S /^#define ENTRY(/;\(dq     d       file:   signature:(LABEL)       macrodef:.global LABEL ;LABEL
+main    input.S /^ENTRY(main):$/;\(dq      l
+main    input.S /^ENTRY(main):$/;\(dq      s
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+The definition of \fIENTRY\fP assumes \fI;\fP is a line separator in the host assembly language.
+\fB\-\-param\-Asm.extraLinesepChars=;\fP is for satisfying the assumption in ctags side.
+.SS Known limitations
+.sp
+The parser has no ability to expand the macros defined outside of the
+current input file. The parser doesn\(aqt consider \fI#undef\fP when
+expanding.
+.SH VERSIONS
+.SS Change since \(dq0.0\(dq
+.INDENT 0.0
+.IP \(bu 2
+The kind \fBsection\fP is deleted.
+The section specified with \fI\&.section\fP directive as tagged as
+\fBplacement\fP role of \fBsection\fP kind of \fBAsm\fP language.
+These kind and role are deleted.
+.sp
+Instead, it is tagged as \fBdestination\fP role of \fBinputSection\fP
+kind of \fBLdScript\fP language.
+.UNINDENT
+.SH SEE ALSO
+.sp
+ctags(1),
+ctags\-lang\-asm(7),
+Info entries for GNU assembler
+.\" Generated by docutils manpage writer.
+.

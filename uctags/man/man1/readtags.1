@@ -1,0 +1,617 @@
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "READTAGS" "1" "" "6.1.0" "Universal Ctags"
+.SH NAME
+readtags \- Find tag file entries matching specified names
+.SH SYNOPSIS
+.nf
+\fBreadtags\fP \-h | \-\-help
+\fBreadtags\fP (\-H | \-\-help\-expression) (filter|sorter|formatter)
+\fBreadtags\fP \-v | \-\-version
+\fBreadtags\fP [OPTION]... ACTION
+.fi
+.sp
+.SH DESCRIPTION
+.sp
+The \fBreadtags\fP program filters, sorts and prints tag entries in a tags file.
+The basic filtering is done using \fBactions\fP, by which you can list all
+regular tags, pseudo tags or regular tags matching specific name. Then, further
+filtering, sorting, and formatting can be done using \fBpost processors\fP, namely
+\fBfilter expressions\fP, \fBsorter expressions\fP, and \fBformatter expressions\fP\&.
+.SH ACTIONS
+.INDENT 0.0
+.TP
+.B \fB\-l\fP, \fB\-\-list\fP
+List regular tags.
+.TP
+.B \fB[\-] NAME\fP
+List regular tags matching NAME.
+\(dq\-\(dq as NAME indicates arguments after this as NAME even if they start with \-.
+.TP
+.B \fB\-D\fP, \fB\-\-list\-pseudo\-tags\fP
+Equivalent to \fB\-\-list\-pseudo\-tags\fP\&.
+.UNINDENT
+.SH OPTIONS
+.SS Controlling the Tags Reading Behavior
+.sp
+The behavior of reading tags can be controlled using these options:
+.INDENT 0.0
+.TP
+.B \fB\-t TAGFILE\fP, \fB\-\-tag\-file TAGFILE\fP
+Use specified tag file (default: \(dqtags\(dq).
+Giving \(dq\-\(dq as TAGFILE indicates reading the tags file content from the
+standard input. \(dq\-\(dq can make the command line simpler. However,
+it doesn\(aqt mean efficient; readtags stores the data to a temporary
+file and reads that file for taking the ACTION.
+.TP
+.B \fB\-s[0|1|2]\fP, \fB\-\-override\-sort\-detection METHOD\fP
+Override sort detection of tag file.
+METHOD: unsorted|sorted|foldcase
+.UNINDENT
+.sp
+The NAME action will perform binary search on sorted (including \(dqfoldcase\(dq)
+tags files, which is much faster then on unsorted tags files.
+.SS Controlling the NAME Action Behavior
+.sp
+The behavior of the NAME action can be controlled using these options:
+.INDENT 0.0
+.TP
+.B \fB\-i\fP, \fB\-\-icase\-match\fP
+Perform case\-insensitive matching in the NAME action.
+.TP
+.B \fB\-p\fP, \fB\-\-prefix\-match\fP
+Perform prefix matching in the NAME action.
+.UNINDENT
+.SS Controlling the Output
+.sp
+By default, the output of readtags contains only the name, input and pattern
+field. The Output can be tweaked using these options:
+.INDENT 0.0
+.TP
+.B \fB\-A\fP, \fB\-\-absolute\-input\fP
+Do the same as \fB\-C\fP option but use only absolute path form.
+.TP
+.B \fB\-C\fP, \fB\-\-canonicalize\-input\fP
+Resolve \(aq..\(aq and \(aq.\(aq in input fields of regular tags.
+This produces a unique representation of the input path.
+This option works only with tags files having \fB!_TAG_PROC_CWD\fP pseudo
+tag.
+.sp
+NOTE: The current implementation accepts only \fB!_TAG_PROC_CWD\fP
+starting with \fB/\fP; a Windows directory name starting with a
+drive letter like \fBC:\eSomewhere\fP is not acceptable.
+.TP
+.B \fB\-d\fP, \fB\-\-debug\fP
+Turn on debugging output.
+.TP
+.B \fB\-E\fP, \fB\-\-escape\-output\fP
+Escape characters like tabs in output as described in tags(5).
+.TP
+.B \fB\-e\fP, \fB\-\-extension\-fields\fP
+Include extension fields in output.
+.TP
+.B \fB\-n\fP, \fB\-\-line\-number\fP
+Also include the line number field when \fB\-e\fP option is give.
+.TP
+.B \fB\-P\fP, \fB\-\-with\-pseudo\-tags\fP
+List pseudo tags as if \fB\-D\fP option is specified but continues processing without exiting.
+.UNINDENT
+.sp
+About the \fB\-E\fP option: certain characters are escaped in a tags file, to make
+it machine\-readable. e.g., ensuring no tabs character appear in fields other
+than the pattern field. By default, readtags translates them to make it
+human\-readable, but when utilizing readtags output in a script or a client
+tool, \fB\-E\fP option should be used. See ctags\-client\-tools(7) for more
+discussion on this.
+.sp
+About printing input fields ({tagfile} in tags(5)) with \fB\-E\fP option: readtags
+always prints the input field literally (as it is in the tags file), and when
+ctags writes the tags file, the escaping rules are applied only when
+\fBTAG_OUTPUT_MODE\fP pseudo tag has \(dqu\-ctags\(dq and \fBTAG_OUTPUT_FILESEP\fP has
+\(dqslash\(dq as values for their input fields, as explained in
+ctags\-client\-tools(7).
+.SS Filtering, Sorting, and Formatting
+.sp
+Further filtering, sorting, and formatting on the tags listed by actions
+are performed using:
+.INDENT 0.0
+.TP
+.B \fB\-Q EXP\fP, \fB\-\-filter EXP\fP
+Filter the tags listed by ACTION with EXP before printing.
+.TP
+.B \fB\-S EXP\fP, \fB\-\-sorter EXP\fP
+Sort the tags listed by ACTION with EXP before printing.
+.TP
+.B \fB\-F EXP\fP, \fB\-\-formatter EXP\fP
+Format the tags listed by ACTION with EXP when printing.
+.UNINDENT
+.sp
+These are discussed in the EXPRESSION section.
+.SS Examples
+.INDENT 0.0
+.IP \(bu 2
+List all tags in \(dq/path/to/tags\(dq:
+.INDENT 2.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-t /path/to/tags \-l
+.EE
+.UNINDENT
+.UNINDENT
+.IP \(bu 2
+List all tags in \(dqtags\(dq that start with \(dqmymethod\(dq:
+.INDENT 2.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-p \- mymethod
+.EE
+.UNINDENT
+.UNINDENT
+.IP \(bu 2
+List all tags matching \(dqmymethod\(dq, case insensitively:
+.INDENT 2.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-i \- mymethod
+.EE
+.UNINDENT
+.UNINDENT
+.IP \(bu 2
+List all tags start with \(dqmyvar\(dq, and printing all fields (i.e., the whole line):
+.INDENT 2.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-p \-ne \- myvar
+.EE
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SH EXPRESSION
+.sp
+Scheme\-style expressions are used for the \fB\-Q\fP, \fB\-S\fP, and \fB\-F\fP options.
+For those who doesn\(aqt know Scheme or Lisp, just remember:
+.INDENT 0.0
+.IP \(bu 2
+A function call is wrapped in a pair of parenthesis. The first item in it is
+the function/operator name, the others are arguments.
+.IP \(bu 2
+Function calls can be nested.
+.IP \(bu 2
+Missing values and boolean false are represented by \fB#f\fP\&. \fB#t\fP and all
+other values are considered to be true.
+.UNINDENT
+.sp
+So, \fB(+ 1 (+ 2 3))\fP means add 2 and 3 first, then add the result with 1.
+\fB(and \(dqstring\(dq 1 #t)\fP means logical AND on \fB\(dqstring\(dq\fP, \fB1\fP and \fB#t\fP,
+and the result is true since there is no \fB#f\fP\&.
+.SS Filtering
+.sp
+The tag entries that make the filter expression produces true value are printed
+by readtags.
+.sp
+The basic operators for filtering are \fBeq?\fP, \fBprefix?\fP, \fBsuffix?\fP,
+\fBsubstr?\fP, and \fB#/PATTERN/\fP\&. Language common fields can be accessed using
+variables starting with \fB$\fP, e.g., \fB$language\fP represents the language field.
+For example:
+.INDENT 0.0
+.IP \(bu 2
+List all tags start with \(dqmyfunc\(dq in Python code files:
+.INDENT 2.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-p \-Q \(aq(eq? $language \(dqPython\(dq)\(aq \- myfunc
+.EE
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+\fBdowncase\fP or \fBupcase\fP operators can be used to perform case\-insensitive
+matching:
+.INDENT 0.0
+.IP \(bu 2
+List all tags containing \(dqmy\(dq, case insensitively:
+.INDENT 2.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-Q \(aq(substr? (downcase $name) \(dqmy\(dq)\(aq \-l
+.EE
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+We have logical operators like \fBand\fP, \fBor\fP and \fBnot\fP\&. The value of a
+missing field is #f, so we could deal with missing fields:
+.INDENT 0.0
+.IP \(bu 2
+List all tags containing \(dqimpl\(dq in Python code files, but allow the
+\fBlanguage:\fP field to be missing:
+.INDENT 2.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-Q \(aq(and (substr? $name \(dqimpl\(dq)\e
+                    (or (not $language)\e
+                        (eq? $language \(dqPython\(dq)))\(aq \-l
+.EE
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+\fB#/PATTERN/\fP is for the case when string predicates (\fBprefix?\fP, \fBsuffix?\fP,
+and \fBsubstr?\fP) are not enough. You can use \(dqPosix extended regular expression\(dq
+as PATTERN.
+.INDENT 0.0
+.IP \(bu 2
+List all tags inherits from the class \(dqA\(dq:
+.INDENT 2.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-Q \(aq(#/(^|,) ?A(,|$)/ $inherits)\(aq \-l
+.EE
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+Here \fB$inherits\fP is a comma\-separated class list like \(dqA,B,C\(dq, \(dqP, A, Q\(dq, or
+just \(dqA\(dq. Notice that this filter works on both situations where there\(aqs a
+space after each comma or there\(aqs not.
+.sp
+Case\-insensitive matching can be performed by \fB#/PATTERN/i\fP:
+.INDENT 0.0
+.IP \(bu 2
+List all tags inherits from the class \(dqA\(dq or \(dqa\(dq:
+.INDENT 2.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-Q \(aq(#/(^|,) ?A(,|$)/i $inherits)\(aq \-l
+.EE
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+To include \(dq/\(dq in a pattern, prefix \fB\e\fP to the \(dq/\(dq.
+.sp
+NOTE: The above regular expression pattern for inspecting inheritances is just
+an example to show how to use \fB#/PATTERN/\fP expression. Tags file generators
+have no consensus about the format of \fBinherits:\fP, e.g., whether there should
+be a space after a comma. Even parsers in ctags have no consensus. Noticing the
+format of the \fBinherits:\fP field of specific languages is needed for such
+queries.
+.sp
+The expressions \fB#/PATTERN/\fP and \fB#/PATTERN/i\fP are for interactive use.
+Readtags also offers an alias \fBstring\->regexp\fP, so \fB#/PATTERN/\fP is equal to
+\fB(string\->regexp \(dqPATTERN\(dq)\fP, and \fB#/PATTERN/i\fP is equal to
+\fB(string\->regexp \(dqPATTERN\(dq :case\-fold #t)\fP\&. \fBstring\->regexp\fP doesn\(aqt need
+to prefix \fB\e\fP for including \(dq/\(dq in a pattern. \fBstring\->regexp\fP may simplify
+a client tool building an expression. See also ctags\-client\-tools(7) for
+building expressions in your tool.
+.sp
+Let\(aqs now consider missing fields. The tags file may have tag entries that has
+no \fBinherits:\fP field. In that case \fB$inherits\fP is #f, and the regular
+expression matching raises an error, since string operators only work for
+strings. To avoid this problem:
+.INDENT 0.0
+.IP \(bu 2
+Safely list all tags inherits from the class \(dqA\(dq:
+.INDENT 2.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-Q \(aq(and $inherits (#/(^|,) ?A(,|$)/ $inherits))\(aq \-l
+.EE
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+This makes sure \fB$inherits\fP is not missing first, then match it by regexp.
+.sp
+Sometimes you want to keep tags where the field \fIis\fP missing. For example, your
+want to exclude reference tags, which is marked by the \fBextras:\fP field, then
+you want to keep tags who doesn\(aqt have \fBextras:\fP field since they are also
+not reference tags. Here\(aqs how to do it:
+.INDENT 0.0
+.IP \(bu 2
+List all tags but the reference tags:
+.INDENT 2.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-Q \(aq(or (not $extras) (#/(^|,) ?reference(,|$)/ $extras))\(aq \-l
+.EE
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+Notice that \fB(not $extras)\fP produces \fB#t\fP when \fB$extras\fP is missing, so
+the whole \fBor\fP expression produces \fB#t\fP\&.
+.sp
+The combination of \fBctags \-o \-\fP and \fBreadtags \-t \-\fP is handy for inspecting
+a source file as far as the source file is enough short.
+.INDENT 0.0
+.IP \(bu 2
+List all the large (> 100 lines) functions in a file:
+.INDENT 2.0
+.INDENT 3.5
+.sp
+.EX
+$ ctags \-o \- \-\-fields=+neKz input.c \e
+  | ./readtags \-t \- \-en \e
+               \-Q \(aq(and (eq? $kind \(dqfunction\(dq) $end $line (> (\- $end $line) 100))\(aq \e
+               \-l
+.EE
+.UNINDENT
+.UNINDENT
+.IP \(bu 2
+List all the tags including line 80 in a file:
+.INDENT 2.0
+.INDENT 3.5
+.sp
+.EX
+$ ctags \-o \- \-\-fields=+neKz input.c \e
+  | readtags \-t \- \-ne \e
+             \-Q \(aq(and $line
+                      (or (eq? $line 80)
+                          (and $end (< $line 80) (< 80 $end))))\(aq \e
+    \-l
+.EE
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.sp
+Run \(dqreadtags \-H filter\(dq to know about all valid functions and variables.
+.SS Sorting
+.sp
+When sorting, the sorter expression is evaluated on two tag entries to decide
+which should sort before the other one, until the order of all tag entries is
+decided.
+.sp
+In a sorter expression, \fB$\fP and \fB&\fP are used to access the fields in the
+two tag entries, and let\(aqs call them $\-entry and &\-entry. The sorter expression
+should have a value of \-1, 0 or 1. The value \-1 means the $\-entry should be put
+above the &\-entry, 1 means the contrary, and 0 makes their order in the output
+uncertain.
+.sp
+The core operator of sorting is \fB<>\fP\&. It\(aqs used to compare two strings or two
+numbers (numbers are for the \fBline:\fP or \fBend:\fP fields). In \fB(<> a b)\fP, if
+\fBa\fP < \fBb\fP, the result is \-1; \fBa\fP > \fBb\fP produces 1, and \fBa\fP = \fBb\fP
+produces 0. Strings are compared using the \fBstrcmp\fP function, see strcmp(3).
+.sp
+For example, sort by names, and make those shorter or alphabetically smaller
+ones appear before the others:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-S \(aq(<> $name &name)\(aq \-l
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+This reads \(dqIf the tag name in the $\-entry is smaller, it goes before the
+&\-entry\(dq.
+.sp
+The \fB<or>\fP operator is used to chain multiple expressions until one returns
+\-1 or 1. For example, sort by input file names, then line numbers if in the
+same file:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-S \(aq(<or> (<> $input &input) (<> $line &line))\(aq \-l
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+The \fB*\-\fP operator is used to flip the compare result. i.e., \fB(*\- (<> a b))\fP
+is the same as \fB(<> b a)\fP\&.
+.sp
+Filter expressions can be used in sorter expressions. The technique is use
+\fBif\fP to produce integers that can be compared based on the filter, like:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+(<> (if filter\-expr\-on\-$\-entry \-1 1)
+    (if filter\-expr\-on\-&\-entry \-1 1))
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+So if $\-entry satisfies the filter, while &\-entry doesn\(aqt, it\(aqs the same as
+\fB(<> \-1 1)\fP, which produces \fB\-1\fP\&.
+.sp
+For example, we want to put tags with \(dqfile\(dq kind below other tags, then the
+sorter would look like:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+(<> (if (eq? $kind \(dqfile\(dq) 1 \-1)
+    (if (eq? &kind \(dqfile\(dq) 1 \-1))
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+A quick read tells us: If $\-entry has \(dqfile\(dq kind, and &\-entry doesn\(aqt, the
+sorter becomes \fB(<> 1 \-1)\fP, which produces \fB1\fP, so the $\-entry is put below
+the &\-entry, exactly what we want.
+.SS Formatting
+.sp
+A formatter expression defines how readtags prints tag entries.
+.sp
+A formatter expression may produce a string, a boolean, an integer,
+or a list. Readtags prints the produced string, and integer as is.
+Readtags prints nothing for \fB#f\fP, and a newline for \fB#t\fP\&.
+.sp
+A list could contain any number of strings, booleans,
+integers, and/or lists. Readtags prints the elements of a list
+sequentially and recursively.
+.sp
+All the operators for filtering are also available in formatter
+expressions. In addition to the operators, \fBlist\fP is available
+in formatter expressions. As the name shows, \fBlist\fP is for
+making a list. \fBlist\fP makes a list containing arguments passed to
+the operator. e.g., the following expression makes a list contains
+\fB1\fP, \fB#f\fP, and \fB\(dqhello\(dq\fP:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+(list 1 #f \(dqhello\(dq)
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+NOTE: Unlike real\-Lisp, backquote constructs are not available.
+.sp
+To show some examples, the following tags file (\fBoutput.tags\fP) is assumed
+as input for readtags:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+M    input.c 4;\(dq     macro   file:
+N    input.c 3;\(dq     macro   file:
+bar  input.c 11;\(dq    f       typeref:typename:void   file:   signature:(char ** argv,int * r)
+foo  input.c 6;\(dq     f       typeref:typename:int    file:   signature:(int v)
+main input.c 16;\(dq    f       typeref:typename:int    signature:(int argc,char ** argv)
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+An example for printing only function names:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-t output.tags \-Q \(aq(eq? $kind \(dqfunction\(dq)\(aq \-F \(aq(list $name #t)\(aq \-l
+bar
+foo
+main
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+Doing the same only with a formatter expression:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-t output.tags \-F \(aq(if (eq? $kind \(dqfunction\(dq) (list $name #t) #f)\(aq \-l
+bar
+foo
+main
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+Generating declarations for the functions:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-t output.tags \-F \e
+  \(aq(if (eq? $kind \(dqfunction\(dq)
+      (list (if $file \(dqstatic \(dq #f) $typeref\-name \(dq \(dq $name $signature \(dq;\(dq #t)
+     #f)\(aq \-l
+static void bar(char ** argv,int * r);
+static int foo(int v);
+int main(int argc,char ** argv);
+.EE
+.UNINDENT
+.UNINDENT
+.SS Inspecting the Behavior of Expressions
+.sp
+The \fIprint\fP operator can be used to print the value of an expression. For
+example:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-Q \(aq(print $name)\(aq \-l
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+prints the name of each tag entry before it. Since the return value of
+\fBprint\fP is not #f, all the tag entries are printed. We could control this
+using the \fBbegin\fP or \fBbegin0\fP operator. \fBbegin\fP returns the value of its
+last argument, and \fBbegin0\fP returns the value of its first argument. For
+example:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+$ readtags \-Q \(aq(begin0 #f (print (prefix? \(dqctags\(dq \(dqct\(dq)))\(aq \-l
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+prints a bunch of \(dq#t\(dq (depending on how many lines are in the tags file), and
+the actual tag entries are not printed.
+.SH SEE ALSO
+.sp
+See tags(5) for the details of tags file format.
+.sp
+See ctags\-client\-tools(7) for the tips writing a
+tool utilizing tags file.
+.sp
+The official Universal Ctags web site at:
+.sp
+ <https://ctags.io/> 
+.sp
+The git repository for the library used in readtags command:
+.sp
+ <https://github.com/universal\-ctags/libreadtags> 
+.SH CREDITS
+.sp
+Universal Ctags project
+ <https://ctags.io/> 
+.sp
+Darren Hiebert < <dhiebert@users.sourceforge.net> >
+ <http://DarrenHiebert.com/> 
+.sp
+The readtags command and libreadtags maintained at Universal Ctags
+are derived from readtags.c and readtags.h developed at
+ <http://ctags.sourceforge.net> \&.
+.\" Generated by docutils manpage writer.
+.

@@ -1,0 +1,2381 @@
+Full name: peachpuff
+Short name: template_peachpuff
+Author: Me <me@somewhere.org>
+
+; Common linked groups {{{
+Boolean                                              -> Constant
+Character                                            -> Constant
+CocCursorRange                                       -> Search
+CocDeprecatedHighlight                               -> CocStrikeThrough
+CocErrorHighlight                                    -> CocUnderline
+CocFadeOut                                           -> Conceal
+CocFloatActive                                       -> CocSearch
+CocFloatDividingLine                                 -> CocVirtualText
+CocFloatSbar                                         -> PmenuSbar
+CocFloatThumb                                        -> PmenuThumb
+CocFloating                                          -> Pmenu
+CocHelperNormalFloatNC                               -> CocHelperNormalFloat
+CocHighlightRead                                     -> CursorColumn
+CocHighlightText                                     -> CursorColumn
+CocHighlightWrite                                    -> CursorColumn
+CocHintHighlight                                     -> CocUnderline
+CocHoverRange                                        -> Search
+CocInfoHighlight                                     -> CocUnderline
+CocInlayHintParameter                                -> CocInlayHint
+CocInlayHintType                                     -> CocInlayHint
+CocInputBoxVirtualText                               -> CocVirtualText
+CocLinkedEditing                                     -> Search
+CocListMode                                          -> ModeMsg
+CocListPath                                          -> Comment
+CocListSearch                                        -> CocSearch
+CocMarkdownCode                                      -> markdownCode
+CocMarkdownHeader                                    -> markdownH1
+CocNotificationButton                                -> CocUnderline
+CocNotificationError                                 -> CocErrorFloat
+CocNotificationInfo                                  -> CocInfoFloat
+CocNotificationWarning                               -> CocWarningFloat
+CocPumDeprecated                                     -> CocStrikeThrough
+CocPumDetail                                         -> Comment
+CocPumMenu                                           -> Pmenu
+CocPumSearch                                         -> CocSearch
+CocPumShortcut                                       -> Comment
+CocPumVirtualText                                    -> CocVirtualText
+CocSelectedRange                                     -> CursorColumn
+CocSemModDeprecated                                  -> CocStrikeThrough
+CocSemTypeBoolean                                    -> Constant
+CocSemTypeClass                                      -> Special
+CocSemTypeComment                                    -> Comment
+CocSemTypeDecorator                                  -> Identifier
+CocSemTypeEnum                                       -> Type
+CocSemTypeEnumMember                                 -> Constant
+CocSemTypeEvent                                      -> Statement
+CocSemTypeFunction                                   -> Identifier
+CocSemTypeInterface                                  -> Type
+CocSemTypeKeyword                                    -> Statement
+CocSemTypeMacro                                      -> PreProc
+CocSemTypeMethod                                     -> Identifier
+CocSemTypeModifier                                   -> Type
+CocSemTypeNamespace                                  -> PreProc
+CocSemTypeNumber                                     -> Constant
+CocSemTypeOperator                                   -> Statement
+CocSemTypeParameter                                  -> Identifier
+CocSemTypeProperty                                   -> Identifier
+CocSemTypeRegexp                                     -> Constant
+CocSemTypeString                                     -> Constant
+CocSemTypeStruct                                     -> Identifier
+CocSemTypeType                                       -> Type
+CocSemTypeTypeParameter                              -> Identifier
+CocSemTypeVariable                                   -> Identifier
+CocSnippetVisual                                     -> Visual
+CocSymbolDefault                                     -> MoreMsg
+CocTreeDescription                                   -> Comment
+CocTreeOpenClose                                     -> CocBold
+CocTreeSelected                                      -> CursorLine
+CocTreeTitle                                         -> Title
+CocUnusedHighlight                                   -> Conceal
+CocWarningHighlight                                  -> CocUnderline
+Conditional                                          -> Statement
+CurSearch                                            -> Search
+CursorLineFold                                       -> CursorLine
+CursorLineSign                                       -> CursorLine
+Debug                                                -> Special
+Define                                               -> PreProc
+Delimiter                                            -> Special
+Exception                                            -> Statement
+Float                                                -> Constant
+Floaterm                                             -> Normal
+FloatermBorder                                       -> NormalFloat
+FloatermNC                                           -> NormalNC
+Function                                             -> Identifier
+GitGutterAddLine                                     -> DiffAdd
+GitGutterAddLineNr                                   -> CursorLineNr
+GitGutterChangeDelete                                -> GitGutterChange
+GitGutterChangeDeleteInvisible                       -> GitGutterChangeInvisible
+GitGutterChangeDeleteLine                            -> DiffChange
+GitGutterChangeDeleteLineNr                          -> CursorLineNr
+GitGutterChangeLine                                  -> DiffChange
+GitGutterChangeLineNr                                -> CursorLineNr
+GitGutterDeleteLine                                  -> DiffDelete
+GitGutterDeleteLineNr                                -> CursorLineNr
+Include                                              -> PreProc
+Keyword                                              -> Statement
+Label                                                -> Statement
+Lf_hl_History_stlBlank                               -> Lf_hl_stlBlank
+Lf_hl_History_stlMode                                -> Lf_hl_stlFuzzyMode
+Lf_hl_bufDirname                                     -> Directory
+Lf_hl_bufIndicators                                  -> Statement
+Lf_hl_bufModified                                    -> Constant
+Lf_hl_bufNomodifiable                                -> Comment
+Lf_hl_bufNumber                                      -> Constant
+Lf_hl_buftagCode                                     -> Comment
+Lf_hl_buftagDirname                                  -> Directory
+Lf_hl_buftagKind                                     -> Title
+Lf_hl_buftagLineNum                                  -> Constant
+Lf_hl_buftagScope                                    -> Type
+Lf_hl_buftagScopeType                                -> Statement
+Lf_hl_cursor                                         -> Cursor
+Lf_hl_funcDirname                                    -> Directory
+Lf_hl_funcKind                                       -> Title
+Lf_hl_funcLineNum                                    -> Constant
+Lf_hl_funcName                                       -> Identifier
+Lf_hl_funcReturnType                                 -> Type
+Lf_hl_funcScope                                      -> Statement
+Lf_hl_gitAddIcon                                     -> Lf_hl_gitDiffAddition
+Lf_hl_gitBlameDate                                   -> Constant
+Lf_hl_gitCopyIcon                                    -> Constant
+Lf_hl_gitDelIcon                                     -> Lf_hl_gitDiffDeletion
+Lf_hl_gitFolder                                      -> Directory
+Lf_hl_gitFolderIcon                                  -> Special
+Lf_hl_gitGraph1                                      -> Statement
+Lf_hl_gitGraph2                                      -> Constant
+Lf_hl_gitGraph3                                      -> Special
+Lf_hl_gitGraph4                                      -> Statement
+Lf_hl_gitGraphSlash                                  -> Constant
+Lf_hl_gitHash                                        -> Identifier
+Lf_hl_gitHelp                                        -> Comment
+Lf_hl_gitInlineBlame                                 -> Comment
+Lf_hl_gitModifyIcon                                  -> Lf_hl_gitDiffModification
+Lf_hl_gitNonSelectedOption                           -> Comment
+Lf_hl_gitNumStatAdd                                  -> Lf_hl_gitDiffAddition
+Lf_hl_gitNumStatBinary                               -> Constant
+Lf_hl_gitNumStatDel                                  -> Lf_hl_gitDiffDeletion
+Lf_hl_gitRefNames                                    -> Special
+Lf_hl_gitRenameIcon                                  -> Constant
+Lf_hl_gitSelectedOption                              -> Special
+Lf_hl_gitStatMinus                                   -> Lf_hl_gitDiffDeletion
+Lf_hl_gitStatNumber                                  -> Constant
+Lf_hl_gitStatPath                                    -> Directory
+Lf_hl_gitStatPlus                                    -> Lf_hl_gitDiffAddition
+Lf_hl_gitStlFileChanged                              -> StatusLine
+Lf_hl_gtagsFileName                                  -> Directory
+Lf_hl_gtagsLineNumber                                -> Constant
+Lf_hl_help                                           -> Comment
+Lf_hl_helpCmd                                        -> Identifier
+Lf_hl_helpTagfile                                    -> Comment
+Lf_hl_jumpsIndicator                                 -> Type
+Lf_hl_jumpsLineCol                                   -> Constant
+Lf_hl_jumpsNumber                                    -> Constant
+Lf_hl_jumpsTitle                                     -> Title
+Lf_hl_lineLocation                                   -> Comment
+Lf_hl_loclistColumnNumber                            -> Constant
+Lf_hl_loclistFileName                                -> Directory
+Lf_hl_loclistLineNumber                              -> Constant
+Lf_hl_popup_Cmd_History_mode                         -> Lf_hl_popup_inputMode
+Lf_hl_popup_History_matchMode                        -> Lf_hl_popup_fullPathMode
+Lf_hl_popup_History_mode                             -> Lf_hl_popup_inputMode
+Lf_hl_popup_cursor                                   -> Cursor
+Lf_hl_previewTitle                                   -> StatusLine
+Lf_hl_quickfixColumnNumber                           -> Constant
+Lf_hl_quickfixFileName                               -> Directory
+Lf_hl_quickfixLineNumber                             -> Constant
+Lf_hl_rgColumnNumber                                 -> Constant
+Lf_hl_rgFileName                                     -> Directory
+Lf_hl_rgLineNumber                                   -> Constant
+Lf_hl_rgLineNumber2                                  -> Folded
+Lf_hl_selfDescription                                -> Comment
+Lf_hl_selfIndex                                      -> Constant
+Lf_hl_tagFile                                        -> Directory
+Lf_hl_tagKeyword                                     -> Statement
+Lf_hl_tagType                                        -> Type
+Lf_hl_winDirname                                     -> Directory
+Lf_hl_winIndicators                                  -> Statement
+Lf_hl_winModified                                    -> Constant
+Lf_hl_winNomodifiable                                -> Comment
+Lf_hl_winNumber                                      -> Constant
+LightlineLeft_active_0                               -> LightlineLeft_normal_0
+LightlineLeft_active_0_1                             -> LightlineLeft_normal_0_1
+LightlineLeft_active_0_tabsel                        -> LightlineLeft_normal_0_tabsel
+LightlineLeft_active_1                               -> LightlineLeft_normal_1
+LightlineLeft_active_1_2                             -> LightlineLeft_normal_1_2
+LightlineLeft_active_1_tabsel                        -> LightlineLeft_normal_1_tabsel
+LightlineLeft_active_2                               -> LightlineLeft_normal_2
+LightlineLeft_active_2_3                             -> LightlineLeft_normal_2_3
+LightlineLeft_active_2_tabsel                        -> LightlineLeft_normal_2_tabsel
+LightlineLeft_active_3                               -> LightlineLeft_normal_3
+LightlineLeft_active_3_4                             -> LightlineLeft_normal_3_4
+LightlineLeft_active_3_tabsel                        -> LightlineLeft_normal_3_tabsel
+LightlineLeft_active_4                               -> LightlineLeft_normal_4
+LightlineLeft_active_4_5                             -> LightlineLeft_normal_4_5
+LightlineLeft_active_4_tabsel                        -> LightlineLeft_normal_4_tabsel
+LightlineLeft_active_tabsel                          -> LightlineLeft_normal_tabsel
+LightlineLeft_active_tabsel_0                        -> LightlineLeft_normal_tabsel_0
+LightlineLeft_active_tabsel_1                        -> LightlineLeft_normal_tabsel_1
+LightlineLeft_active_tabsel_2                        -> LightlineLeft_normal_tabsel_2
+LightlineLeft_active_tabsel_3                        -> LightlineLeft_normal_tabsel_3
+LightlineLeft_active_tabsel_4                        -> LightlineLeft_normal_tabsel_4
+LightlineLeft_active_tabsel_5                        -> LightlineLeft_normal_tabsel_5
+LightlineLeft_active_tabsel_tabsel                   -> LightlineLeft_normal_tabsel_tabsel
+LightlineMiddle_active                               -> LightlineMiddle_normal
+LightlineRight_active_0                              -> LightlineRight_normal_0
+LightlineRight_active_0_1                            -> LightlineRight_normal_0_1
+LightlineRight_active_0_tabsel                       -> LightlineRight_normal_0_tabsel
+LightlineRight_active_1                              -> LightlineRight_normal_1
+LightlineRight_active_1_2                            -> LightlineRight_normal_1_2
+LightlineRight_active_1_tabsel                       -> LightlineRight_normal_1_tabsel
+LightlineRight_active_2                              -> LightlineRight_normal_2
+LightlineRight_active_2_3                            -> LightlineRight_normal_2_3
+LightlineRight_active_2_tabsel                       -> LightlineRight_normal_2_tabsel
+LightlineRight_active_3                              -> LightlineRight_normal_3
+LightlineRight_active_3_4                            -> LightlineRight_normal_3_4
+LightlineRight_active_3_tabsel                       -> LightlineRight_normal_3_tabsel
+LightlineRight_active_4                              -> LightlineRight_normal_4
+LightlineRight_active_4_5                            -> LightlineRight_normal_4_5
+LightlineRight_active_4_tabsel                       -> LightlineRight_normal_4_tabsel
+LightlineRight_active_5                              -> LightlineRight_normal_5
+LightlineRight_active_5_6                            -> LightlineRight_normal_5_6
+LightlineRight_active_5_tabsel                       -> LightlineRight_normal_5_tabsel
+LightlineRight_active_6                              -> LightlineRight_normal_6
+LightlineRight_active_6_7                            -> LightlineRight_normal_6_7
+LightlineRight_active_6_tabsel                       -> LightlineRight_normal_6_tabsel
+LightlineRight_active_7                              -> LightlineRight_normal_7
+LightlineRight_active_7_8                            -> LightlineRight_normal_7_8
+LightlineRight_active_7_tabsel                       -> LightlineRight_normal_7_tabsel
+LightlineRight_active_tabsel                         -> LightlineRight_normal_tabsel
+LightlineRight_active_tabsel_0                       -> LightlineRight_normal_tabsel_0
+LightlineRight_active_tabsel_1                       -> LightlineRight_normal_tabsel_1
+LightlineRight_active_tabsel_2                       -> LightlineRight_normal_tabsel_2
+LightlineRight_active_tabsel_3                       -> LightlineRight_normal_tabsel_3
+LightlineRight_active_tabsel_4                       -> LightlineRight_normal_tabsel_4
+LightlineRight_active_tabsel_5                       -> LightlineRight_normal_tabsel_5
+LightlineRight_active_tabsel_6                       -> LightlineRight_normal_tabsel_6
+LightlineRight_active_tabsel_7                       -> LightlineRight_normal_tabsel_7
+LightlineRight_active_tabsel_8                       -> LightlineRight_normal_tabsel_8
+LightlineRight_active_tabsel_tabsel                  -> LightlineRight_normal_tabsel_tabsel
+LineNrAbove                                          -> LineNr
+LineNrBelow                                          -> LineNr
+Macro                                                -> PreProc
+MessageWindow                                        -> Pmenu
+Number                                               -> Constant
+Operator                                             -> Statement
+PmenuExtra                                           -> Pmenu
+PmenuExtraSel                                        -> PmenuSel
+PmenuKind                                            -> Pmenu
+PmenuKindSel                                         -> PmenuSel
+PmenuMatch                                           -> Pmenu
+PmenuMatchSel                                        -> PmenuSel
+PopupNotification                                    -> Todo
+PreCondit                                            -> PreProc
+Repeat                                               -> Statement
+SpecialChar                                          -> Special
+SpecialComment                                       -> Special
+StorageClass                                         -> Type
+String                                               -> Constant
+Structure                                            -> Type
+Tag                                                  -> Special
+Terminal                                             -> Normal
+TracesCursor                                         -> Search
+TracesReplace                                        -> Search
+TracesSearch                                         -> Search
+Typedef                                              -> Type
+; }}}
+
+Background: light
+
+; Color palette {{{
+Color: baldBongo #df0000 ~
+Color: baldCrane #f37021 ~
+Color: baldHyena #e3c1a5 ~
+Color: baldMouse #ffff00 ~
+Color: baldTiger #cd00cd ~
+Color: boldCamel #f28379 ~
+Color: boldMouse #dd4c35 ~
+Color: boldZorse #c00058 ~
+Color: busyLlama #1572b6 ~
+Color: busySheep #808000 ~
+Color: calmCamel #595959 ~
+Color: calmEagle #af5faf ~
+Color: calmLiger #ff0000 ~
+Color: calmLlama #f4f3d7 ~
+Color: calmQuoll #7e7f7f ~
+Color: coolMacaw #15aabf ~
+Color: coolSkunk #c7dac3 ~
+Color: coolSnake #fab005 ~
+Color: deadHuman #a2003e ~
+Color: deadStoat #ebffef ~
+Color: drabCamel #cba6f7 ~
+Color: drabDhole #acbf97 ~
+Color: dullBison #5f875f ~
+Color: dullCrane #719e40 ~
+Color: dullEagle #181825 ~
+Color: dullPrawn #cd6799 ~
+Color: dullQuoll #6a5acd ~
+Color: dullSnake #90a93a ~
+Color: dullZebra #ccc88e ~
+Color: dumbMouse #c9d473 ~
+Color: dumbPrawn #1e1e2e ~
+Color: dumbXerus #f0e68c ~
+Color: easyBooby #66c3fa ~
+Color: easyDhole #3e6dbf ~
+Color: easyTetra #005f91 ~
+Color: evilBooby #41b883 ~
+Color: evilMolly #e12672 ~
+Color: evilSkunk #817871 ~
+Color: fairDhole #871101 ~
+Color: fairHeron #aaaaff ~
+Color: fairMoose #7fecad ~
+Color: fineGoose #009900 ~
+Color: fineGuppy #ff00ff ~
+Color: freeHyena #606168 ~
+Color: gladGecko #368832 ~
+Color: gladMouse #6927ff ~
+Color: gladTiger #007acc ~
+Color: glumAkita #007f00 ~
+Color: glumMouse #248888 ~
+Color: glumPrawn #8f4e8b ~
+Color: glumTapir #f12d2d ~
+Color: goodBongo #8b93a2 ~
+Color: goodGoose #63bf6a ~
+Color: goodQuoll #ffaf87 ~
+Color: goodSloth #c77400 ~
+Color: goodZorse #c6c6c6 ~
+Color: hurtBongo #af4343 ~
+Color: hurtGecko #45475a ~
+Color: hurtKoala #94e2d5 ~
+Color: hurtSaola #6280b6 ~
+Color: kindCoati #6f567e ~
+Color: kindGecko #00ade6 ~
+Color: kindHeron #63b132 ~
+Color: kindIndri #1e90ff ~
+Color: kindQuoll #ff922b ~
+Color: kindTiger #755838 ~
+Color: lazyGecko #f1662a ~
+Color: lazyGoose #d9b400 ~
+Color: lazyQuail #00acd7 ~
+Color: lazyStoat #dbe8cf ~
+Color: lazyTapir #984c93 ~
+Color: longIndri #4d4d4d ~
+Color: longMouse #eeeeee ~
+Color: niceMolly #f5c195 ~
+Color: openLiger #f88535 ~
+Color: openOkapi #b03931 ~
+Color: openSkunk #ebc8aa ~
+Color: paleBison #bcdc5c ~
+Color: paleLlama #e6e666 ~
+Color: paleSloth #a1a1a1 ~
+Color: poorEagle #e9f7e9 ~
+Color: poorHorse #008b8b ~
+Color: poorLiger #5fb4cb ~
+Color: poorPrawn #ffffff ~
+Color: realLemur #d9d9d9 ~
+Color: realOkapi #cccc66 ~
+Color: richCoati #bcddbd ~
+Color: richDhole #baffa3 ~
+Color: richKoala #406090 ~
+Color: richMouse #aa79c1 ~
+Color: richPrawn #cccccc ~
+Color: richTiger #525252 ~
+Color: soreBison #737373 ~
+Color: soreLemur #2a4f84 ~
+Color: soreMouse #366994 ~
+Color: sourDhole #89b4fa ~
+Color: sourFossa #ff7100 ~
+Color: sourSloth #CEB59E ~
+Color: tameBison #bbbb00 ~
+Color: tameHorse #3b3e4c ~
+Color: tameKoala #008700 ~
+Color: tameLemur #00a6ff ~
+Color: tameMoose #7ab8b8 ~
+Color: tameMouse #cd4545 ~
+Color: tameSkunk #d7a723 ~
+Color: tameSnail #ff2222 ~
+Color: uglyGoose #6c7086 ~
+Color: uglySquid #b52bb0 ~
+Color: uglyZorse #f38ba8 ~
+Color: vastCoati #cd0000 ~
+Color: vastCrane #033fff ~
+Color: vastIndri #00519a ~
+Color: vastMouse #2e8b57 ~
+Color: vastSkunk #33bbff ~
+Color: vastTapir #313244 ~
+Color: vastXerus #99b8c4 ~
+Color: warmBison #5f87af ~
+Color: warmCrane #565656 ~
+Color: warmRobin #2f5c00 ~
+Color: weakBison #378bba ~
+Color: weakDingo #6f4e37 ~
+Color: weakFossa #e8ed51 ~
+Color: weakOkapi #28b48f ~
+Color: wildDingo #5382a1 ~
+Color: wildSloth #a5eb84 ~
+Color: wildSnail #000000 ~
+Color: zanyOkapi #a52a2a ~
+
+Term colors: sourSloth zanyOkapi boldZorse baldTiger poorHorse vastMouse dullQuoll soreBison richKoala zanyOkapi boldZorse baldTiger poorHorse vastMouse dullQuoll wildSnail
+; }}}
+
+
+Variant: gui 256
+
+; Highlight groups {{{
+Normal                                               wildSnail  sourSloth
+Added                                                vastMouse  sourSloth
+Changed                                              kindIndri  sourSloth
+CocBold                                              wildSnail  sourSloth
+CocCodeLens                                          wildSnail  sourSloth
+CocDisabled                                          wildSnail  sourSloth
+CocErrorFloat                                        calmLiger  goodQuoll
+CocErrorLine                                         wildSnail  sourSloth
+CocErrorSign                                         calmLiger  sourSloth
+CocErrorVirtualText                                  calmLiger  sourSloth
+CocExplorerCocErrorSignColor_Internal                calmLiger  sourSloth
+CocExplorerCocWarningSignColor_Internal              kindQuoll  sourSloth
+CocExplorerCommentColor_Internal                     richKoala  sourSloth
+CocExplorerErrorColor_Internal                       calmLiger  sourSloth
+CocExplorerGitContentChange_Internal                 zanyOkapi  sourSloth
+CocExplorerGitPathChange_Internal                    vastMouse  sourSloth
+CocExplorerNormalColor_Internal                      wildSnail  sourSloth
+CocHelperNormalFloat                                 wildSnail  sourSloth
+CocHintFloat                                         coolMacaw  goodQuoll
+CocHintLine                                          wildSnail  sourSloth
+CocHintSign                                          coolMacaw  sourSloth
+CocHintVirtualText                                   coolMacaw  sourSloth
+CocInfoFloat                                         coolSnake  goodQuoll
+CocInfoLine                                          wildSnail  sourSloth
+CocInfoSign                                          coolSnake  sourSloth
+CocInfoVirtualText                                   coolSnake  sourSloth
+CocInlayHint                                         coolMacaw  sourSloth
+CocItalic                                            wildSnail  sourSloth
+CocLink                                              wildSnail  sourSloth
+CocListBgBlack                                       wildSnail  sourSloth
+CocListBgBlue                                        wildSnail  sourSloth
+CocListBgCyan                                        wildSnail  sourSloth
+CocListBgGreen                                       wildSnail  sourSloth
+CocListBgGrey                                        wildSnail  sourSloth
+CocListBgMagenta                                     wildSnail  sourSloth
+CocListBgRed                                         wildSnail  sourSloth
+CocListBgWhite                                       wildSnail  sourSloth
+CocListBgYellow                                      wildSnail  sourSloth
+CocListBlackBlack                                    wildSnail  sourSloth
+CocListBlackBlue                                     wildSnail  sourSloth
+CocListBlackCyan                                     wildSnail  sourSloth
+CocListBlackGreen                                    wildSnail  sourSloth
+CocListBlackGrey                                     wildSnail  sourSloth
+CocListBlackMagenta                                  wildSnail  sourSloth
+CocListBlackRed                                      wildSnail  sourSloth
+CocListBlackWhite                                    wildSnail  sourSloth
+CocListBlackYellow                                   wildSnail  sourSloth
+CocListBlueBlack                                     wildSnail  sourSloth
+CocListBlueBlue                                      wildSnail  sourSloth
+CocListBlueCyan                                      wildSnail  sourSloth
+CocListBlueGreen                                     wildSnail  sourSloth
+CocListBlueGrey                                      wildSnail  sourSloth
+CocListBlueMagenta                                   wildSnail  sourSloth
+CocListBlueRed                                       wildSnail  sourSloth
+CocListBlueWhite                                     wildSnail  sourSloth
+CocListBlueYellow                                    wildSnail  sourSloth
+CocListCyanBlack                                     wildSnail  sourSloth
+CocListCyanBlue                                      wildSnail  sourSloth
+CocListCyanCyan                                      wildSnail  sourSloth
+CocListCyanGreen                                     wildSnail  sourSloth
+CocListCyanGrey                                      wildSnail  sourSloth
+CocListCyanMagenta                                   wildSnail  sourSloth
+CocListCyanRed                                       wildSnail  sourSloth
+CocListCyanWhite                                     wildSnail  sourSloth
+CocListCyanYellow                                    wildSnail  sourSloth
+CocListFgBlack                                       wildSnail  sourSloth
+CocListFgBlue                                        wildSnail  sourSloth
+CocListFgCyan                                        wildSnail  sourSloth
+CocListFgGreen                                       wildSnail  sourSloth
+CocListFgGrey                                        wildSnail  sourSloth
+CocListFgMagenta                                     wildSnail  sourSloth
+CocListFgRed                                         wildSnail  sourSloth
+CocListFgWhite                                       wildSnail  sourSloth
+CocListFgYellow                                      wildSnail  sourSloth
+CocListGreenBlack                                    wildSnail  sourSloth
+CocListGreenBlue                                     wildSnail  sourSloth
+CocListGreenCyan                                     wildSnail  sourSloth
+CocListGreenGreen                                    wildSnail  sourSloth
+CocListGreenGrey                                     wildSnail  sourSloth
+CocListGreenMagenta                                  wildSnail  sourSloth
+CocListGreenRed                                      wildSnail  sourSloth
+CocListGreenWhite                                    wildSnail  sourSloth
+CocListGreenYellow                                   wildSnail  sourSloth
+CocListGreyBlack                                     wildSnail  sourSloth
+CocListGreyBlue                                      wildSnail  sourSloth
+CocListGreyCyan                                      wildSnail  sourSloth
+CocListGreyGreen                                     wildSnail  sourSloth
+CocListGreyGrey                                      wildSnail  sourSloth
+CocListGreyMagenta                                   wildSnail  sourSloth
+CocListGreyRed                                       wildSnail  sourSloth
+CocListGreyWhite                                     wildSnail  sourSloth
+CocListGreyYellow                                    wildSnail  sourSloth
+CocListLine                                          wildSnail  openSkunk
+CocListMagentaBlack                                  wildSnail  sourSloth
+CocListMagentaBlue                                   wildSnail  sourSloth
+CocListMagentaCyan                                   wildSnail  sourSloth
+CocListMagentaGreen                                  wildSnail  sourSloth
+CocListMagentaGrey                                   wildSnail  sourSloth
+CocListMagentaMagenta                                wildSnail  sourSloth
+CocListMagentaRed                                    wildSnail  sourSloth
+CocListMagentaWhite                                  wildSnail  sourSloth
+CocListMagentaYellow                                 wildSnail  sourSloth
+CocListRedBlack                                      wildSnail  sourSloth
+CocListRedBlue                                       wildSnail  sourSloth
+CocListRedCyan                                       wildSnail  sourSloth
+CocListRedGreen                                      wildSnail  sourSloth
+CocListRedGrey                                       wildSnail  sourSloth
+CocListRedMagenta                                    wildSnail  sourSloth
+CocListRedRed                                        wildSnail  sourSloth
+CocListRedWhite                                      wildSnail  sourSloth
+CocListRedYellow                                     wildSnail  sourSloth
+CocListWhiteBlack                                    wildSnail  sourSloth
+CocListWhiteBlue                                     wildSnail  sourSloth
+CocListWhiteCyan                                     wildSnail  sourSloth
+CocListWhiteGreen                                    wildSnail  sourSloth
+CocListWhiteGrey                                     wildSnail  sourSloth
+CocListWhiteMagenta                                  wildSnail  sourSloth
+CocListWhiteRed                                      wildSnail  sourSloth
+CocListWhiteWhite                                    wildSnail  sourSloth
+CocListWhiteYellow                                   wildSnail  sourSloth
+CocListYellowBlack                                   wildSnail  sourSloth
+CocListYellowBlue                                    wildSnail  sourSloth
+CocListYellowCyan                                    wildSnail  sourSloth
+CocListYellowGreen                                   wildSnail  sourSloth
+CocListYellowGrey                                    wildSnail  sourSloth
+CocListYellowMagenta                                 wildSnail  sourSloth
+CocListYellowRed                                     wildSnail  sourSloth
+CocListYellowWhite                                   wildSnail  sourSloth
+CocListYellowYellow                                  wildSnail  sourSloth
+CocMarkdownLink                                      wildSnail  sourSloth
+CocMenuSel                                           wildSnail  niceMolly
+CocNotificationProgress                              wildSnail  sourSloth
+CocSearch                                            wildSnail  sourSloth
+CocSelectedLine                                      wildSnail  sourSloth
+CocSelectedText                                      wildSnail  sourSloth
+CocStrikeThrough                                     wildSnail  sourSloth
+CocSymbolArray                                       vastMouse  sourSloth
+CocSymbolBoolean                                     boldZorse  sourSloth
+CocSymbolClass                                       dullQuoll  sourSloth
+CocSymbolColor                                       boldZorse  sourSloth
+CocSymbolConstant                                    boldZorse  sourSloth
+CocSymbolConstructor                                 dullQuoll  sourSloth
+CocSymbolEnum                                        vastMouse  sourSloth
+CocSymbolEnumMember                                  poorHorse  sourSloth
+CocSymbolEvent                                       boldZorse  sourSloth
+CocSymbolField                                       poorHorse  sourSloth
+CocSymbolFile                                        zanyOkapi  sourSloth
+CocSymbolFolder                                      vastMouse  sourSloth
+CocSymbolFunction                                    poorHorse  sourSloth
+CocSymbolInterface                                   vastMouse  sourSloth
+CocSymbolKey                                         poorHorse  sourSloth
+CocSymbolKeyword                                     zanyOkapi  sourSloth
+CocSymbolMethod                                      poorHorse  sourSloth
+CocSymbolModule                                      zanyOkapi  sourSloth
+CocSymbolNamespace                                   baldTiger  sourSloth
+CocSymbolNull                                        vastMouse  sourSloth
+CocSymbolNumber                                      boldZorse  sourSloth
+CocSymbolObject                                      vastMouse  sourSloth
+CocSymbolOperator                                    zanyOkapi  sourSloth
+CocSymbolPackage                                     zanyOkapi  sourSloth
+CocSymbolProperty                                    poorHorse  sourSloth
+CocSymbolReference                                   boldZorse  sourSloth
+CocSymbolSnippet                                     vastMouse  sourSloth
+CocSymbolString                                      boldZorse  sourSloth
+CocSymbolStruct                                      zanyOkapi  sourSloth
+CocSymbolText                                        vastMouse  sourSloth
+CocSymbolTypeParameter                               poorHorse  sourSloth
+CocSymbolUnit                                        vastMouse  sourSloth
+CocSymbolValue                                       vastMouse  sourSloth
+CocSymbolVariable                                    dullQuoll  sourSloth
+CocUnderline                                         wildSnail  sourSloth
+CocVirtualText                                       wildSnail  sourSloth
+CocWarningFloat                                      kindQuoll  goodQuoll
+CocWarningLine                                       wildSnail  sourSloth
+CocWarningSign                                       kindQuoll  sourSloth
+CocWarningVirtualText                                kindQuoll  sourSloth
+ColorColumn                                          wildSnail  longMouse
+ColortemplateInfoBg                                  wildSnail  sourSloth
+ColortemplateInfoFg                                  wildSnail  sourSloth
+ColortemplateInfoSp                                  wildSnail  sourSloth
+Comment                                              richKoala  sourSloth
+Conceal                                              richKoala  sourSloth
+Constant                                             boldZorse  sourSloth
+Cursor                                               sourSloth  wildSnail
+CursorColumn                                         wildSnail  niceMolly
+CursorIM                                             wildSnail  sourSloth
+CursorLine                                           wildSnail  niceMolly
+CursorLineNr                                         vastCoati  sourSloth   bold
+DictPopupColor                                       wildSnail  sourSloth
+DiffAdd                                              poorPrawn  dullBison
+DiffChange                                           poorPrawn  warmBison
+DiffDelete                                           poorPrawn  calmEagle
+DiffText                                             wildSnail  goodZorse
+Directory                                            poorHorse  sourSloth   bold
+EndOfBuffer                                          soreBison  sourSloth
+Error                                                calmLiger  poorPrawn   bold,reverse
+ErrorMsg                                             calmLiger  poorPrawn   bold,reverse
+FoldColumn                                           richKoala  sourSloth
+Folded                                               wildSnail  baldHyena
+GitGutterAdd                                         fineGoose  sourSloth
+GitGutterAddIntraLine                                wildSnail  sourSloth   reverse
+GitGutterAddInvisible                                sourSloth  sourSloth
+GitGutterChange                                      tameBison  sourSloth
+GitGutterChangeInvisible                             sourSloth  sourSloth
+GitGutterDelete                                      tameSnail  sourSloth
+GitGutterDeleteIntraLine                             wildSnail  sourSloth   reverse
+GitGutterDeleteInvisible                             sourSloth  sourSloth
+Identifier                                           poorHorse  sourSloth
+Ignore                                               wildSnail  sourSloth
+IncSearch                                            vastMouse  sourSloth   reverse
+Lf_hl_History_stlSeparator0                          richDhole  boldCamel
+Lf_hl_History_stlSeparator1                          boldCamel  weakFossa
+Lf_hl_History_stlSeparator2                          weakFossa  freeHyena
+Lf_hl_History_stlSeparator3                          freeHyena  tameHorse
+Lf_hl_History_stlSeparator4                          deadStoat  tameHorse
+Lf_hl_History_stlSeparator5                          paleBison  deadStoat
+Lf_hl_LineNr                                         vastCoati  sourSloth
+Lf_hl_cursorline                                     gladMouse  sourSloth
+Lf_hl_devIcons_L                                     wildSnail  sourSloth
+Lf_hl_devIcons___bashprofile                         wildSnail  sourSloth
+Lf_hl_devIcons___bashrc                              wildSnail  sourSloth
+Lf_hl_devIcons___ds_store                            wildSnail  sourSloth
+Lf_hl_devIcons___gitconfig                           wildSnail  sourSloth
+Lf_hl_devIcons___gitignore                           wildSnail  sourSloth
+Lf_hl_devIcons___gitlab__ci__yml                     wildSnail  sourSloth
+Lf_hl_devIcons___gvimrc                              glumAkita  sourSloth
+Lf_hl_devIcons___vimrc                               glumAkita  sourSloth
+Lf_hl_devIcons___zshrc                               wildSnail  sourSloth
+Lf_hl_devIcons__gvimrc                               glumAkita  sourSloth
+Lf_hl_devIcons__vimrc                                glumAkita  sourSloth
+Lf_hl_devIcons_ai                                    baldCrane  sourSloth
+Lf_hl_devIcons_awk                                   lazyGoose  sourSloth
+Lf_hl_devIcons_bash                                  lazyGoose  sourSloth
+Lf_hl_devIcons_bat                                   tameMoose  sourSloth
+Lf_hl_devIcons_bin                                   wildSnail  sourSloth
+Lf_hl_devIcons_bmp                                   weakOkapi  sourSloth
+Lf_hl_devIcons_c                                     easyTetra  sourSloth
+Lf_hl_devIcons_c__                                   lazyTapir  sourSloth
+Lf_hl_devIcons_cc                                    lazyTapir  sourSloth
+Lf_hl_devIcons_chs                                   glumPrawn  sourSloth
+Lf_hl_devIcons_cl                                    richMouse  sourSloth
+Lf_hl_devIcons_clj                                   kindHeron  sourSloth
+Lf_hl_devIcons_cljc                                  kindHeron  sourSloth
+Lf_hl_devIcons_cljs                                  kindHeron  sourSloth
+Lf_hl_devIcons_cljx                                  kindHeron  sourSloth
+Lf_hl_devIcons_coffee                                weakDingo  sourSloth
+Lf_hl_devIcons_conf                                  vastXerus  sourSloth
+Lf_hl_devIcons_cp                                    lazyTapir  sourSloth
+Lf_hl_devIcons_cpp                                   lazyTapir  sourSloth
+Lf_hl_devIcons_cs                                    gladGecko  sourSloth
+Lf_hl_devIcons_csh                                   lazyGoose  sourSloth
+Lf_hl_devIcons_csproj                                wildSnail  sourSloth
+Lf_hl_devIcons_csproj__user                          wildSnail  sourSloth
+Lf_hl_devIcons_css                                   busyLlama  sourSloth
+Lf_hl_devIcons_ctp                                   wildSnail  sourSloth
+Lf_hl_devIcons_cxx                                   lazyTapir  sourSloth
+Lf_hl_devIcons_d                                     openOkapi  sourSloth
+Lf_hl_devIcons_dart                                  easyBooby  sourSloth
+Lf_hl_devIcons_db                                    goodBongo  sourSloth
+Lf_hl_devIcons_default                               wildSnail  sourSloth
+Lf_hl_devIcons_diff                                  boldMouse  sourSloth
+Lf_hl_devIcons_docker__compose__yml                  wildSnail  sourSloth
+Lf_hl_devIcons_dockerfile                            wildSnail  sourSloth
+Lf_hl_devIcons_dropbox                               wildSnail  sourSloth
+Lf_hl_devIcons_dump                                  goodBongo  sourSloth
+Lf_hl_devIcons_dylib                                 wildSnail  sourSloth
+Lf_hl_devIcons_edn                                   kindHeron  sourSloth
+Lf_hl_devIcons_eex                                   kindCoati  sourSloth
+Lf_hl_devIcons_ejs                                   dullSnake  sourSloth
+Lf_hl_devIcons_el                                    richMouse  sourSloth
+Lf_hl_devIcons_elm                                   poorLiger  sourSloth
+Lf_hl_devIcons_erl                                   deadHuman  sourSloth
+Lf_hl_devIcons_es                                    tameSkunk  sourSloth
+Lf_hl_devIcons_ex                                    kindCoati  sourSloth
+Lf_hl_devIcons_exact__match__case__sensitive__1__txt wildSnail  sourSloth
+Lf_hl_devIcons_exact__match__case__sensitive__2      wildSnail  sourSloth
+Lf_hl_devIcons_exs                                   kindCoati  sourSloth
+Lf_hl_devIcons_f__                                   weakBison  sourSloth
+Lf_hl_devIcons_favicon__ico                          wildSnail  sourSloth
+Lf_hl_devIcons_fish                                  lazyGoose  sourSloth
+Lf_hl_devIcons_fs                                    weakBison  sourSloth
+Lf_hl_devIcons_fsi                                   weakBison  sourSloth
+Lf_hl_devIcons_fsscript                              weakBison  sourSloth
+Lf_hl_devIcons_fsx                                   weakBison  sourSloth
+Lf_hl_devIcons_ft                                    wildSnail  sourSloth
+Lf_hl_devIcons_fth                                   wildSnail  sourSloth
+Lf_hl_devIcons_gif                                   weakOkapi  sourSloth
+Lf_hl_devIcons_go                                    lazyQuail  sourSloth
+Lf_hl_devIcons_gruntfile__coffee                     wildSnail  sourSloth
+Lf_hl_devIcons_gruntfile__js                         wildSnail  sourSloth
+Lf_hl_devIcons_gruntfile__ls                         wildSnail  sourSloth
+Lf_hl_devIcons_gulpfile__coffee                      wildSnail  sourSloth
+Lf_hl_devIcons_gulpfile__js                          wildSnail  sourSloth
+Lf_hl_devIcons_gulpfile__ls                          wildSnail  sourSloth
+Lf_hl_devIcons_gz                                    wildSnail  sourSloth
+Lf_hl_devIcons_h                                     lazyTapir  sourSloth
+Lf_hl_devIcons_h32                                   wildSnail  sourSloth
+Lf_hl_devIcons_hbs                                   wildSnail  sourSloth
+Lf_hl_devIcons_hex                                   wildSnail  sourSloth
+Lf_hl_devIcons_hh                                    lazyTapir  sourSloth
+Lf_hl_devIcons_hpp                                   lazyTapir  sourSloth
+Lf_hl_devIcons_hrl                                   deadHuman  sourSloth
+Lf_hl_devIcons_hs                                    glumPrawn  sourSloth
+Lf_hl_devIcons_hs__boot                              glumPrawn  sourSloth
+Lf_hl_devIcons_htm                                   lazyGecko  sourSloth
+Lf_hl_devIcons_html                                  lazyGecko  sourSloth
+Lf_hl_devIcons_hxx                                   lazyTapir  sourSloth
+Lf_hl_devIcons_icn                                   wildSnail  sourSloth
+Lf_hl_devIcons_ico                                   weakOkapi  sourSloth
+Lf_hl_devIcons_ini                                   vastXerus  sourSloth
+Lf_hl_devIcons_jav                                   wildSnail  sourSloth
+Lf_hl_devIcons_java                                  wildDingo  sourSloth
+Lf_hl_devIcons_javascript                            tameSkunk  sourSloth
+Lf_hl_devIcons_jl                                    richMouse  sourSloth
+Lf_hl_devIcons_jpeg                                  weakOkapi  sourSloth
+Lf_hl_devIcons_jpg                                   weakOkapi  sourSloth
+Lf_hl_devIcons_js                                    tameSkunk  sourSloth
+Lf_hl_devIcons_json                                  tameSkunk  sourSloth
+Lf_hl_devIcons_jsonp                                 wildSnail  sourSloth
+Lf_hl_devIcons_jsx                                   tameLemur  sourSloth
+Lf_hl_devIcons_ksh                                   lazyGoose  sourSloth
+Lf_hl_devIcons_less                                  soreLemur  sourSloth
+Lf_hl_devIcons_lhs                                   glumPrawn  sourSloth
+Lf_hl_devIcons_license                               wildSnail  sourSloth
+Lf_hl_devIcons_lisp                                  wildSnail  sourSloth
+Lf_hl_devIcons_lock                                  wildSnail  sourSloth
+Lf_hl_devIcons_log                                   wildSnail  sourSloth
+Lf_hl_devIcons_lsp                                   wildSnail  sourSloth
+Lf_hl_devIcons_lua                                   easyDhole  sourSloth
+Lf_hl_devIcons_markdown                              kindTiger  sourSloth
+Lf_hl_devIcons_md                                    kindTiger  sourSloth
+Lf_hl_devIcons_mdown                                 wildSnail  sourSloth
+Lf_hl_devIcons_mdwn                                  wildSnail  sourSloth
+Lf_hl_devIcons_mix__lock                             wildSnail  sourSloth
+Lf_hl_devIcons_mjs                                   tameSkunk  sourSloth
+Lf_hl_devIcons_mkd                                   wildSnail  sourSloth
+Lf_hl_devIcons_mkdn                                  wildSnail  sourSloth
+Lf_hl_devIcons_ml                                    paleSloth  sourSloth
+Lf_hl_devIcons_mli                                   paleSloth  sourSloth
+Lf_hl_devIcons_mll                                   wildSnail  sourSloth
+Lf_hl_devIcons_mly                                   wildSnail  sourSloth
+Lf_hl_devIcons_msql                                  wildSnail  sourSloth
+Lf_hl_devIcons_mustache                              wildSnail  sourSloth
+Lf_hl_devIcons_mysql                                 wildSnail  sourSloth
+Lf_hl_devIcons_nix                                   wildSnail  sourSloth
+Lf_hl_devIcons_node_modules                          wildSnail  sourSloth
+Lf_hl_devIcons_php                                   hurtSaola  sourSloth
+Lf_hl_devIcons_phtml                                 wildSnail  sourSloth
+Lf_hl_devIcons_pl                                    lazyQuail  sourSloth
+Lf_hl_devIcons_plist                                 wildSnail  sourSloth
+Lf_hl_devIcons_pm                                    lazyQuail  sourSloth
+Lf_hl_devIcons_png                                   weakOkapi  sourSloth
+Lf_hl_devIcons_pp                                    wildSnail  sourSloth
+Lf_hl_devIcons_procfile                              wildSnail  sourSloth
+Lf_hl_devIcons_ps1                                   hurtBongo  sourSloth
+Lf_hl_devIcons_psb                                   kindGecko  sourSloth
+Lf_hl_devIcons_psd                                   kindGecko  sourSloth
+Lf_hl_devIcons_ptl                                   wildSnail  sourSloth
+Lf_hl_devIcons_py                                    soreMouse  sourSloth
+Lf_hl_devIcons_pyc                                   soreMouse  sourSloth
+Lf_hl_devIcons_pyd                                   soreMouse  sourSloth
+Lf_hl_devIcons_pyi                                   soreMouse  sourSloth
+Lf_hl_devIcons_pyo                                   soreMouse  sourSloth
+Lf_hl_devIcons_pyw                                   soreMouse  sourSloth
+Lf_hl_devIcons_rb                                    fairDhole  sourSloth
+Lf_hl_devIcons_rbw                                   fairDhole  sourSloth
+Lf_hl_devIcons_react__jsx                            wildSnail  sourSloth
+Lf_hl_devIcons_rej                                   wildSnail  sourSloth
+Lf_hl_devIcons_rlib                                  evilSkunk  sourSloth
+Lf_hl_devIcons_rmd                                   kindTiger  sourSloth
+Lf_hl_devIcons_rmeta                                 wildSnail  sourSloth
+Lf_hl_devIcons_rs                                    evilSkunk  sourSloth
+Lf_hl_devIcons_rss                                   lazyQuail  sourSloth
+Lf_hl_devIcons_sass                                  dullPrawn  sourSloth
+Lf_hl_devIcons_scala                                 vastSkunk  sourSloth
+Lf_hl_devIcons_scss                                  dullPrawn  sourSloth
+Lf_hl_devIcons_sh                                    lazyGoose  sourSloth
+Lf_hl_devIcons_slim                                  dullCrane  sourSloth
+Lf_hl_devIcons_sln                                   vastIndri  sourSloth
+Lf_hl_devIcons_smd                                   wildSnail  sourSloth
+Lf_hl_devIcons_so                                    wildSnail  sourSloth
+Lf_hl_devIcons_sql                                   goodBongo  sourSloth
+Lf_hl_devIcons_styl                                  busyLlama  sourSloth
+Lf_hl_devIcons_suo                                   vastIndri  sourSloth
+Lf_hl_devIcons_swift                                 openLiger  sourSloth
+Lf_hl_devIcons_sys                                   wildSnail  sourSloth
+Lf_hl_devIcons_t                                     wildSnail  sourSloth
+Lf_hl_devIcons_timestamp                             wildSnail  sourSloth
+Lf_hl_devIcons_toml                                  calmQuoll  sourSloth
+Lf_hl_devIcons_ts                                    gladTiger  sourSloth
+Lf_hl_devIcons_tsx                                   tameLemur  sourSloth
+Lf_hl_devIcons_twig                                  goodGoose  sourSloth
+Lf_hl_devIcons_txt                                   wildSnail  sourSloth
+Lf_hl_devIcons_ui                                    wildSnail  sourSloth
+Lf_hl_devIcons_vim                                   glumAkita  sourSloth
+Lf_hl_devIcons_vue                                   evilBooby  sourSloth
+Lf_hl_devIcons_wpl                                   wildSnail  sourSloth
+Lf_hl_devIcons_wsdl                                  wildSnail  sourSloth
+Lf_hl_devIcons_xcplayground                          openLiger  sourSloth
+Lf_hl_devIcons_xht                                   wildSnail  sourSloth
+Lf_hl_devIcons_xhtml                                 wildSnail  sourSloth
+Lf_hl_devIcons_xlf                                   wildSnail  sourSloth
+Lf_hl_devIcons_xliff                                 wildSnail  sourSloth
+Lf_hl_devIcons_xmi                                   wildSnail  sourSloth
+Lf_hl_devIcons_xml                                   wildSnail  sourSloth
+Lf_hl_devIcons_xul                                   lazyGecko  sourSloth
+Lf_hl_devIcons_yaml                                  tameSkunk  sourSloth
+Lf_hl_devIcons_yaws                                  wildSnail  sourSloth
+Lf_hl_devIcons_yml                                   tameSkunk  sourSloth
+Lf_hl_devIcons_zip                                   wildSnail  sourSloth
+Lf_hl_devIcons_zsh                                   lazyGoose  sourSloth
+Lf_hl_dirname                                        wildSnail  sourSloth
+Lf_hl_filename                                       wildSnail  sourSloth
+Lf_hl_gitDiffAdd                                     poorPrawn  dullBison
+Lf_hl_gitDiffAddition                                tameKoala  sourSloth
+Lf_hl_gitDiffChange                                  poorPrawn  warmBison
+Lf_hl_gitDiffDelete                                  poorPrawn  calmEagle
+Lf_hl_gitDiffDeletion                                baldBongo  sourSloth
+Lf_hl_gitDiffModification                            warmBison  sourSloth
+Lf_hl_gitDiffText                                    wildSnail  goodZorse
+Lf_hl_gitStlAdd                                      tameKoala  wildSnail
+Lf_hl_gitStlChangedNum                               boldZorse  wildSnail
+Lf_hl_gitStlDel                                      baldBongo  wildSnail
+Lf_hl_gtagsHighlight                                 longIndri  realOkapi
+Lf_hl_match                                          tameMouse  sourSloth   bold
+Lf_hl_match0                                         tameMouse  sourSloth   bold
+Lf_hl_match1                                         vastCrane  sourSloth   bold
+Lf_hl_match2                                         uglySquid  sourSloth   bold
+Lf_hl_match3                                         sourFossa  sourSloth   bold
+Lf_hl_match4                                         glumMouse  sourSloth   bold
+Lf_hl_matchRefine                                    fineGuppy  sourSloth   bold
+Lf_hl_nonHelp                                        wildSnail  sourSloth
+Lf_hl_popupBorder                                    soreBison  sourSloth
+Lf_hl_popup_Cmd_History_sep0                         dumbXerus  sourSloth
+Lf_hl_popup_History_sep0                             dumbXerus  coolSkunk
+Lf_hl_popup_History_sep1                             coolSkunk  lazyStoat
+Lf_hl_popup_History_sep2                             lazyStoat  poorEagle
+Lf_hl_popup_History_sep3                             poorEagle  soreBison
+Lf_hl_popup_History_sep4                             poorEagle  calmLlama
+Lf_hl_popup_History_sep5                             coolSkunk  poorEagle
+Lf_hl_popup_blank                                    sourSloth  soreBison   bold
+Lf_hl_popup_category                                 longIndri  coolSkunk
+Lf_hl_popup_cwd                                      calmCamel  poorEagle
+Lf_hl_popup_fullPathMode                             longIndri  lazyStoat
+Lf_hl_popup_fuzzyMode                                longIndri  lazyStoat
+Lf_hl_popup_inputMode                                busySheep  dumbXerus   bold
+Lf_hl_popup_inputText                                richTiger  calmLlama
+Lf_hl_popup_lineInfo                                 calmCamel  poorEagle
+Lf_hl_popup_nameOnlyMode                             longIndri  dumbMouse
+Lf_hl_popup_normalMode                               busySheep  dullZebra   bold
+Lf_hl_popup_prompt                                   goodSloth  sourSloth
+Lf_hl_popup_regexMode                                longIndri  drabDhole
+Lf_hl_popup_spin                                     glumTapir  sourSloth
+Lf_hl_popup_total                                    longIndri  coolSkunk
+Lf_hl_popup_window                                   wildSnail  sourSloth
+Lf_hl_rgHighlight                                    longIndri  realOkapi
+Lf_hl_selection                                      longIndri  wildSloth
+Lf_hl_stlBlank                                       wildSnail  tameHorse
+Lf_hl_stlCategory                                    wildSnail  boldCamel
+Lf_hl_stlCwd                                         deadStoat  freeHyena
+Lf_hl_stlFullPathMode                                wildSnail  fairHeron
+Lf_hl_stlFuzzyMode                                   wildSnail  weakFossa
+Lf_hl_stlLineInfo                                    wildSnail  deadStoat
+Lf_hl_stlName                                        warmRobin  richDhole   bold
+Lf_hl_stlNameOnlyMode                                wildSnail  weakFossa
+Lf_hl_stlRegexMode                                   wildSnail  fairMoose
+Lf_hl_stlSpin                                        paleLlama  tameHorse
+Lf_hl_stlTotal                                       wildSnail  paleBison
+LightlineLeft_command_0                              dullEagle  sourDhole
+LightlineLeft_command_0_1                            sourDhole  dumbPrawn
+LightlineLeft_command_0_tabsel                       sourDhole  hurtGecko
+LightlineLeft_command_1                              sourDhole  dumbPrawn
+LightlineLeft_command_1_2                            dumbPrawn  hurtGecko
+LightlineLeft_command_1_tabsel                       dumbPrawn  hurtGecko
+LightlineLeft_command_2                              sourDhole  hurtGecko
+LightlineLeft_command_2_3                            hurtGecko  hurtGecko
+LightlineLeft_command_2_tabsel                       hurtGecko  hurtGecko
+LightlineLeft_command_3                              sourDhole  hurtGecko
+LightlineLeft_command_3_4                            hurtGecko  hurtGecko
+LightlineLeft_command_3_tabsel                       hurtGecko  hurtGecko
+LightlineLeft_command_4                              sourDhole  hurtGecko
+LightlineLeft_command_4_5                            hurtGecko  hurtGecko
+LightlineLeft_command_4_tabsel                       hurtGecko  hurtGecko
+LightlineLeft_command_tabsel                         sourDhole  hurtGecko
+LightlineLeft_command_tabsel_0                       hurtGecko  sourDhole
+LightlineLeft_command_tabsel_1                       hurtGecko  dumbPrawn
+LightlineLeft_command_tabsel_2                       hurtGecko  hurtGecko
+LightlineLeft_command_tabsel_3                       hurtGecko  hurtGecko
+LightlineLeft_command_tabsel_4                       hurtGecko  hurtGecko
+LightlineLeft_command_tabsel_5                       hurtGecko  hurtGecko
+LightlineLeft_command_tabsel_tabsel                  hurtGecko  hurtGecko
+LightlineLeft_inactive_0                             sourDhole  dumbPrawn
+LightlineLeft_inactive_0_1                           dumbPrawn  dumbPrawn
+LightlineLeft_inactive_0_tabsel                      dumbPrawn  hurtGecko
+LightlineLeft_inactive_tabsel                        sourDhole  hurtGecko
+LightlineLeft_inactive_tabsel_0                      hurtGecko  dumbPrawn
+LightlineLeft_inactive_tabsel_1                      hurtGecko  dumbPrawn
+LightlineLeft_inactive_tabsel_tabsel                 hurtGecko  hurtGecko
+LightlineLeft_insert_0                               dullEagle  hurtKoala
+LightlineLeft_insert_0_1                             hurtKoala  dumbPrawn
+LightlineLeft_insert_0_tabsel                        hurtKoala  hurtGecko
+LightlineLeft_insert_1                               sourDhole  dumbPrawn
+LightlineLeft_insert_1_2                             dumbPrawn  hurtGecko
+LightlineLeft_insert_1_tabsel                        dumbPrawn  hurtGecko
+LightlineLeft_insert_2                               sourDhole  hurtGecko
+LightlineLeft_insert_2_3                             hurtGecko  hurtGecko
+LightlineLeft_insert_2_tabsel                        hurtGecko  hurtGecko
+LightlineLeft_insert_3                               sourDhole  hurtGecko
+LightlineLeft_insert_3_4                             hurtGecko  hurtGecko
+LightlineLeft_insert_3_tabsel                        hurtGecko  hurtGecko
+LightlineLeft_insert_4                               sourDhole  hurtGecko
+LightlineLeft_insert_4_5                             hurtGecko  hurtGecko
+LightlineLeft_insert_4_tabsel                        hurtGecko  hurtGecko
+LightlineLeft_insert_tabsel                          sourDhole  hurtGecko
+LightlineLeft_insert_tabsel_0                        hurtGecko  hurtKoala
+LightlineLeft_insert_tabsel_1                        hurtGecko  dumbPrawn
+LightlineLeft_insert_tabsel_2                        hurtGecko  hurtGecko
+LightlineLeft_insert_tabsel_3                        hurtGecko  hurtGecko
+LightlineLeft_insert_tabsel_4                        hurtGecko  hurtGecko
+LightlineLeft_insert_tabsel_5                        hurtGecko  hurtGecko
+LightlineLeft_insert_tabsel_tabsel                   hurtGecko  hurtGecko
+LightlineLeft_normal_0                               dullEagle  sourDhole
+LightlineLeft_normal_0_1                             sourDhole  dumbPrawn
+LightlineLeft_normal_0_tabsel                        sourDhole  hurtGecko
+LightlineLeft_normal_1                               sourDhole  dumbPrawn
+LightlineLeft_normal_1_2                             dumbPrawn  hurtGecko
+LightlineLeft_normal_1_tabsel                        dumbPrawn  hurtGecko
+LightlineLeft_normal_2                               sourDhole  hurtGecko
+LightlineLeft_normal_2_3                             hurtGecko  hurtGecko
+LightlineLeft_normal_2_tabsel                        hurtGecko  hurtGecko
+LightlineLeft_normal_3                               sourDhole  hurtGecko
+LightlineLeft_normal_3_4                             hurtGecko  hurtGecko
+LightlineLeft_normal_3_tabsel                        hurtGecko  hurtGecko
+LightlineLeft_normal_4                               sourDhole  hurtGecko
+LightlineLeft_normal_4_5                             hurtGecko  hurtGecko
+LightlineLeft_normal_4_tabsel                        hurtGecko  hurtGecko
+LightlineLeft_normal_tabsel                          sourDhole  hurtGecko
+LightlineLeft_normal_tabsel_0                        hurtGecko  sourDhole
+LightlineLeft_normal_tabsel_1                        hurtGecko  dumbPrawn
+LightlineLeft_normal_tabsel_2                        hurtGecko  hurtGecko
+LightlineLeft_normal_tabsel_3                        hurtGecko  hurtGecko
+LightlineLeft_normal_tabsel_4                        hurtGecko  hurtGecko
+LightlineLeft_normal_tabsel_5                        hurtGecko  hurtGecko
+LightlineLeft_normal_tabsel_tabsel                   hurtGecko  hurtGecko
+LightlineLeft_replace_0                              dullEagle  uglyZorse
+LightlineLeft_replace_0_1                            uglyZorse  dumbPrawn
+LightlineLeft_replace_0_tabsel                       uglyZorse  hurtGecko
+LightlineLeft_replace_1                              sourDhole  dumbPrawn
+LightlineLeft_replace_1_2                            dumbPrawn  hurtGecko
+LightlineLeft_replace_1_tabsel                       dumbPrawn  hurtGecko
+LightlineLeft_replace_2                              sourDhole  hurtGecko
+LightlineLeft_replace_2_3                            hurtGecko  hurtGecko
+LightlineLeft_replace_2_tabsel                       hurtGecko  hurtGecko
+LightlineLeft_replace_3                              sourDhole  hurtGecko
+LightlineLeft_replace_3_4                            hurtGecko  hurtGecko
+LightlineLeft_replace_3_tabsel                       hurtGecko  hurtGecko
+LightlineLeft_replace_4                              sourDhole  hurtGecko
+LightlineLeft_replace_4_5                            hurtGecko  hurtGecko
+LightlineLeft_replace_4_tabsel                       hurtGecko  hurtGecko
+LightlineLeft_replace_tabsel                         sourDhole  hurtGecko
+LightlineLeft_replace_tabsel_0                       hurtGecko  uglyZorse
+LightlineLeft_replace_tabsel_1                       hurtGecko  dumbPrawn
+LightlineLeft_replace_tabsel_2                       hurtGecko  hurtGecko
+LightlineLeft_replace_tabsel_3                       hurtGecko  hurtGecko
+LightlineLeft_replace_tabsel_4                       hurtGecko  hurtGecko
+LightlineLeft_replace_tabsel_5                       hurtGecko  hurtGecko
+LightlineLeft_replace_tabsel_tabsel                  hurtGecko  hurtGecko
+LightlineLeft_select_0                               dullEagle  drabCamel
+LightlineLeft_select_0_1                             drabCamel  dumbPrawn
+LightlineLeft_select_0_tabsel                        drabCamel  hurtGecko
+LightlineLeft_select_1                               sourDhole  dumbPrawn
+LightlineLeft_select_1_2                             dumbPrawn  hurtGecko
+LightlineLeft_select_1_tabsel                        dumbPrawn  hurtGecko
+LightlineLeft_select_2                               sourDhole  hurtGecko
+LightlineLeft_select_2_3                             hurtGecko  hurtGecko
+LightlineLeft_select_2_tabsel                        hurtGecko  hurtGecko
+LightlineLeft_select_3                               sourDhole  hurtGecko
+LightlineLeft_select_3_4                             hurtGecko  hurtGecko
+LightlineLeft_select_3_tabsel                        hurtGecko  hurtGecko
+LightlineLeft_select_4                               sourDhole  hurtGecko
+LightlineLeft_select_4_5                             hurtGecko  hurtGecko
+LightlineLeft_select_4_tabsel                        hurtGecko  hurtGecko
+LightlineLeft_select_tabsel                          sourDhole  hurtGecko
+LightlineLeft_select_tabsel_0                        hurtGecko  drabCamel
+LightlineLeft_select_tabsel_1                        hurtGecko  dumbPrawn
+LightlineLeft_select_tabsel_2                        hurtGecko  hurtGecko
+LightlineLeft_select_tabsel_3                        hurtGecko  hurtGecko
+LightlineLeft_select_tabsel_4                        hurtGecko  hurtGecko
+LightlineLeft_select_tabsel_5                        hurtGecko  hurtGecko
+LightlineLeft_select_tabsel_tabsel                   hurtGecko  hurtGecko
+LightlineLeft_tabline_0                              uglyGoose  dumbPrawn
+LightlineLeft_tabline_0_1                            dumbPrawn  dumbPrawn
+LightlineLeft_tabline_0_tabsel                       dumbPrawn  hurtGecko
+LightlineLeft_tabline_tabsel                         sourDhole  hurtGecko
+LightlineLeft_tabline_tabsel_0                       hurtGecko  dumbPrawn
+LightlineLeft_tabline_tabsel_1                       hurtGecko  dumbPrawn
+LightlineLeft_tabline_tabsel_tabsel                  hurtGecko  hurtGecko
+LightlineLeft_terminal_0                             dullEagle  hurtKoala
+LightlineLeft_terminal_0_1                           hurtKoala  dumbPrawn
+LightlineLeft_terminal_0_tabsel                      hurtKoala  hurtGecko
+LightlineLeft_terminal_1                             sourDhole  dumbPrawn
+LightlineLeft_terminal_1_2                           dumbPrawn  hurtGecko
+LightlineLeft_terminal_1_tabsel                      dumbPrawn  hurtGecko
+LightlineLeft_terminal_2                             sourDhole  hurtGecko
+LightlineLeft_terminal_2_3                           hurtGecko  hurtGecko
+LightlineLeft_terminal_2_tabsel                      hurtGecko  hurtGecko
+LightlineLeft_terminal_3                             sourDhole  hurtGecko
+LightlineLeft_terminal_3_4                           hurtGecko  hurtGecko
+LightlineLeft_terminal_3_tabsel                      hurtGecko  hurtGecko
+LightlineLeft_terminal_4                             sourDhole  hurtGecko
+LightlineLeft_terminal_4_5                           hurtGecko  hurtGecko
+LightlineLeft_terminal_4_tabsel                      hurtGecko  hurtGecko
+LightlineLeft_terminal_tabsel                        sourDhole  hurtGecko
+LightlineLeft_terminal_tabsel_0                      hurtGecko  hurtKoala
+LightlineLeft_terminal_tabsel_1                      hurtGecko  dumbPrawn
+LightlineLeft_terminal_tabsel_2                      hurtGecko  hurtGecko
+LightlineLeft_terminal_tabsel_3                      hurtGecko  hurtGecko
+LightlineLeft_terminal_tabsel_4                      hurtGecko  hurtGecko
+LightlineLeft_terminal_tabsel_5                      hurtGecko  hurtGecko
+LightlineLeft_terminal_tabsel_tabsel                 hurtGecko  hurtGecko
+LightlineLeft_visual_0                               dullEagle  drabCamel
+LightlineLeft_visual_0_1                             drabCamel  dumbPrawn
+LightlineLeft_visual_0_tabsel                        drabCamel  hurtGecko
+LightlineLeft_visual_1                               sourDhole  dumbPrawn
+LightlineLeft_visual_1_2                             dumbPrawn  hurtGecko
+LightlineLeft_visual_1_tabsel                        dumbPrawn  hurtGecko
+LightlineLeft_visual_2                               sourDhole  hurtGecko
+LightlineLeft_visual_2_3                             hurtGecko  hurtGecko
+LightlineLeft_visual_2_tabsel                        hurtGecko  hurtGecko
+LightlineLeft_visual_3                               sourDhole  hurtGecko
+LightlineLeft_visual_3_4                             hurtGecko  hurtGecko
+LightlineLeft_visual_3_tabsel                        hurtGecko  hurtGecko
+LightlineLeft_visual_4                               sourDhole  hurtGecko
+LightlineLeft_visual_4_5                             hurtGecko  hurtGecko
+LightlineLeft_visual_4_tabsel                        hurtGecko  hurtGecko
+LightlineLeft_visual_tabsel                          sourDhole  hurtGecko
+LightlineLeft_visual_tabsel_0                        hurtGecko  drabCamel
+LightlineLeft_visual_tabsel_1                        hurtGecko  dumbPrawn
+LightlineLeft_visual_tabsel_2                        hurtGecko  hurtGecko
+LightlineLeft_visual_tabsel_3                        hurtGecko  hurtGecko
+LightlineLeft_visual_tabsel_4                        hurtGecko  hurtGecko
+LightlineLeft_visual_tabsel_5                        hurtGecko  hurtGecko
+LightlineLeft_visual_tabsel_tabsel                   hurtGecko  hurtGecko
+LightlineMiddle_command                              sourDhole  hurtGecko
+LightlineMiddle_inactive                             hurtGecko  dumbPrawn
+LightlineMiddle_insert                               sourDhole  hurtGecko
+LightlineMiddle_normal                               sourDhole  hurtGecko
+LightlineMiddle_replace                              sourDhole  hurtGecko
+LightlineMiddle_select                               sourDhole  hurtGecko
+LightlineMiddle_tabline                              hurtGecko  dumbPrawn
+LightlineMiddle_terminal                             sourDhole  hurtGecko
+LightlineMiddle_visual                               sourDhole  hurtGecko
+LightlineRight_command_0                             uglyGoose  dumbPrawn
+LightlineRight_command_0_1                           dumbPrawn  vastTapir
+LightlineRight_command_0_tabsel                      dumbPrawn  hurtGecko
+LightlineRight_command_1                             sourDhole  vastTapir
+LightlineRight_command_1_2                           vastTapir  hurtGecko
+LightlineRight_command_1_tabsel                      vastTapir  hurtGecko
+LightlineRight_command_2                             sourDhole  hurtGecko
+LightlineRight_command_2_3                           hurtGecko  hurtGecko
+LightlineRight_command_2_tabsel                      hurtGecko  hurtGecko
+LightlineRight_command_3                             sourDhole  hurtGecko
+LightlineRight_command_3_4                           hurtGecko  hurtGecko
+LightlineRight_command_3_tabsel                      hurtGecko  hurtGecko
+LightlineRight_command_4                             sourDhole  hurtGecko
+LightlineRight_command_4_5                           hurtGecko  hurtGecko
+LightlineRight_command_4_tabsel                      hurtGecko  hurtGecko
+LightlineRight_command_5                             sourDhole  hurtGecko
+LightlineRight_command_5_6                           hurtGecko  hurtGecko
+LightlineRight_command_5_tabsel                      hurtGecko  hurtGecko
+LightlineRight_command_6                             sourDhole  hurtGecko
+LightlineRight_command_6_7                           hurtGecko  hurtGecko
+LightlineRight_command_6_tabsel                      hurtGecko  hurtGecko
+LightlineRight_command_7                             sourDhole  hurtGecko
+LightlineRight_command_7_8                           hurtGecko  hurtGecko
+LightlineRight_command_7_tabsel                      hurtGecko  hurtGecko
+LightlineRight_command_tabsel                        sourDhole  hurtGecko
+LightlineRight_command_tabsel_0                      hurtGecko  dumbPrawn
+LightlineRight_command_tabsel_1                      hurtGecko  vastTapir
+LightlineRight_command_tabsel_2                      hurtGecko  hurtGecko
+LightlineRight_command_tabsel_3                      hurtGecko  hurtGecko
+LightlineRight_command_tabsel_4                      hurtGecko  hurtGecko
+LightlineRight_command_tabsel_5                      hurtGecko  hurtGecko
+LightlineRight_command_tabsel_6                      hurtGecko  hurtGecko
+LightlineRight_command_tabsel_7                      hurtGecko  hurtGecko
+LightlineRight_command_tabsel_8                      hurtGecko  hurtGecko
+LightlineRight_command_tabsel_tabsel                 hurtGecko  hurtGecko
+LightlineRight_inactive_0                            hurtGecko  dumbPrawn
+LightlineRight_inactive_0_1                          dumbPrawn  dumbPrawn
+LightlineRight_inactive_0_tabsel                     dumbPrawn  hurtGecko
+LightlineRight_inactive_1                            uglyGoose  dumbPrawn
+LightlineRight_inactive_1_2                          dumbPrawn  dumbPrawn
+LightlineRight_inactive_1_tabsel                     dumbPrawn  hurtGecko
+LightlineRight_inactive_tabsel                       sourDhole  hurtGecko
+LightlineRight_inactive_tabsel_0                     hurtGecko  dumbPrawn
+LightlineRight_inactive_tabsel_1                     hurtGecko  dumbPrawn
+LightlineRight_inactive_tabsel_2                     hurtGecko  dumbPrawn
+LightlineRight_inactive_tabsel_tabsel                hurtGecko  hurtGecko
+LightlineRight_insert_0                              uglyGoose  dumbPrawn
+LightlineRight_insert_0_1                            dumbPrawn  vastTapir
+LightlineRight_insert_0_tabsel                       dumbPrawn  hurtGecko
+LightlineRight_insert_1                              sourDhole  vastTapir
+LightlineRight_insert_1_2                            vastTapir  hurtGecko
+LightlineRight_insert_1_tabsel                       vastTapir  hurtGecko
+LightlineRight_insert_2                              sourDhole  hurtGecko
+LightlineRight_insert_2_3                            hurtGecko  hurtGecko
+LightlineRight_insert_2_tabsel                       hurtGecko  hurtGecko
+LightlineRight_insert_3                              sourDhole  hurtGecko
+LightlineRight_insert_3_4                            hurtGecko  hurtGecko
+LightlineRight_insert_3_tabsel                       hurtGecko  hurtGecko
+LightlineRight_insert_4                              sourDhole  hurtGecko
+LightlineRight_insert_4_5                            hurtGecko  hurtGecko
+LightlineRight_insert_4_tabsel                       hurtGecko  hurtGecko
+LightlineRight_insert_5                              sourDhole  hurtGecko
+LightlineRight_insert_5_6                            hurtGecko  hurtGecko
+LightlineRight_insert_5_tabsel                       hurtGecko  hurtGecko
+LightlineRight_insert_6                              sourDhole  hurtGecko
+LightlineRight_insert_6_7                            hurtGecko  hurtGecko
+LightlineRight_insert_6_tabsel                       hurtGecko  hurtGecko
+LightlineRight_insert_7                              sourDhole  hurtGecko
+LightlineRight_insert_7_8                            hurtGecko  hurtGecko
+LightlineRight_insert_7_tabsel                       hurtGecko  hurtGecko
+LightlineRight_insert_tabsel                         sourDhole  hurtGecko
+LightlineRight_insert_tabsel_0                       hurtGecko  dumbPrawn
+LightlineRight_insert_tabsel_1                       hurtGecko  vastTapir
+LightlineRight_insert_tabsel_2                       hurtGecko  hurtGecko
+LightlineRight_insert_tabsel_3                       hurtGecko  hurtGecko
+LightlineRight_insert_tabsel_4                       hurtGecko  hurtGecko
+LightlineRight_insert_tabsel_5                       hurtGecko  hurtGecko
+LightlineRight_insert_tabsel_6                       hurtGecko  hurtGecko
+LightlineRight_insert_tabsel_7                       hurtGecko  hurtGecko
+LightlineRight_insert_tabsel_8                       hurtGecko  hurtGecko
+LightlineRight_insert_tabsel_tabsel                  hurtGecko  hurtGecko
+LightlineRight_normal_0                              uglyGoose  dumbPrawn
+LightlineRight_normal_0_1                            dumbPrawn  vastTapir
+LightlineRight_normal_0_tabsel                       dumbPrawn  hurtGecko
+LightlineRight_normal_1                              sourDhole  vastTapir
+LightlineRight_normal_1_2                            vastTapir  hurtGecko
+LightlineRight_normal_1_tabsel                       vastTapir  hurtGecko
+LightlineRight_normal_2                              sourDhole  hurtGecko
+LightlineRight_normal_2_3                            hurtGecko  hurtGecko
+LightlineRight_normal_2_tabsel                       hurtGecko  hurtGecko
+LightlineRight_normal_3                              sourDhole  hurtGecko
+LightlineRight_normal_3_4                            hurtGecko  hurtGecko
+LightlineRight_normal_3_tabsel                       hurtGecko  hurtGecko
+LightlineRight_normal_4                              sourDhole  hurtGecko
+LightlineRight_normal_4_5                            hurtGecko  hurtGecko
+LightlineRight_normal_4_tabsel                       hurtGecko  hurtGecko
+LightlineRight_normal_5                              sourDhole  hurtGecko
+LightlineRight_normal_5_6                            hurtGecko  hurtGecko
+LightlineRight_normal_5_tabsel                       hurtGecko  hurtGecko
+LightlineRight_normal_6                              sourDhole  hurtGecko
+LightlineRight_normal_6_7                            hurtGecko  hurtGecko
+LightlineRight_normal_6_tabsel                       hurtGecko  hurtGecko
+LightlineRight_normal_7                              sourDhole  hurtGecko
+LightlineRight_normal_7_8                            hurtGecko  hurtGecko
+LightlineRight_normal_7_tabsel                       hurtGecko  hurtGecko
+LightlineRight_normal_tabsel                         sourDhole  hurtGecko
+LightlineRight_normal_tabsel_0                       hurtGecko  dumbPrawn
+LightlineRight_normal_tabsel_1                       hurtGecko  vastTapir
+LightlineRight_normal_tabsel_2                       hurtGecko  hurtGecko
+LightlineRight_normal_tabsel_3                       hurtGecko  hurtGecko
+LightlineRight_normal_tabsel_4                       hurtGecko  hurtGecko
+LightlineRight_normal_tabsel_5                       hurtGecko  hurtGecko
+LightlineRight_normal_tabsel_6                       hurtGecko  hurtGecko
+LightlineRight_normal_tabsel_7                       hurtGecko  hurtGecko
+LightlineRight_normal_tabsel_8                       hurtGecko  hurtGecko
+LightlineRight_normal_tabsel_tabsel                  hurtGecko  hurtGecko
+LightlineRight_replace_0                             uglyGoose  dumbPrawn
+LightlineRight_replace_0_1                           dumbPrawn  vastTapir
+LightlineRight_replace_0_tabsel                      dumbPrawn  hurtGecko
+LightlineRight_replace_1                             sourDhole  vastTapir
+LightlineRight_replace_1_2                           vastTapir  hurtGecko
+LightlineRight_replace_1_tabsel                      vastTapir  hurtGecko
+LightlineRight_replace_2                             sourDhole  hurtGecko
+LightlineRight_replace_2_3                           hurtGecko  hurtGecko
+LightlineRight_replace_2_tabsel                      hurtGecko  hurtGecko
+LightlineRight_replace_3                             sourDhole  hurtGecko
+LightlineRight_replace_3_4                           hurtGecko  hurtGecko
+LightlineRight_replace_3_tabsel                      hurtGecko  hurtGecko
+LightlineRight_replace_4                             sourDhole  hurtGecko
+LightlineRight_replace_4_5                           hurtGecko  hurtGecko
+LightlineRight_replace_4_tabsel                      hurtGecko  hurtGecko
+LightlineRight_replace_5                             sourDhole  hurtGecko
+LightlineRight_replace_5_6                           hurtGecko  hurtGecko
+LightlineRight_replace_5_tabsel                      hurtGecko  hurtGecko
+LightlineRight_replace_6                             sourDhole  hurtGecko
+LightlineRight_replace_6_7                           hurtGecko  hurtGecko
+LightlineRight_replace_6_tabsel                      hurtGecko  hurtGecko
+LightlineRight_replace_7                             sourDhole  hurtGecko
+LightlineRight_replace_7_8                           hurtGecko  hurtGecko
+LightlineRight_replace_7_tabsel                      hurtGecko  hurtGecko
+LightlineRight_replace_tabsel                        sourDhole  hurtGecko
+LightlineRight_replace_tabsel_0                      hurtGecko  dumbPrawn
+LightlineRight_replace_tabsel_1                      hurtGecko  vastTapir
+LightlineRight_replace_tabsel_2                      hurtGecko  hurtGecko
+LightlineRight_replace_tabsel_3                      hurtGecko  hurtGecko
+LightlineRight_replace_tabsel_4                      hurtGecko  hurtGecko
+LightlineRight_replace_tabsel_5                      hurtGecko  hurtGecko
+LightlineRight_replace_tabsel_6                      hurtGecko  hurtGecko
+LightlineRight_replace_tabsel_7                      hurtGecko  hurtGecko
+LightlineRight_replace_tabsel_8                      hurtGecko  hurtGecko
+LightlineRight_replace_tabsel_tabsel                 hurtGecko  hurtGecko
+LightlineRight_select_0                              uglyGoose  dumbPrawn
+LightlineRight_select_0_1                            dumbPrawn  vastTapir
+LightlineRight_select_0_tabsel                       dumbPrawn  hurtGecko
+LightlineRight_select_1                              sourDhole  vastTapir
+LightlineRight_select_1_2                            vastTapir  hurtGecko
+LightlineRight_select_1_tabsel                       vastTapir  hurtGecko
+LightlineRight_select_2                              sourDhole  hurtGecko
+LightlineRight_select_2_3                            hurtGecko  hurtGecko
+LightlineRight_select_2_tabsel                       hurtGecko  hurtGecko
+LightlineRight_select_3                              sourDhole  hurtGecko
+LightlineRight_select_3_4                            hurtGecko  hurtGecko
+LightlineRight_select_3_tabsel                       hurtGecko  hurtGecko
+LightlineRight_select_4                              sourDhole  hurtGecko
+LightlineRight_select_4_5                            hurtGecko  hurtGecko
+LightlineRight_select_4_tabsel                       hurtGecko  hurtGecko
+LightlineRight_select_5                              sourDhole  hurtGecko
+LightlineRight_select_5_6                            hurtGecko  hurtGecko
+LightlineRight_select_5_tabsel                       hurtGecko  hurtGecko
+LightlineRight_select_6                              sourDhole  hurtGecko
+LightlineRight_select_6_7                            hurtGecko  hurtGecko
+LightlineRight_select_6_tabsel                       hurtGecko  hurtGecko
+LightlineRight_select_7                              sourDhole  hurtGecko
+LightlineRight_select_7_8                            hurtGecko  hurtGecko
+LightlineRight_select_7_tabsel                       hurtGecko  hurtGecko
+LightlineRight_select_tabsel                         sourDhole  hurtGecko
+LightlineRight_select_tabsel_0                       hurtGecko  dumbPrawn
+LightlineRight_select_tabsel_1                       hurtGecko  vastTapir
+LightlineRight_select_tabsel_2                       hurtGecko  hurtGecko
+LightlineRight_select_tabsel_3                       hurtGecko  hurtGecko
+LightlineRight_select_tabsel_4                       hurtGecko  hurtGecko
+LightlineRight_select_tabsel_5                       hurtGecko  hurtGecko
+LightlineRight_select_tabsel_6                       hurtGecko  hurtGecko
+LightlineRight_select_tabsel_7                       hurtGecko  hurtGecko
+LightlineRight_select_tabsel_8                       hurtGecko  hurtGecko
+LightlineRight_select_tabsel_tabsel                  hurtGecko  hurtGecko
+LightlineRight_tabline_0                             hurtGecko  dumbPrawn
+LightlineRight_tabline_0_1                           dumbPrawn  dumbPrawn
+LightlineRight_tabline_0_tabsel                      dumbPrawn  hurtGecko
+LightlineRight_tabline_tabsel                        sourDhole  hurtGecko
+LightlineRight_tabline_tabsel_0                      hurtGecko  dumbPrawn
+LightlineRight_tabline_tabsel_1                      hurtGecko  dumbPrawn
+LightlineRight_tabline_tabsel_tabsel                 hurtGecko  hurtGecko
+LightlineRight_terminal_0                            uglyGoose  dumbPrawn
+LightlineRight_terminal_0_1                          dumbPrawn  vastTapir
+LightlineRight_terminal_0_tabsel                     dumbPrawn  hurtGecko
+LightlineRight_terminal_1                            sourDhole  vastTapir
+LightlineRight_terminal_1_2                          vastTapir  hurtGecko
+LightlineRight_terminal_1_tabsel                     vastTapir  hurtGecko
+LightlineRight_terminal_2                            sourDhole  hurtGecko
+LightlineRight_terminal_2_3                          hurtGecko  hurtGecko
+LightlineRight_terminal_2_tabsel                     hurtGecko  hurtGecko
+LightlineRight_terminal_3                            sourDhole  hurtGecko
+LightlineRight_terminal_3_4                          hurtGecko  hurtGecko
+LightlineRight_terminal_3_tabsel                     hurtGecko  hurtGecko
+LightlineRight_terminal_4                            sourDhole  hurtGecko
+LightlineRight_terminal_4_5                          hurtGecko  hurtGecko
+LightlineRight_terminal_4_tabsel                     hurtGecko  hurtGecko
+LightlineRight_terminal_5                            sourDhole  hurtGecko
+LightlineRight_terminal_5_6                          hurtGecko  hurtGecko
+LightlineRight_terminal_5_tabsel                     hurtGecko  hurtGecko
+LightlineRight_terminal_6                            sourDhole  hurtGecko
+LightlineRight_terminal_6_7                          hurtGecko  hurtGecko
+LightlineRight_terminal_6_tabsel                     hurtGecko  hurtGecko
+LightlineRight_terminal_7                            sourDhole  hurtGecko
+LightlineRight_terminal_7_8                          hurtGecko  hurtGecko
+LightlineRight_terminal_7_tabsel                     hurtGecko  hurtGecko
+LightlineRight_terminal_tabsel                       sourDhole  hurtGecko
+LightlineRight_terminal_tabsel_0                     hurtGecko  dumbPrawn
+LightlineRight_terminal_tabsel_1                     hurtGecko  vastTapir
+LightlineRight_terminal_tabsel_2                     hurtGecko  hurtGecko
+LightlineRight_terminal_tabsel_3                     hurtGecko  hurtGecko
+LightlineRight_terminal_tabsel_4                     hurtGecko  hurtGecko
+LightlineRight_terminal_tabsel_5                     hurtGecko  hurtGecko
+LightlineRight_terminal_tabsel_6                     hurtGecko  hurtGecko
+LightlineRight_terminal_tabsel_7                     hurtGecko  hurtGecko
+LightlineRight_terminal_tabsel_8                     hurtGecko  hurtGecko
+LightlineRight_terminal_tabsel_tabsel                hurtGecko  hurtGecko
+LightlineRight_visual_0                              uglyGoose  dumbPrawn
+LightlineRight_visual_0_1                            dumbPrawn  vastTapir
+LightlineRight_visual_0_tabsel                       dumbPrawn  hurtGecko
+LightlineRight_visual_1                              sourDhole  vastTapir
+LightlineRight_visual_1_2                            vastTapir  hurtGecko
+LightlineRight_visual_1_tabsel                       vastTapir  hurtGecko
+LightlineRight_visual_2                              sourDhole  hurtGecko
+LightlineRight_visual_2_3                            hurtGecko  hurtGecko
+LightlineRight_visual_2_tabsel                       hurtGecko  hurtGecko
+LightlineRight_visual_3                              sourDhole  hurtGecko
+LightlineRight_visual_3_4                            hurtGecko  hurtGecko
+LightlineRight_visual_3_tabsel                       hurtGecko  hurtGecko
+LightlineRight_visual_4                              sourDhole  hurtGecko
+LightlineRight_visual_4_5                            hurtGecko  hurtGecko
+LightlineRight_visual_4_tabsel                       hurtGecko  hurtGecko
+LightlineRight_visual_5                              sourDhole  hurtGecko
+LightlineRight_visual_5_6                            hurtGecko  hurtGecko
+LightlineRight_visual_5_tabsel                       hurtGecko  hurtGecko
+LightlineRight_visual_6                              sourDhole  hurtGecko
+LightlineRight_visual_6_7                            hurtGecko  hurtGecko
+LightlineRight_visual_6_tabsel                       hurtGecko  hurtGecko
+LightlineRight_visual_7                              sourDhole  hurtGecko
+LightlineRight_visual_7_8                            hurtGecko  hurtGecko
+LightlineRight_visual_7_tabsel                       hurtGecko  hurtGecko
+LightlineRight_visual_tabsel                         sourDhole  hurtGecko
+LightlineRight_visual_tabsel_0                       hurtGecko  dumbPrawn
+LightlineRight_visual_tabsel_1                       hurtGecko  vastTapir
+LightlineRight_visual_tabsel_2                       hurtGecko  hurtGecko
+LightlineRight_visual_tabsel_3                       hurtGecko  hurtGecko
+LightlineRight_visual_tabsel_4                       hurtGecko  hurtGecko
+LightlineRight_visual_tabsel_5                       hurtGecko  hurtGecko
+LightlineRight_visual_tabsel_6                       hurtGecko  hurtGecko
+LightlineRight_visual_tabsel_7                       hurtGecko  hurtGecko
+LightlineRight_visual_tabsel_8                       hurtGecko  hurtGecko
+LightlineRight_visual_tabsel_tabsel                  hurtGecko  hurtGecko
+LineNr                                               vastCoati  sourSloth
+MatchParen                                           sourSloth  dullQuoll
+ModeMsg                                              wildSnail  sourSloth   bold
+MoreMsg                                              vastMouse  sourSloth   bold
+MsgArea                                              wildSnail  sourSloth
+NONE                                                 wildSnail  sourSloth
+NonText                                              soreBison  sourSloth
+NormalFloat                                          wildSnail  sourSloth
+NormalNC                                             wildSnail  sourSloth
+Pmenu                                                wildSnail  goodQuoll
+PmenuSbar                                            wildSnail  sourSloth
+PmenuSel                                             wildSnail  niceMolly   bold
+PmenuThumb                                           wildSnail  soreBison
+PreProc                                              baldTiger  sourSloth
+Question                                             boldZorse  sourSloth   bold
+QuickFixLine                                         wildSnail  goodQuoll
+Removed                                              calmLiger  sourSloth
+Search                                               sourSloth  baldTiger
+SignColumn                                           wildSnail  sourSloth
+Special                                              dullQuoll  sourSloth
+SpecialKey                                           soreBison  sourSloth
+SpellBad                                             calmLiger  sourSloth   gui=undercurl term=underline
+SpellCap                                             poorHorse  sourSloth   gui=undercurl term=underline
+SpellLocal                                           baldTiger  sourSloth   gui=undercurl term=underline
+SpellRare                                            dullQuoll  sourSloth   gui=undercurl term=underline
+StartifyBracket                                      wildSnail  sourSloth
+StartifyFile                                         wildSnail  sourSloth
+StartifyFooter                                       wildSnail  sourSloth
+StartifyHeader                                       wildSnail  sourSloth
+StartifyNumber                                       wildSnail  sourSloth
+StartifyPath                                         wildSnail  sourSloth
+StartifySlash                                        wildSnail  sourSloth
+StartifySpecial                                      wildSnail  sourSloth
+Statement                                            zanyOkapi  sourSloth   bold
+StatusLine                                           poorPrawn  wildSnail   bold
+StatusLineNC                                         sourSloth  soreBison   bold
+StatusLineTerm                                       poorPrawn  vastMouse   bold
+StatusLineTermNC                                     sourSloth  poorHorse   bold
+TabLine                                              sourSloth  soreBison   underline
+TabLineFill                                          wildSnail  sourSloth   reverse
+TabLineSel                                           wildSnail  sourSloth   bold
+Title                                                baldTiger  sourSloth   bold
+Todo                                                 dullQuoll  baldMouse
+ToolbarButton                                        sourSloth  soreBison   bold
+ToolbarLine                                          wildSnail  sourSloth
+Type                                                 vastMouse  sourSloth   bold
+Underlined                                           dullQuoll  sourSloth   underline
+VertSplit                                            sourSloth  soreBison
+VimwikiBold                                          wildSnail  sourSloth   bold
+VimwikiBoldItalic                                    wildSnail  sourSloth   bold,italic
+VimwikiItalic                                        wildSnail  sourSloth   italic
+VimwikiUnderline                                     wildSnail  sourSloth   underline
+Visual                                               wildSnail  richPrawn
+VisualNOS                                            wildSnail  richKoala
+WarningMsg                                           baldTiger  sourSloth   bold
+WildMenu                                             wildSnail  baldMouse   bold
+debugBreakpoint                                      wildSnail  sourSloth
+debugPC                                              wildSnail  sourSloth
+diffAdded                                            wildSnail  sourSloth
+diffChanged                                          wildSnail  sourSloth
+diffRemoved                                          wildSnail  sourSloth
+fzf1                                                 evilMolly  warmCrane
+fzf2                                                 richCoati  warmCrane
+fzf3                                                 realLemur  warmCrane
+invisible                                            wildSnail  sourSloth
+lCursor                                              wildSnail  boldZorse
+markdownCode                                         wildSnail  sourSloth
+markdownH1                                           wildSnail  sourSloth
+; }}}
+
+Variant: 0
+
+; Highlight groups {{{
+Normal                                               omit       omit
+Added                                                omit       omit
+Changed                                              omit       omit
+CocBold                                              omit       omit
+CocCodeLens                                          omit       omit
+CocDisabled                                          omit       omit
+CocErrorFloat                                        omit       omit
+CocErrorLine                                         omit       omit
+CocErrorSign                                         omit       omit
+CocErrorVirtualText                                  omit       omit
+CocExplorerCocErrorSignColor_Internal                omit       omit
+CocExplorerCocWarningSignColor_Internal              omit       omit
+CocExplorerCommentColor_Internal                     omit       omit
+CocExplorerErrorColor_Internal                       omit       omit
+CocExplorerGitContentChange_Internal                 omit       omit
+CocExplorerGitPathChange_Internal                    omit       omit
+CocExplorerNormalColor_Internal                      omit       omit
+CocHelperNormalFloat                                 omit       omit
+CocHintFloat                                         omit       omit
+CocHintLine                                          omit       omit
+CocHintSign                                          omit       omit
+CocHintVirtualText                                   omit       omit
+CocInfoFloat                                         omit       omit
+CocInfoLine                                          omit       omit
+CocInfoSign                                          omit       omit
+CocInfoVirtualText                                   omit       omit
+CocInlayHint                                         omit       omit
+CocItalic                                            omit       omit
+CocLink                                              omit       omit
+CocListBgBlack                                       omit       omit
+CocListBgBlue                                        omit       omit
+CocListBgCyan                                        omit       omit
+CocListBgGreen                                       omit       omit
+CocListBgGrey                                        omit       omit
+CocListBgMagenta                                     omit       omit
+CocListBgRed                                         omit       omit
+CocListBgWhite                                       omit       omit
+CocListBgYellow                                      omit       omit
+CocListBlackBlack                                    omit       omit
+CocListBlackBlue                                     omit       omit
+CocListBlackCyan                                     omit       omit
+CocListBlackGreen                                    omit       omit
+CocListBlackGrey                                     omit       omit
+CocListBlackMagenta                                  omit       omit
+CocListBlackRed                                      omit       omit
+CocListBlackWhite                                    omit       omit
+CocListBlackYellow                                   omit       omit
+CocListBlueBlack                                     omit       omit
+CocListBlueBlue                                      omit       omit
+CocListBlueCyan                                      omit       omit
+CocListBlueGreen                                     omit       omit
+CocListBlueGrey                                      omit       omit
+CocListBlueMagenta                                   omit       omit
+CocListBlueRed                                       omit       omit
+CocListBlueWhite                                     omit       omit
+CocListBlueYellow                                    omit       omit
+CocListCyanBlack                                     omit       omit
+CocListCyanBlue                                      omit       omit
+CocListCyanCyan                                      omit       omit
+CocListCyanGreen                                     omit       omit
+CocListCyanGrey                                      omit       omit
+CocListCyanMagenta                                   omit       omit
+CocListCyanRed                                       omit       omit
+CocListCyanWhite                                     omit       omit
+CocListCyanYellow                                    omit       omit
+CocListFgBlack                                       omit       omit
+CocListFgBlue                                        omit       omit
+CocListFgCyan                                        omit       omit
+CocListFgGreen                                       omit       omit
+CocListFgGrey                                        omit       omit
+CocListFgMagenta                                     omit       omit
+CocListFgRed                                         omit       omit
+CocListFgWhite                                       omit       omit
+CocListFgYellow                                      omit       omit
+CocListGreenBlack                                    omit       omit
+CocListGreenBlue                                     omit       omit
+CocListGreenCyan                                     omit       omit
+CocListGreenGreen                                    omit       omit
+CocListGreenGrey                                     omit       omit
+CocListGreenMagenta                                  omit       omit
+CocListGreenRed                                      omit       omit
+CocListGreenWhite                                    omit       omit
+CocListGreenYellow                                   omit       omit
+CocListGreyBlack                                     omit       omit
+CocListGreyBlue                                      omit       omit
+CocListGreyCyan                                      omit       omit
+CocListGreyGreen                                     omit       omit
+CocListGreyGrey                                      omit       omit
+CocListGreyMagenta                                   omit       omit
+CocListGreyRed                                       omit       omit
+CocListGreyWhite                                     omit       omit
+CocListGreyYellow                                    omit       omit
+CocListLine                                          omit       omit
+CocListMagentaBlack                                  omit       omit
+CocListMagentaBlue                                   omit       omit
+CocListMagentaCyan                                   omit       omit
+CocListMagentaGreen                                  omit       omit
+CocListMagentaGrey                                   omit       omit
+CocListMagentaMagenta                                omit       omit
+CocListMagentaRed                                    omit       omit
+CocListMagentaWhite                                  omit       omit
+CocListMagentaYellow                                 omit       omit
+CocListRedBlack                                      omit       omit
+CocListRedBlue                                       omit       omit
+CocListRedCyan                                       omit       omit
+CocListRedGreen                                      omit       omit
+CocListRedGrey                                       omit       omit
+CocListRedMagenta                                    omit       omit
+CocListRedRed                                        omit       omit
+CocListRedWhite                                      omit       omit
+CocListRedYellow                                     omit       omit
+CocListWhiteBlack                                    omit       omit
+CocListWhiteBlue                                     omit       omit
+CocListWhiteCyan                                     omit       omit
+CocListWhiteGreen                                    omit       omit
+CocListWhiteGrey                                     omit       omit
+CocListWhiteMagenta                                  omit       omit
+CocListWhiteRed                                      omit       omit
+CocListWhiteWhite                                    omit       omit
+CocListWhiteYellow                                   omit       omit
+CocListYellowBlack                                   omit       omit
+CocListYellowBlue                                    omit       omit
+CocListYellowCyan                                    omit       omit
+CocListYellowGreen                                   omit       omit
+CocListYellowGrey                                    omit       omit
+CocListYellowMagenta                                 omit       omit
+CocListYellowRed                                     omit       omit
+CocListYellowWhite                                   omit       omit
+CocListYellowYellow                                  omit       omit
+CocMarkdownLink                                      omit       omit
+CocMenuSel                                           omit       omit
+CocNotificationProgress                              omit       omit
+CocSearch                                            omit       omit
+CocSelectedLine                                      omit       omit
+CocSelectedText                                      omit       omit
+CocStrikeThrough                                     omit       omit
+CocSymbolArray                                       omit       omit
+CocSymbolBoolean                                     omit       omit
+CocSymbolClass                                       omit       omit
+CocSymbolColor                                       omit       omit
+CocSymbolConstant                                    omit       omit
+CocSymbolConstructor                                 omit       omit
+CocSymbolEnum                                        omit       omit
+CocSymbolEnumMember                                  omit       omit
+CocSymbolEvent                                       omit       omit
+CocSymbolField                                       omit       omit
+CocSymbolFile                                        omit       omit
+CocSymbolFolder                                      omit       omit
+CocSymbolFunction                                    omit       omit
+CocSymbolInterface                                   omit       omit
+CocSymbolKey                                         omit       omit
+CocSymbolKeyword                                     omit       omit
+CocSymbolMethod                                      omit       omit
+CocSymbolModule                                      omit       omit
+CocSymbolNamespace                                   omit       omit
+CocSymbolNull                                        omit       omit
+CocSymbolNumber                                      omit       omit
+CocSymbolObject                                      omit       omit
+CocSymbolOperator                                    omit       omit
+CocSymbolPackage                                     omit       omit
+CocSymbolProperty                                    omit       omit
+CocSymbolReference                                   omit       omit
+CocSymbolSnippet                                     omit       omit
+CocSymbolString                                      omit       omit
+CocSymbolStruct                                      omit       omit
+CocSymbolText                                        omit       omit
+CocSymbolTypeParameter                               omit       omit
+CocSymbolUnit                                        omit       omit
+CocSymbolValue                                       omit       omit
+CocSymbolVariable                                    omit       omit
+CocUnderline                                         omit       omit
+CocVirtualText                                       omit       omit
+CocWarningFloat                                      omit       omit
+CocWarningLine                                       omit       omit
+CocWarningSign                                       omit       omit
+CocWarningVirtualText                                omit       omit
+ColorColumn                                          omit       omit        reverse
+ColortemplateInfoBg                                  omit       omit
+ColortemplateInfoFg                                  omit       omit
+ColortemplateInfoSp                                  omit       omit
+Comment                                              omit       omit        bold
+Conceal                                              omit       omit
+Constant                                             omit       omit        underline
+Cursor                                               omit       omit
+CursorColumn                                         omit       omit        reverse
+CursorIM                                             omit       omit
+CursorLine                                           omit       omit        underline
+CursorLineNr                                         omit       omit        bold
+DictPopupColor                                       omit       omit
+DiffAdd                                              omit       omit        bold
+DiffChange                                           omit       omit        bold
+DiffDelete                                           omit       omit        bold
+DiffText                                             omit       omit        reverse
+Directory                                            omit       omit        bold
+EndOfBuffer                                          omit       omit
+Error                                                omit       omit        reverse
+ErrorMsg                                             omit       omit        standout
+FoldColumn                                           omit       omit        standout
+Folded                                               omit       omit        standout
+GitGutterAdd                                         omit       omit
+GitGutterAddIntraLine                                omit       omit
+GitGutterAddInvisible                                omit       omit
+GitGutterChange                                      omit       omit
+GitGutterChangeInvisible                             omit       omit
+GitGutterDelete                                      omit       omit
+GitGutterDeleteIntraLine                             omit       omit
+GitGutterDeleteInvisible                             omit       omit
+Identifier                                           omit       omit        underline
+Ignore                                               omit       omit
+IncSearch                                            omit       omit        reverse
+Lf_hl_History_stlSeparator0                          omit       omit
+Lf_hl_History_stlSeparator1                          omit       omit
+Lf_hl_History_stlSeparator2                          omit       omit
+Lf_hl_History_stlSeparator3                          omit       omit
+Lf_hl_History_stlSeparator4                          omit       omit
+Lf_hl_History_stlSeparator5                          omit       omit
+Lf_hl_LineNr                                         omit       omit
+Lf_hl_cursorline                                     omit       omit
+Lf_hl_devIcons_L                                     omit       omit
+Lf_hl_devIcons___bashprofile                         omit       omit
+Lf_hl_devIcons___bashrc                              omit       omit
+Lf_hl_devIcons___ds_store                            omit       omit
+Lf_hl_devIcons___gitconfig                           omit       omit
+Lf_hl_devIcons___gitignore                           omit       omit
+Lf_hl_devIcons___gitlab__ci__yml                     omit       omit
+Lf_hl_devIcons___gvimrc                              omit       omit
+Lf_hl_devIcons___vimrc                               omit       omit
+Lf_hl_devIcons___zshrc                               omit       omit
+Lf_hl_devIcons__gvimrc                               omit       omit
+Lf_hl_devIcons__vimrc                                omit       omit
+Lf_hl_devIcons_ai                                    omit       omit
+Lf_hl_devIcons_awk                                   omit       omit
+Lf_hl_devIcons_bash                                  omit       omit
+Lf_hl_devIcons_bat                                   omit       omit
+Lf_hl_devIcons_bin                                   omit       omit
+Lf_hl_devIcons_bmp                                   omit       omit
+Lf_hl_devIcons_c                                     omit       omit
+Lf_hl_devIcons_c__                                   omit       omit
+Lf_hl_devIcons_cc                                    omit       omit
+Lf_hl_devIcons_chs                                   omit       omit
+Lf_hl_devIcons_cl                                    omit       omit
+Lf_hl_devIcons_clj                                   omit       omit
+Lf_hl_devIcons_cljc                                  omit       omit
+Lf_hl_devIcons_cljs                                  omit       omit
+Lf_hl_devIcons_cljx                                  omit       omit
+Lf_hl_devIcons_coffee                                omit       omit
+Lf_hl_devIcons_conf                                  omit       omit
+Lf_hl_devIcons_cp                                    omit       omit
+Lf_hl_devIcons_cpp                                   omit       omit
+Lf_hl_devIcons_cs                                    omit       omit
+Lf_hl_devIcons_csh                                   omit       omit
+Lf_hl_devIcons_csproj                                omit       omit
+Lf_hl_devIcons_csproj__user                          omit       omit
+Lf_hl_devIcons_css                                   omit       omit
+Lf_hl_devIcons_ctp                                   omit       omit
+Lf_hl_devIcons_cxx                                   omit       omit
+Lf_hl_devIcons_d                                     omit       omit
+Lf_hl_devIcons_dart                                  omit       omit
+Lf_hl_devIcons_db                                    omit       omit
+Lf_hl_devIcons_default                               omit       omit
+Lf_hl_devIcons_diff                                  omit       omit
+Lf_hl_devIcons_docker__compose__yml                  omit       omit
+Lf_hl_devIcons_dockerfile                            omit       omit
+Lf_hl_devIcons_dropbox                               omit       omit
+Lf_hl_devIcons_dump                                  omit       omit
+Lf_hl_devIcons_dylib                                 omit       omit
+Lf_hl_devIcons_edn                                   omit       omit
+Lf_hl_devIcons_eex                                   omit       omit
+Lf_hl_devIcons_ejs                                   omit       omit
+Lf_hl_devIcons_el                                    omit       omit
+Lf_hl_devIcons_elm                                   omit       omit
+Lf_hl_devIcons_erl                                   omit       omit
+Lf_hl_devIcons_es                                    omit       omit
+Lf_hl_devIcons_ex                                    omit       omit
+Lf_hl_devIcons_exact__match__case__sensitive__1__txt omit       omit
+Lf_hl_devIcons_exact__match__case__sensitive__2      omit       omit
+Lf_hl_devIcons_exs                                   omit       omit
+Lf_hl_devIcons_f__                                   omit       omit
+Lf_hl_devIcons_favicon__ico                          omit       omit
+Lf_hl_devIcons_fish                                  omit       omit
+Lf_hl_devIcons_fs                                    omit       omit
+Lf_hl_devIcons_fsi                                   omit       omit
+Lf_hl_devIcons_fsscript                              omit       omit
+Lf_hl_devIcons_fsx                                   omit       omit
+Lf_hl_devIcons_ft                                    omit       omit
+Lf_hl_devIcons_fth                                   omit       omit
+Lf_hl_devIcons_gif                                   omit       omit
+Lf_hl_devIcons_go                                    omit       omit
+Lf_hl_devIcons_gruntfile__coffee                     omit       omit
+Lf_hl_devIcons_gruntfile__js                         omit       omit
+Lf_hl_devIcons_gruntfile__ls                         omit       omit
+Lf_hl_devIcons_gulpfile__coffee                      omit       omit
+Lf_hl_devIcons_gulpfile__js                          omit       omit
+Lf_hl_devIcons_gulpfile__ls                          omit       omit
+Lf_hl_devIcons_gz                                    omit       omit
+Lf_hl_devIcons_h                                     omit       omit
+Lf_hl_devIcons_h32                                   omit       omit
+Lf_hl_devIcons_hbs                                   omit       omit
+Lf_hl_devIcons_hex                                   omit       omit
+Lf_hl_devIcons_hh                                    omit       omit
+Lf_hl_devIcons_hpp                                   omit       omit
+Lf_hl_devIcons_hrl                                   omit       omit
+Lf_hl_devIcons_hs                                    omit       omit
+Lf_hl_devIcons_hs__boot                              omit       omit
+Lf_hl_devIcons_htm                                   omit       omit
+Lf_hl_devIcons_html                                  omit       omit
+Lf_hl_devIcons_hxx                                   omit       omit
+Lf_hl_devIcons_icn                                   omit       omit
+Lf_hl_devIcons_ico                                   omit       omit
+Lf_hl_devIcons_ini                                   omit       omit
+Lf_hl_devIcons_jav                                   omit       omit
+Lf_hl_devIcons_java                                  omit       omit
+Lf_hl_devIcons_javascript                            omit       omit
+Lf_hl_devIcons_jl                                    omit       omit
+Lf_hl_devIcons_jpeg                                  omit       omit
+Lf_hl_devIcons_jpg                                   omit       omit
+Lf_hl_devIcons_js                                    omit       omit
+Lf_hl_devIcons_json                                  omit       omit
+Lf_hl_devIcons_jsonp                                 omit       omit
+Lf_hl_devIcons_jsx                                   omit       omit
+Lf_hl_devIcons_ksh                                   omit       omit
+Lf_hl_devIcons_less                                  omit       omit
+Lf_hl_devIcons_lhs                                   omit       omit
+Lf_hl_devIcons_license                               omit       omit
+Lf_hl_devIcons_lisp                                  omit       omit
+Lf_hl_devIcons_lock                                  omit       omit
+Lf_hl_devIcons_log                                   omit       omit
+Lf_hl_devIcons_lsp                                   omit       omit
+Lf_hl_devIcons_lua                                   omit       omit
+Lf_hl_devIcons_markdown                              omit       omit
+Lf_hl_devIcons_md                                    omit       omit
+Lf_hl_devIcons_mdown                                 omit       omit
+Lf_hl_devIcons_mdwn                                  omit       omit
+Lf_hl_devIcons_mix__lock                             omit       omit
+Lf_hl_devIcons_mjs                                   omit       omit
+Lf_hl_devIcons_mkd                                   omit       omit
+Lf_hl_devIcons_mkdn                                  omit       omit
+Lf_hl_devIcons_ml                                    omit       omit
+Lf_hl_devIcons_mli                                   omit       omit
+Lf_hl_devIcons_mll                                   omit       omit
+Lf_hl_devIcons_mly                                   omit       omit
+Lf_hl_devIcons_msql                                  omit       omit
+Lf_hl_devIcons_mustache                              omit       omit
+Lf_hl_devIcons_mysql                                 omit       omit
+Lf_hl_devIcons_nix                                   omit       omit
+Lf_hl_devIcons_node_modules                          omit       omit
+Lf_hl_devIcons_php                                   omit       omit
+Lf_hl_devIcons_phtml                                 omit       omit
+Lf_hl_devIcons_pl                                    omit       omit
+Lf_hl_devIcons_plist                                 omit       omit
+Lf_hl_devIcons_pm                                    omit       omit
+Lf_hl_devIcons_png                                   omit       omit
+Lf_hl_devIcons_pp                                    omit       omit
+Lf_hl_devIcons_procfile                              omit       omit
+Lf_hl_devIcons_ps1                                   omit       omit
+Lf_hl_devIcons_psb                                   omit       omit
+Lf_hl_devIcons_psd                                   omit       omit
+Lf_hl_devIcons_ptl                                   omit       omit
+Lf_hl_devIcons_py                                    omit       omit
+Lf_hl_devIcons_pyc                                   omit       omit
+Lf_hl_devIcons_pyd                                   omit       omit
+Lf_hl_devIcons_pyi                                   omit       omit
+Lf_hl_devIcons_pyo                                   omit       omit
+Lf_hl_devIcons_pyw                                   omit       omit
+Lf_hl_devIcons_rb                                    omit       omit
+Lf_hl_devIcons_rbw                                   omit       omit
+Lf_hl_devIcons_react__jsx                            omit       omit
+Lf_hl_devIcons_rej                                   omit       omit
+Lf_hl_devIcons_rlib                                  omit       omit
+Lf_hl_devIcons_rmd                                   omit       omit
+Lf_hl_devIcons_rmeta                                 omit       omit
+Lf_hl_devIcons_rs                                    omit       omit
+Lf_hl_devIcons_rss                                   omit       omit
+Lf_hl_devIcons_sass                                  omit       omit
+Lf_hl_devIcons_scala                                 omit       omit
+Lf_hl_devIcons_scss                                  omit       omit
+Lf_hl_devIcons_sh                                    omit       omit
+Lf_hl_devIcons_slim                                  omit       omit
+Lf_hl_devIcons_sln                                   omit       omit
+Lf_hl_devIcons_smd                                   omit       omit
+Lf_hl_devIcons_so                                    omit       omit
+Lf_hl_devIcons_sql                                   omit       omit
+Lf_hl_devIcons_styl                                  omit       omit
+Lf_hl_devIcons_suo                                   omit       omit
+Lf_hl_devIcons_swift                                 omit       omit
+Lf_hl_devIcons_sys                                   omit       omit
+Lf_hl_devIcons_t                                     omit       omit
+Lf_hl_devIcons_timestamp                             omit       omit
+Lf_hl_devIcons_toml                                  omit       omit
+Lf_hl_devIcons_ts                                    omit       omit
+Lf_hl_devIcons_tsx                                   omit       omit
+Lf_hl_devIcons_twig                                  omit       omit
+Lf_hl_devIcons_txt                                   omit       omit
+Lf_hl_devIcons_ui                                    omit       omit
+Lf_hl_devIcons_vim                                   omit       omit
+Lf_hl_devIcons_vue                                   omit       omit
+Lf_hl_devIcons_wpl                                   omit       omit
+Lf_hl_devIcons_wsdl                                  omit       omit
+Lf_hl_devIcons_xcplayground                          omit       omit
+Lf_hl_devIcons_xht                                   omit       omit
+Lf_hl_devIcons_xhtml                                 omit       omit
+Lf_hl_devIcons_xlf                                   omit       omit
+Lf_hl_devIcons_xliff                                 omit       omit
+Lf_hl_devIcons_xmi                                   omit       omit
+Lf_hl_devIcons_xml                                   omit       omit
+Lf_hl_devIcons_xul                                   omit       omit
+Lf_hl_devIcons_yaml                                  omit       omit
+Lf_hl_devIcons_yaws                                  omit       omit
+Lf_hl_devIcons_yml                                   omit       omit
+Lf_hl_devIcons_zip                                   omit       omit
+Lf_hl_devIcons_zsh                                   omit       omit
+Lf_hl_dirname                                        omit       omit
+Lf_hl_filename                                       omit       omit
+Lf_hl_gitDiffAdd                                     omit       omit
+Lf_hl_gitDiffAddition                                omit       omit
+Lf_hl_gitDiffChange                                  omit       omit
+Lf_hl_gitDiffDelete                                  omit       omit
+Lf_hl_gitDiffDeletion                                omit       omit
+Lf_hl_gitDiffModification                            omit       omit
+Lf_hl_gitDiffText                                    omit       omit
+Lf_hl_gitStlAdd                                      omit       omit
+Lf_hl_gitStlChangedNum                               omit       omit
+Lf_hl_gitStlDel                                      omit       omit
+Lf_hl_gtagsHighlight                                 omit       omit
+Lf_hl_match                                          omit       omit
+Lf_hl_match0                                         omit       omit
+Lf_hl_match1                                         omit       omit
+Lf_hl_match2                                         omit       omit
+Lf_hl_match3                                         omit       omit
+Lf_hl_match4                                         omit       omit
+Lf_hl_matchRefine                                    omit       omit
+Lf_hl_nonHelp                                        omit       omit
+Lf_hl_popupBorder                                    omit       omit
+Lf_hl_popup_Cmd_History_sep0                         omit       omit
+Lf_hl_popup_History_sep0                             omit       omit
+Lf_hl_popup_History_sep1                             omit       omit
+Lf_hl_popup_History_sep2                             omit       omit
+Lf_hl_popup_History_sep3                             omit       omit
+Lf_hl_popup_History_sep4                             omit       omit
+Lf_hl_popup_History_sep5                             omit       omit
+Lf_hl_popup_blank                                    omit       omit
+Lf_hl_popup_category                                 omit       omit
+Lf_hl_popup_cwd                                      omit       omit
+Lf_hl_popup_fullPathMode                             omit       omit
+Lf_hl_popup_fuzzyMode                                omit       omit
+Lf_hl_popup_inputMode                                omit       omit
+Lf_hl_popup_inputText                                omit       omit
+Lf_hl_popup_lineInfo                                 omit       omit
+Lf_hl_popup_nameOnlyMode                             omit       omit
+Lf_hl_popup_normalMode                               omit       omit
+Lf_hl_popup_prompt                                   omit       omit
+Lf_hl_popup_regexMode                                omit       omit
+Lf_hl_popup_spin                                     omit       omit
+Lf_hl_popup_total                                    omit       omit
+Lf_hl_popup_window                                   omit       omit
+Lf_hl_rgHighlight                                    omit       omit
+Lf_hl_selection                                      omit       omit
+Lf_hl_stlBlank                                       omit       omit
+Lf_hl_stlCategory                                    omit       omit
+Lf_hl_stlCwd                                         omit       omit
+Lf_hl_stlFullPathMode                                omit       omit
+Lf_hl_stlFuzzyMode                                   omit       omit
+Lf_hl_stlLineInfo                                    omit       omit
+Lf_hl_stlName                                        omit       omit
+Lf_hl_stlNameOnlyMode                                omit       omit
+Lf_hl_stlRegexMode                                   omit       omit
+Lf_hl_stlSpin                                        omit       omit
+Lf_hl_stlTotal                                       omit       omit
+LightlineLeft_command_0                              omit       omit
+LightlineLeft_command_0_1                            omit       omit
+LightlineLeft_command_0_tabsel                       omit       omit
+LightlineLeft_command_1                              omit       omit
+LightlineLeft_command_1_2                            omit       omit
+LightlineLeft_command_1_tabsel                       omit       omit
+LightlineLeft_command_2                              omit       omit
+LightlineLeft_command_2_3                            omit       omit
+LightlineLeft_command_2_tabsel                       omit       omit
+LightlineLeft_command_3                              omit       omit
+LightlineLeft_command_3_4                            omit       omit
+LightlineLeft_command_3_tabsel                       omit       omit
+LightlineLeft_command_4                              omit       omit
+LightlineLeft_command_4_5                            omit       omit
+LightlineLeft_command_4_tabsel                       omit       omit
+LightlineLeft_command_tabsel                         omit       omit
+LightlineLeft_command_tabsel_0                       omit       omit
+LightlineLeft_command_tabsel_1                       omit       omit
+LightlineLeft_command_tabsel_2                       omit       omit
+LightlineLeft_command_tabsel_3                       omit       omit
+LightlineLeft_command_tabsel_4                       omit       omit
+LightlineLeft_command_tabsel_5                       omit       omit
+LightlineLeft_command_tabsel_tabsel                  omit       omit
+LightlineLeft_inactive_0                             omit       omit
+LightlineLeft_inactive_0_1                           omit       omit
+LightlineLeft_inactive_0_tabsel                      omit       omit
+LightlineLeft_inactive_tabsel                        omit       omit
+LightlineLeft_inactive_tabsel_0                      omit       omit
+LightlineLeft_inactive_tabsel_1                      omit       omit
+LightlineLeft_inactive_tabsel_tabsel                 omit       omit
+LightlineLeft_insert_0                               omit       omit
+LightlineLeft_insert_0_1                             omit       omit
+LightlineLeft_insert_0_tabsel                        omit       omit
+LightlineLeft_insert_1                               omit       omit
+LightlineLeft_insert_1_2                             omit       omit
+LightlineLeft_insert_1_tabsel                        omit       omit
+LightlineLeft_insert_2                               omit       omit
+LightlineLeft_insert_2_3                             omit       omit
+LightlineLeft_insert_2_tabsel                        omit       omit
+LightlineLeft_insert_3                               omit       omit
+LightlineLeft_insert_3_4                             omit       omit
+LightlineLeft_insert_3_tabsel                        omit       omit
+LightlineLeft_insert_4                               omit       omit
+LightlineLeft_insert_4_5                             omit       omit
+LightlineLeft_insert_4_tabsel                        omit       omit
+LightlineLeft_insert_tabsel                          omit       omit
+LightlineLeft_insert_tabsel_0                        omit       omit
+LightlineLeft_insert_tabsel_1                        omit       omit
+LightlineLeft_insert_tabsel_2                        omit       omit
+LightlineLeft_insert_tabsel_3                        omit       omit
+LightlineLeft_insert_tabsel_4                        omit       omit
+LightlineLeft_insert_tabsel_5                        omit       omit
+LightlineLeft_insert_tabsel_tabsel                   omit       omit
+LightlineLeft_normal_0                               omit       omit
+LightlineLeft_normal_0_1                             omit       omit
+LightlineLeft_normal_0_tabsel                        omit       omit
+LightlineLeft_normal_1                               omit       omit
+LightlineLeft_normal_1_2                             omit       omit
+LightlineLeft_normal_1_tabsel                        omit       omit
+LightlineLeft_normal_2                               omit       omit
+LightlineLeft_normal_2_3                             omit       omit
+LightlineLeft_normal_2_tabsel                        omit       omit
+LightlineLeft_normal_3                               omit       omit
+LightlineLeft_normal_3_4                             omit       omit
+LightlineLeft_normal_3_tabsel                        omit       omit
+LightlineLeft_normal_4                               omit       omit
+LightlineLeft_normal_4_5                             omit       omit
+LightlineLeft_normal_4_tabsel                        omit       omit
+LightlineLeft_normal_tabsel                          omit       omit
+LightlineLeft_normal_tabsel_0                        omit       omit
+LightlineLeft_normal_tabsel_1                        omit       omit
+LightlineLeft_normal_tabsel_2                        omit       omit
+LightlineLeft_normal_tabsel_3                        omit       omit
+LightlineLeft_normal_tabsel_4                        omit       omit
+LightlineLeft_normal_tabsel_5                        omit       omit
+LightlineLeft_normal_tabsel_tabsel                   omit       omit
+LightlineLeft_replace_0                              omit       omit
+LightlineLeft_replace_0_1                            omit       omit
+LightlineLeft_replace_0_tabsel                       omit       omit
+LightlineLeft_replace_1                              omit       omit
+LightlineLeft_replace_1_2                            omit       omit
+LightlineLeft_replace_1_tabsel                       omit       omit
+LightlineLeft_replace_2                              omit       omit
+LightlineLeft_replace_2_3                            omit       omit
+LightlineLeft_replace_2_tabsel                       omit       omit
+LightlineLeft_replace_3                              omit       omit
+LightlineLeft_replace_3_4                            omit       omit
+LightlineLeft_replace_3_tabsel                       omit       omit
+LightlineLeft_replace_4                              omit       omit
+LightlineLeft_replace_4_5                            omit       omit
+LightlineLeft_replace_4_tabsel                       omit       omit
+LightlineLeft_replace_tabsel                         omit       omit
+LightlineLeft_replace_tabsel_0                       omit       omit
+LightlineLeft_replace_tabsel_1                       omit       omit
+LightlineLeft_replace_tabsel_2                       omit       omit
+LightlineLeft_replace_tabsel_3                       omit       omit
+LightlineLeft_replace_tabsel_4                       omit       omit
+LightlineLeft_replace_tabsel_5                       omit       omit
+LightlineLeft_replace_tabsel_tabsel                  omit       omit
+LightlineLeft_select_0                               omit       omit
+LightlineLeft_select_0_1                             omit       omit
+LightlineLeft_select_0_tabsel                        omit       omit
+LightlineLeft_select_1                               omit       omit
+LightlineLeft_select_1_2                             omit       omit
+LightlineLeft_select_1_tabsel                        omit       omit
+LightlineLeft_select_2                               omit       omit
+LightlineLeft_select_2_3                             omit       omit
+LightlineLeft_select_2_tabsel                        omit       omit
+LightlineLeft_select_3                               omit       omit
+LightlineLeft_select_3_4                             omit       omit
+LightlineLeft_select_3_tabsel                        omit       omit
+LightlineLeft_select_4                               omit       omit
+LightlineLeft_select_4_5                             omit       omit
+LightlineLeft_select_4_tabsel                        omit       omit
+LightlineLeft_select_tabsel                          omit       omit
+LightlineLeft_select_tabsel_0                        omit       omit
+LightlineLeft_select_tabsel_1                        omit       omit
+LightlineLeft_select_tabsel_2                        omit       omit
+LightlineLeft_select_tabsel_3                        omit       omit
+LightlineLeft_select_tabsel_4                        omit       omit
+LightlineLeft_select_tabsel_5                        omit       omit
+LightlineLeft_select_tabsel_tabsel                   omit       omit
+LightlineLeft_tabline_0                              omit       omit
+LightlineLeft_tabline_0_1                            omit       omit
+LightlineLeft_tabline_0_tabsel                       omit       omit
+LightlineLeft_tabline_tabsel                         omit       omit
+LightlineLeft_tabline_tabsel_0                       omit       omit
+LightlineLeft_tabline_tabsel_1                       omit       omit
+LightlineLeft_tabline_tabsel_tabsel                  omit       omit
+LightlineLeft_terminal_0                             omit       omit
+LightlineLeft_terminal_0_1                           omit       omit
+LightlineLeft_terminal_0_tabsel                      omit       omit
+LightlineLeft_terminal_1                             omit       omit
+LightlineLeft_terminal_1_2                           omit       omit
+LightlineLeft_terminal_1_tabsel                      omit       omit
+LightlineLeft_terminal_2                             omit       omit
+LightlineLeft_terminal_2_3                           omit       omit
+LightlineLeft_terminal_2_tabsel                      omit       omit
+LightlineLeft_terminal_3                             omit       omit
+LightlineLeft_terminal_3_4                           omit       omit
+LightlineLeft_terminal_3_tabsel                      omit       omit
+LightlineLeft_terminal_4                             omit       omit
+LightlineLeft_terminal_4_5                           omit       omit
+LightlineLeft_terminal_4_tabsel                      omit       omit
+LightlineLeft_terminal_tabsel                        omit       omit
+LightlineLeft_terminal_tabsel_0                      omit       omit
+LightlineLeft_terminal_tabsel_1                      omit       omit
+LightlineLeft_terminal_tabsel_2                      omit       omit
+LightlineLeft_terminal_tabsel_3                      omit       omit
+LightlineLeft_terminal_tabsel_4                      omit       omit
+LightlineLeft_terminal_tabsel_5                      omit       omit
+LightlineLeft_terminal_tabsel_tabsel                 omit       omit
+LightlineLeft_visual_0                               omit       omit
+LightlineLeft_visual_0_1                             omit       omit
+LightlineLeft_visual_0_tabsel                        omit       omit
+LightlineLeft_visual_1                               omit       omit
+LightlineLeft_visual_1_2                             omit       omit
+LightlineLeft_visual_1_tabsel                        omit       omit
+LightlineLeft_visual_2                               omit       omit
+LightlineLeft_visual_2_3                             omit       omit
+LightlineLeft_visual_2_tabsel                        omit       omit
+LightlineLeft_visual_3                               omit       omit
+LightlineLeft_visual_3_4                             omit       omit
+LightlineLeft_visual_3_tabsel                        omit       omit
+LightlineLeft_visual_4                               omit       omit
+LightlineLeft_visual_4_5                             omit       omit
+LightlineLeft_visual_4_tabsel                        omit       omit
+LightlineLeft_visual_tabsel                          omit       omit
+LightlineLeft_visual_tabsel_0                        omit       omit
+LightlineLeft_visual_tabsel_1                        omit       omit
+LightlineLeft_visual_tabsel_2                        omit       omit
+LightlineLeft_visual_tabsel_3                        omit       omit
+LightlineLeft_visual_tabsel_4                        omit       omit
+LightlineLeft_visual_tabsel_5                        omit       omit
+LightlineLeft_visual_tabsel_tabsel                   omit       omit
+LightlineMiddle_command                              omit       omit
+LightlineMiddle_inactive                             omit       omit
+LightlineMiddle_insert                               omit       omit
+LightlineMiddle_normal                               omit       omit
+LightlineMiddle_replace                              omit       omit
+LightlineMiddle_select                               omit       omit
+LightlineMiddle_tabline                              omit       omit
+LightlineMiddle_terminal                             omit       omit
+LightlineMiddle_visual                               omit       omit
+LightlineRight_command_0                             omit       omit
+LightlineRight_command_0_1                           omit       omit
+LightlineRight_command_0_tabsel                      omit       omit
+LightlineRight_command_1                             omit       omit
+LightlineRight_command_1_2                           omit       omit
+LightlineRight_command_1_tabsel                      omit       omit
+LightlineRight_command_2                             omit       omit
+LightlineRight_command_2_3                           omit       omit
+LightlineRight_command_2_tabsel                      omit       omit
+LightlineRight_command_3                             omit       omit
+LightlineRight_command_3_4                           omit       omit
+LightlineRight_command_3_tabsel                      omit       omit
+LightlineRight_command_4                             omit       omit
+LightlineRight_command_4_5                           omit       omit
+LightlineRight_command_4_tabsel                      omit       omit
+LightlineRight_command_5                             omit       omit
+LightlineRight_command_5_6                           omit       omit
+LightlineRight_command_5_tabsel                      omit       omit
+LightlineRight_command_6                             omit       omit
+LightlineRight_command_6_7                           omit       omit
+LightlineRight_command_6_tabsel                      omit       omit
+LightlineRight_command_7                             omit       omit
+LightlineRight_command_7_8                           omit       omit
+LightlineRight_command_7_tabsel                      omit       omit
+LightlineRight_command_tabsel                        omit       omit
+LightlineRight_command_tabsel_0                      omit       omit
+LightlineRight_command_tabsel_1                      omit       omit
+LightlineRight_command_tabsel_2                      omit       omit
+LightlineRight_command_tabsel_3                      omit       omit
+LightlineRight_command_tabsel_4                      omit       omit
+LightlineRight_command_tabsel_5                      omit       omit
+LightlineRight_command_tabsel_6                      omit       omit
+LightlineRight_command_tabsel_7                      omit       omit
+LightlineRight_command_tabsel_8                      omit       omit
+LightlineRight_command_tabsel_tabsel                 omit       omit
+LightlineRight_inactive_0                            omit       omit
+LightlineRight_inactive_0_1                          omit       omit
+LightlineRight_inactive_0_tabsel                     omit       omit
+LightlineRight_inactive_1                            omit       omit
+LightlineRight_inactive_1_2                          omit       omit
+LightlineRight_inactive_1_tabsel                     omit       omit
+LightlineRight_inactive_tabsel                       omit       omit
+LightlineRight_inactive_tabsel_0                     omit       omit
+LightlineRight_inactive_tabsel_1                     omit       omit
+LightlineRight_inactive_tabsel_2                     omit       omit
+LightlineRight_inactive_tabsel_tabsel                omit       omit
+LightlineRight_insert_0                              omit       omit
+LightlineRight_insert_0_1                            omit       omit
+LightlineRight_insert_0_tabsel                       omit       omit
+LightlineRight_insert_1                              omit       omit
+LightlineRight_insert_1_2                            omit       omit
+LightlineRight_insert_1_tabsel                       omit       omit
+LightlineRight_insert_2                              omit       omit
+LightlineRight_insert_2_3                            omit       omit
+LightlineRight_insert_2_tabsel                       omit       omit
+LightlineRight_insert_3                              omit       omit
+LightlineRight_insert_3_4                            omit       omit
+LightlineRight_insert_3_tabsel                       omit       omit
+LightlineRight_insert_4                              omit       omit
+LightlineRight_insert_4_5                            omit       omit
+LightlineRight_insert_4_tabsel                       omit       omit
+LightlineRight_insert_5                              omit       omit
+LightlineRight_insert_5_6                            omit       omit
+LightlineRight_insert_5_tabsel                       omit       omit
+LightlineRight_insert_6                              omit       omit
+LightlineRight_insert_6_7                            omit       omit
+LightlineRight_insert_6_tabsel                       omit       omit
+LightlineRight_insert_7                              omit       omit
+LightlineRight_insert_7_8                            omit       omit
+LightlineRight_insert_7_tabsel                       omit       omit
+LightlineRight_insert_tabsel                         omit       omit
+LightlineRight_insert_tabsel_0                       omit       omit
+LightlineRight_insert_tabsel_1                       omit       omit
+LightlineRight_insert_tabsel_2                       omit       omit
+LightlineRight_insert_tabsel_3                       omit       omit
+LightlineRight_insert_tabsel_4                       omit       omit
+LightlineRight_insert_tabsel_5                       omit       omit
+LightlineRight_insert_tabsel_6                       omit       omit
+LightlineRight_insert_tabsel_7                       omit       omit
+LightlineRight_insert_tabsel_8                       omit       omit
+LightlineRight_insert_tabsel_tabsel                  omit       omit
+LightlineRight_normal_0                              omit       omit
+LightlineRight_normal_0_1                            omit       omit
+LightlineRight_normal_0_tabsel                       omit       omit
+LightlineRight_normal_1                              omit       omit
+LightlineRight_normal_1_2                            omit       omit
+LightlineRight_normal_1_tabsel                       omit       omit
+LightlineRight_normal_2                              omit       omit
+LightlineRight_normal_2_3                            omit       omit
+LightlineRight_normal_2_tabsel                       omit       omit
+LightlineRight_normal_3                              omit       omit
+LightlineRight_normal_3_4                            omit       omit
+LightlineRight_normal_3_tabsel                       omit       omit
+LightlineRight_normal_4                              omit       omit
+LightlineRight_normal_4_5                            omit       omit
+LightlineRight_normal_4_tabsel                       omit       omit
+LightlineRight_normal_5                              omit       omit
+LightlineRight_normal_5_6                            omit       omit
+LightlineRight_normal_5_tabsel                       omit       omit
+LightlineRight_normal_6                              omit       omit
+LightlineRight_normal_6_7                            omit       omit
+LightlineRight_normal_6_tabsel                       omit       omit
+LightlineRight_normal_7                              omit       omit
+LightlineRight_normal_7_8                            omit       omit
+LightlineRight_normal_7_tabsel                       omit       omit
+LightlineRight_normal_tabsel                         omit       omit
+LightlineRight_normal_tabsel_0                       omit       omit
+LightlineRight_normal_tabsel_1                       omit       omit
+LightlineRight_normal_tabsel_2                       omit       omit
+LightlineRight_normal_tabsel_3                       omit       omit
+LightlineRight_normal_tabsel_4                       omit       omit
+LightlineRight_normal_tabsel_5                       omit       omit
+LightlineRight_normal_tabsel_6                       omit       omit
+LightlineRight_normal_tabsel_7                       omit       omit
+LightlineRight_normal_tabsel_8                       omit       omit
+LightlineRight_normal_tabsel_tabsel                  omit       omit
+LightlineRight_replace_0                             omit       omit
+LightlineRight_replace_0_1                           omit       omit
+LightlineRight_replace_0_tabsel                      omit       omit
+LightlineRight_replace_1                             omit       omit
+LightlineRight_replace_1_2                           omit       omit
+LightlineRight_replace_1_tabsel                      omit       omit
+LightlineRight_replace_2                             omit       omit
+LightlineRight_replace_2_3                           omit       omit
+LightlineRight_replace_2_tabsel                      omit       omit
+LightlineRight_replace_3                             omit       omit
+LightlineRight_replace_3_4                           omit       omit
+LightlineRight_replace_3_tabsel                      omit       omit
+LightlineRight_replace_4                             omit       omit
+LightlineRight_replace_4_5                           omit       omit
+LightlineRight_replace_4_tabsel                      omit       omit
+LightlineRight_replace_5                             omit       omit
+LightlineRight_replace_5_6                           omit       omit
+LightlineRight_replace_5_tabsel                      omit       omit
+LightlineRight_replace_6                             omit       omit
+LightlineRight_replace_6_7                           omit       omit
+LightlineRight_replace_6_tabsel                      omit       omit
+LightlineRight_replace_7                             omit       omit
+LightlineRight_replace_7_8                           omit       omit
+LightlineRight_replace_7_tabsel                      omit       omit
+LightlineRight_replace_tabsel                        omit       omit
+LightlineRight_replace_tabsel_0                      omit       omit
+LightlineRight_replace_tabsel_1                      omit       omit
+LightlineRight_replace_tabsel_2                      omit       omit
+LightlineRight_replace_tabsel_3                      omit       omit
+LightlineRight_replace_tabsel_4                      omit       omit
+LightlineRight_replace_tabsel_5                      omit       omit
+LightlineRight_replace_tabsel_6                      omit       omit
+LightlineRight_replace_tabsel_7                      omit       omit
+LightlineRight_replace_tabsel_8                      omit       omit
+LightlineRight_replace_tabsel_tabsel                 omit       omit
+LightlineRight_select_0                              omit       omit
+LightlineRight_select_0_1                            omit       omit
+LightlineRight_select_0_tabsel                       omit       omit
+LightlineRight_select_1                              omit       omit
+LightlineRight_select_1_2                            omit       omit
+LightlineRight_select_1_tabsel                       omit       omit
+LightlineRight_select_2                              omit       omit
+LightlineRight_select_2_3                            omit       omit
+LightlineRight_select_2_tabsel                       omit       omit
+LightlineRight_select_3                              omit       omit
+LightlineRight_select_3_4                            omit       omit
+LightlineRight_select_3_tabsel                       omit       omit
+LightlineRight_select_4                              omit       omit
+LightlineRight_select_4_5                            omit       omit
+LightlineRight_select_4_tabsel                       omit       omit
+LightlineRight_select_5                              omit       omit
+LightlineRight_select_5_6                            omit       omit
+LightlineRight_select_5_tabsel                       omit       omit
+LightlineRight_select_6                              omit       omit
+LightlineRight_select_6_7                            omit       omit
+LightlineRight_select_6_tabsel                       omit       omit
+LightlineRight_select_7                              omit       omit
+LightlineRight_select_7_8                            omit       omit
+LightlineRight_select_7_tabsel                       omit       omit
+LightlineRight_select_tabsel                         omit       omit
+LightlineRight_select_tabsel_0                       omit       omit
+LightlineRight_select_tabsel_1                       omit       omit
+LightlineRight_select_tabsel_2                       omit       omit
+LightlineRight_select_tabsel_3                       omit       omit
+LightlineRight_select_tabsel_4                       omit       omit
+LightlineRight_select_tabsel_5                       omit       omit
+LightlineRight_select_tabsel_6                       omit       omit
+LightlineRight_select_tabsel_7                       omit       omit
+LightlineRight_select_tabsel_8                       omit       omit
+LightlineRight_select_tabsel_tabsel                  omit       omit
+LightlineRight_tabline_0                             omit       omit
+LightlineRight_tabline_0_1                           omit       omit
+LightlineRight_tabline_0_tabsel                      omit       omit
+LightlineRight_tabline_tabsel                        omit       omit
+LightlineRight_tabline_tabsel_0                      omit       omit
+LightlineRight_tabline_tabsel_1                      omit       omit
+LightlineRight_tabline_tabsel_tabsel                 omit       omit
+LightlineRight_terminal_0                            omit       omit
+LightlineRight_terminal_0_1                          omit       omit
+LightlineRight_terminal_0_tabsel                     omit       omit
+LightlineRight_terminal_1                            omit       omit
+LightlineRight_terminal_1_2                          omit       omit
+LightlineRight_terminal_1_tabsel                     omit       omit
+LightlineRight_terminal_2                            omit       omit
+LightlineRight_terminal_2_3                          omit       omit
+LightlineRight_terminal_2_tabsel                     omit       omit
+LightlineRight_terminal_3                            omit       omit
+LightlineRight_terminal_3_4                          omit       omit
+LightlineRight_terminal_3_tabsel                     omit       omit
+LightlineRight_terminal_4                            omit       omit
+LightlineRight_terminal_4_5                          omit       omit
+LightlineRight_terminal_4_tabsel                     omit       omit
+LightlineRight_terminal_5                            omit       omit
+LightlineRight_terminal_5_6                          omit       omit
+LightlineRight_terminal_5_tabsel                     omit       omit
+LightlineRight_terminal_6                            omit       omit
+LightlineRight_terminal_6_7                          omit       omit
+LightlineRight_terminal_6_tabsel                     omit       omit
+LightlineRight_terminal_7                            omit       omit
+LightlineRight_terminal_7_8                          omit       omit
+LightlineRight_terminal_7_tabsel                     omit       omit
+LightlineRight_terminal_tabsel                       omit       omit
+LightlineRight_terminal_tabsel_0                     omit       omit
+LightlineRight_terminal_tabsel_1                     omit       omit
+LightlineRight_terminal_tabsel_2                     omit       omit
+LightlineRight_terminal_tabsel_3                     omit       omit
+LightlineRight_terminal_tabsel_4                     omit       omit
+LightlineRight_terminal_tabsel_5                     omit       omit
+LightlineRight_terminal_tabsel_6                     omit       omit
+LightlineRight_terminal_tabsel_7                     omit       omit
+LightlineRight_terminal_tabsel_8                     omit       omit
+LightlineRight_terminal_tabsel_tabsel                omit       omit
+LightlineRight_visual_0                              omit       omit
+LightlineRight_visual_0_1                            omit       omit
+LightlineRight_visual_0_tabsel                       omit       omit
+LightlineRight_visual_1                              omit       omit
+LightlineRight_visual_1_2                            omit       omit
+LightlineRight_visual_1_tabsel                       omit       omit
+LightlineRight_visual_2                              omit       omit
+LightlineRight_visual_2_3                            omit       omit
+LightlineRight_visual_2_tabsel                       omit       omit
+LightlineRight_visual_3                              omit       omit
+LightlineRight_visual_3_4                            omit       omit
+LightlineRight_visual_3_tabsel                       omit       omit
+LightlineRight_visual_4                              omit       omit
+LightlineRight_visual_4_5                            omit       omit
+LightlineRight_visual_4_tabsel                       omit       omit
+LightlineRight_visual_5                              omit       omit
+LightlineRight_visual_5_6                            omit       omit
+LightlineRight_visual_5_tabsel                       omit       omit
+LightlineRight_visual_6                              omit       omit
+LightlineRight_visual_6_7                            omit       omit
+LightlineRight_visual_6_tabsel                       omit       omit
+LightlineRight_visual_7                              omit       omit
+LightlineRight_visual_7_8                            omit       omit
+LightlineRight_visual_7_tabsel                       omit       omit
+LightlineRight_visual_tabsel                         omit       omit
+LightlineRight_visual_tabsel_0                       omit       omit
+LightlineRight_visual_tabsel_1                       omit       omit
+LightlineRight_visual_tabsel_2                       omit       omit
+LightlineRight_visual_tabsel_3                       omit       omit
+LightlineRight_visual_tabsel_4                       omit       omit
+LightlineRight_visual_tabsel_5                       omit       omit
+LightlineRight_visual_tabsel_6                       omit       omit
+LightlineRight_visual_tabsel_7                       omit       omit
+LightlineRight_visual_tabsel_8                       omit       omit
+LightlineRight_visual_tabsel_tabsel                  omit       omit
+LineNr                                               omit       omit        underline
+MatchParen                                           omit       omit        reverse
+ModeMsg                                              omit       omit        bold
+MoreMsg                                              omit       omit        bold
+MsgArea                                              omit       omit
+NONE                                                 omit       omit
+NonText                                              omit       omit        bold
+NormalFloat                                          omit       omit
+NormalNC                                             omit       omit
+Pmenu                                                omit       omit
+PmenuSbar                                            omit       omit
+PmenuSel                                             omit       omit
+PmenuThumb                                           omit       omit
+PreProc                                              omit       omit        underline
+Question                                             omit       omit        standout
+QuickFixLine                                         omit       omit
+Removed                                              omit       omit
+Search                                               omit       omit        reverse
+SignColumn                                           omit       omit        standout
+Special                                              omit       omit        bold
+SpecialKey                                           omit       omit        bold
+SpellBad                                             omit       omit        reverse
+SpellCap                                             omit       omit        reverse
+SpellLocal                                           omit       omit        underline
+SpellRare                                            omit       omit        reverse
+StartifyBracket                                      omit       omit
+StartifyFile                                         omit       omit
+StartifyFooter                                       omit       omit
+StartifyHeader                                       omit       omit
+StartifyNumber                                       omit       omit
+StartifyPath                                         omit       omit
+StartifySlash                                        omit       omit
+StartifySpecial                                      omit       omit
+Statement                                            omit       omit        bold
+StatusLine                                           omit       omit        bold,reverse
+StatusLineNC                                         omit       omit        reverse
+StatusLineTerm                                       omit       omit        bold,reverse
+StatusLineTermNC                                     omit       omit        reverse
+TabLine                                              omit       omit        underline
+TabLineFill                                          omit       omit        reverse
+TabLineSel                                           omit       omit        bold
+Title                                                omit       omit        bold
+Todo                                                 omit       omit        standout
+ToolbarButton                                        omit       omit
+ToolbarLine                                          omit       omit        underline
+Type                                                 omit       omit        underline
+Underlined                                           omit       omit        underline
+VertSplit                                            omit       omit        reverse
+VimwikiBold                                          omit       omit        bold
+VimwikiBoldItalic                                    omit       omit        bold,italic
+VimwikiItalic                                        omit       omit        italic
+VimwikiUnderline                                     omit       omit        underline
+Visual                                               omit       omit
+VisualNOS                                            omit       omit        bold,underline
+WarningMsg                                           omit       omit        standout
+WildMenu                                             omit       omit        standout
+debugBreakpoint                                      omit       omit
+debugPC                                              omit       omit
+diffAdded                                            omit       omit
+diffChanged                                          omit       omit
+diffRemoved                                          omit       omit
+fzf1                                                 omit       omit
+fzf2                                                 omit       omit
+fzf3                                                 omit       omit
+invisible                                            omit       omit
+lCursor                                              omit       omit
+markdownCode                                         omit       omit
+markdownH1                                           omit       omit
+; }}}

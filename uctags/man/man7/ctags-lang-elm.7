@@ -1,0 +1,202 @@
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "CTAGS-LANG-ELM" "7" "" "6.1.0" "Universal Ctags"
+.SH NAME
+ctags-lang-elm \- Random notes about tagging Elm source code with Universal Ctags
+.SH SYNOPSIS
+.nf
+\fBctags\fP ... \-\-languages=+Elm ...
+\fBctags\fP ... \-\-language\-force=Elm ...
+\fBctags\fP ... \-\-map\-Elm=+.elm ...
+.fi
+.sp
+.SH DESCRIPTION
+.sp
+The Elm parser is a PEG parser using PackCC, which is part of the
+ctags infrastructure. It should correctly process all top level
+statements, however there is a limitation with functions embedded
+in let/in blocks. They will mostly be fine, but sometimes a
+function in a let/in block will be omitted.
+.SH EXAMPLES
+.SS Imports
+.sp
+Imported modules are tagged, and their role is \(dqimported\(dq, not \(dqdef\(dq.
+Types, functions, etc which are exposed via imported module have their
+role as \(dqexposed\(dq.
+.sp
+Exposed items are marked as being in the scope of their own module,
+not the module that\(aqs doing the importing.
+.sp
+\(dqinput.elm\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+module SomeMod exposing (..)
+
+import MyMod exposing
+  ( map
+  , Maybe
+  , Result(..)
+  , MyList(Empty)
+  )
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-o \- \-\-sort=no \-\-extras=+r \-\-fields=+r input.elm\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+SomeMod input.elm       /^module SomeMod exposing (..)$/;\(dq      m       roles:def
+MyMod   input.elm       /^import MyMod exposing$/;\(dq     m       roles:imported
+map     input.elm       /^  ( map$/;\(dq   f       module:MyMod    roles:exposed
+Maybe   input.elm       /^  , Maybe$/;\(dq t       module:MyMod    roles:exposed
+Result  input.elm       /^  , Result(..)$/;\(dq    t       module:MyMod    roles:exposed
+MyList  input.elm       /^  , MyList(Empty)$/;\(dq t       module:MyMod    roles:exposed
+Empty   input.elm       /^  , MyList(Empty)$/;\(dq c       type:MyMod.MyList       roles:exposed
+.EE
+.UNINDENT
+.UNINDENT
+.SS Namespaces
+.sp
+Namespaces are tagged and their role is \(dqdef\(dq.
+.sp
+\(dqinput.elm\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+module AMod exposing (..)
+
+import MyImport as NSpace exposing (impFunc)
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-o \- \-\-sort=no \-\-extras=+r \-\-fields=+r input.elm\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+AMod    input.elm       /^module AMod exposing (..)$/;\(dq m       roles:def
+NSpace  input.elm       /^import MyImport as NSpace exposing (impFunc)$/;\(dq      n       module:AMod     roles:def       moduleName:MyImport
+MyImport        input.elm       /^import MyImport as NSpace exposing (impFunc)$/;\(dq      m       roles:imported
+impFunc input.elm       /^import MyImport as NSpace exposing (impFunc)$/;\(dq      f       module:MyImport roles:exposed
+.EE
+.UNINDENT
+.UNINDENT
+.SS Type names
+.sp
+Constructors top level functions will have type names.
+.sp
+\(dqinput.elm\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+funcA : Int \-> Int
+funcA a = a + 1
+
+type B
+    = B1Cons
+      { x : Float
+      , y : Float
+      }
+    | B2Cons String Integer
+    | B3Cons
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-o \- \-\-sort=no \-\-extras=+r \-\-fields=+r input.elm\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+funcA   input.elm       /^funcA a = a + 1$/;\(dq   f       typeref:typename:Int \-> Int     roles:def
+B       input.elm       /^type B$/;\(dq    t       roles:def
+B1Cons  input.elm       /^    = B1Cons$/;\(dq      c       type:B  typeref:typename:{ x : Float , y : Float } \-> B roles:def
+B2Cons  input.elm       /^    | B2Cons String Integer$/;\(dq       c       type:B  typeref:typename:String \-> Integer \-> B roles:def
+B3Cons  input.elm       /^    | B3Cons$/;\(dq      c       type:B  typeref:typename:B      roles:def
+.EE
+.UNINDENT
+.UNINDENT
+.SS Function parameter lists
+.sp
+Function parameter lists can be extracted into the tags file
+signature field. They are not really function signatures, but
+it\(aqs the closest concept available in ctags.
+Use \(dq\-\-fields=+S\(dq.
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+funcA a1 a2 =
+    a1 + a2
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-sort=no \-\-extras=+r \-\-fields=+rS\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+funcA       input.elm       /^funcA a1 a2 =$/;\(dq     f       signature:a1 a2 roles:def
+.EE
+.UNINDENT
+.UNINDENT
+.SH KNOWN LIMITATIONS
+.sp
+The ctags signature field is used for function parameter lists, even
+though it\(aqs not an idea field. See above.
+.sp
+Elm requires all statements at the same logical level to have the
+same indentation. If there is additional indentation that line is part
+of the previous one. Therefore without over\-complicating the
+PEG parser we have the following limitations...
+.sp
+Sometimes functions in let/in blocks will be omitted.
+.sp
+Functions in let/in blocks will be marked as being in the scope of their
+outer function, regardless of how deeply nested the let/in block is.
+.sp
+Functions in let/in blocks won\(aqt have type names.
+.SH SEE ALSO
+.sp
+ctags(1), ctags\-client\-tools(7)
+.\" Generated by docutils manpage writer.
+.

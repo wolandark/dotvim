@@ -1,0 +1,290 @@
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "CTAGS-LANG-GDSCRIPT" "7" "" "6.1.0" "Universal Ctags"
+.SH NAME
+ctags-lang-gdscript \- Random notes about tagging GDScript source code with Universal Ctags
+.SH SYNOPSIS
+.nf
+\fBctags\fP ... \-\-languages=+GDScript ...
+\fBctags\fP ... \-\-language\-force=GDScript ...
+\fBctags\fP ... \-\-map\-GDScript=+.gd ...
+.fi
+.sp
+.SH DESCRIPTION
+.sp
+This man page gathers random notes about tagging GDScript source code
+with Universal Ctags.
+.SH STORING ANNOTATIONS
+.sp
+Like the Python parser storing decorations to \fBdecorations\fP field,
+the GDScript parser stores annotations
+starting from \fI@\fP to the language specific field, \fBannotations\fP\&.
+Though the field is enabled explicitly in following examples, the
+field is enabled by default.
+.sp
+\(dqinput.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+@export
+var s = \(dqHello\(dq
+
+@master
+func f(msg):
+        print(msg)
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-\-sort=no \-\-fields\-GDScript=+{annotations} \-o \- input.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+s       input.gd        /^var s = \(dqHello\(dq$/;\(dq   v       annotations:export
+f       input.gd        /^func f(msg):$/;\(dq      m       annotations:master
+.EE
+.UNINDENT
+.UNINDENT
+.SH EXTRACTING FUNC
+.sp
+A language object defined with \fIfunc\fP keyword is tagged with \fBmethod\fP kind.
+Like annotations, the parser stores keywords modifying \fIfunc\fP like \fIstatic\fP to
+the \fBannotations\fP field.
+.sp
+\(dqinput.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+func f(x):
+        return x
+
+static func f_s(x):
+        reutrn x
+
+remote func f_r(x):
+        return x
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-\-sort=no \-\-fields=+K \-\-fields\-GDScript=+{annotations} \-o \- input.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+f       input.gd        /^func f(x):$/;\(dq        method
+f_s     input.gd        /^static func f_s(x):$/;\(dq       method  annotations:static
+f_r     input.gd        /^remote func f_r(x):$/;\(dq       method  annotations:remote
+.EE
+.UNINDENT
+.UNINDENT
+.SH TAGGING IMPLICITLY DEFINED CLASSES
+.sp
+\(dqA file is a class!\(dq in GDScript.  A class is implicitly
+defined. Functions, variables, constants, and signals are parts of the
+class though the class is unnamed by default.
+.sp
+If the language specific extra, \fBimplicitClass\fP, is enabled, the
+parser makes a anonymous tag for the class. The parser fills the scope
+fields of the tags for all language objects defined in the file with
+the anonymous tag.
+.sp
+Let\(aqs see an example demonstrating the effect of the extra.
+.sp
+Turning off the extra:
+.sp
+\(dqinput.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+func f(x):
+        return x
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-\-fields=+KZ \-\-extras\-GDScript=\-{implicitClass} \-o \- input.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+f       input.gd        /^func f(x):$/;\(dq        method
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+Turning on the extra:
+.sp
+\(dqinput.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+func g(x):
+        return x
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-\-fields=+KZ \-\-extras\-GDScript=+{implicitClass} \-o \- input.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+anon_class_84011bee0100 input.gd        /^func g(x):$/;\(dq        class
+g       input.gd        /^func g(x):$/;\(dq        method  scope:class:anon_class_84011bee0100
+.EE
+.UNINDENT
+.UNINDENT
+.SH TAGGING THE NAME SPECIFIED WITH CLASS_NAME
+.sp
+\fIclass_name\fP is a keyword for giving a name to the implicitly defined
+class.  If \fBimplicitClass\fP is turned off, the parser just extract
+the name coming after the keyword with \fBclass\fP kind. If
+\fBimplicitClass\fP is turned on, the parser converts the anonymous tag
+to a non\-anonymous tag with the specified name.  When converting,
+the parser also updates scope fields of the other tags in the file.
+.sp
+Turning off the extra:
+.sp
+\(dqinput.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+class_name c
+
+func f(x):
+        return x
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-\-fields=+KZ \-\-extras\-GDScript=\-{implicitClass} \-o \- input.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+c       input.gd        /^class_name c$/;\(dq      class
+f       input.gd        /^func f(x):$/;\(dq        method
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+Turning on the extra:
+.sp
+\(dqinput.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+class_name C
+func g(x):
+        return x
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-\-fields=+KZ \-\-extras\-GDScript=+{implicitClass} \-o \- input.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+C       input.gd        /^class_name C$/;\(dq      class
+g       input.gd        /^func g(x):$/;\(dq        method  scope:class:C
+.EE
+.UNINDENT
+.UNINDENT
+.SH FILLING INHERITS FIELD
+.sp
+\fIextends\fP keyword specifies the super class for the implicitly defined class.
+If \fIimplicitClass\fP extra is turned on, the parser fills \fBinherits\fP field
+of the tag for the implicitly defined class with the name of super class.
+.sp
+\(dqinput.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+extends B
+class_name C
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-\-fields=+Ki \-\-extras\-GDScript=+{implicitClass} \-o \- input.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+C       input.gd        /^class_name C$/;\(dq      class   inherits:B
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+When \fI\-\-extras=+r\fP is given, the parser extracts the class specified with the
+\fIextends\fP keyword as a reference tag of \fBclass\fP kind with \fBextended\fP role.
+.sp
+\(dqinput.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+extends B
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-\-fields=+rEK \-\-extras=+r \-o \- input.gd\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+B       input.gd        /^extends B$/;\(dq class   roles:extended  extras:reference
+.EE
+.UNINDENT
+.UNINDENT
+.SH SEE ALSO
+.sp
+ctags(1)
+.\" Generated by docutils manpage writer.
+.

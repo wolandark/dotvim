@@ -1,0 +1,4 @@
+.test_fs
+build/
+vendor/
+.phpunit.result.cache

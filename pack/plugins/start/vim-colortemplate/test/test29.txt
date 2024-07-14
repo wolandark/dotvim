@@ -1,0 +1,16 @@
+Colortemplate Options: creator=0 quiet=1 source_comment=0 timestamp=0 warnings=0
+Full name:Test 29
+Short name:test29
+Author:y
+Maintainer:w
+documentation
+  @shortname_transp_bg <-- this is ok (interpolated)
+  @shortnametransp_bg  <-- ditto
+  @suppress            <-- this is ignored (not interpolated)
+enddocumentation
+Background:dark
+Color:black rgb(0,0,0) 16 Black
+Color:white #ffffff 255 White
+Normal white black
+
+; vim: ft=colortemplate

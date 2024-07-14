@@ -1,0 +1,182 @@
+.\" Man page generated from reStructuredText.
+.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.TH "CTAGS-LANG-SQL" "7" "" "6.1.0" "Universal Ctags"
+.SH NAME
+ctags-lang-sql \- The man page of the SQL parser for Universal Ctags
+.SH SYNOPSIS
+.nf
+\fBctags\fP ... [\-\-extras={guest}] \-\-languages=+SQL ...
+.fi
+.sp
+.SH DESCRIPTION
+.sp
+The SQL parser supports various SQL dialects. PostgreSQL is one of them.
+.sp
+PostgreSQL allows user\-defined functions to be written in other
+languages (\fIprocedural languages\fP) besides SQL and C [PL]\&.
+.sp
+The SQL parser makes tags for language objects in the user\-defined
+functions written in the procedural languages if the \fBguest\fP extra
+is enabled.
+.sp
+The SQL parser looks for a token coming after \fBLANGUAGE\fP keyword in
+the source code to choose a proper guest parser.
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+\&... LANGUAGE plpythonu AS \(aq... user\-defined function \(aq ...
+\&... AS $$ user\-defined function $$ LANGUAGE plv8 ...
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+In the above examples, \fBplpythonu\fP and \fBplv8\fP are the names of
+procedural languages. The SQL parser trims \fIpl\fP at the start and \fIu\fP
+at the end of the name before finding a ctags parser.  For
+\fBplpythonu\fP and \fBplv8\fP, the SQL parser extracts \fBpython\fP and
+\fBv8\fP as the candidates of guest parsers.
+.sp
+For \fBplpythonu\fP, ctags can run its Python parser.  ctags doesn\(aqt
+have a parser named \fBv8\fP\&. However, the JavaScript parser in ctags has
+\fBv8\fP as an alias. So ctags can run the JavaScript parser as the
+guest parser for \fBplv8\fP\&.
+.SH EXAMPLES
+.sp
+tagging code including a user\-defined function in a string literal [GH3006]:
+.sp
+\(dqinput.sql\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+CREATE OR REPLACE FUNCTION fun1() RETURNS VARCHAR AS \(aq
+DECLARE
+        test1_var1 VARCHAR(64) := $$ABC$$;
+        test1_var2 VARCHAR(64) := $xyz$XYZ$xyz$;
+        test1_var3     INTEGER := 1;
+BEGIN
+        RETURN  TO_CHAR(test_var3, \(aq\(aq000\(aq\(aq) || test1_var1 || test1_var2;
+END;
+\(aq LANGUAGE plpgsql;
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-o \- \-\-sort=no \-\-extras=+{guest} input.sql\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+fun1    input.sql       /^CREATE OR REPLACE FUNCTION fun1() RETURNS VARCHAR AS \(aq$/;\(dq    f
+test1_var1      input.sql       /^      test1_var1 VARCHAR(64) := $$ABC$$;$/;\(dq  v
+test1_var2      input.sql       /^      test1_var2 VARCHAR(64) := $xyz$XYZ$xyz$;$/;\(dq    v
+test1_var3      input.sql       /^      test1_var3     INTEGER := 1;$/;\(dq        v
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+tagging code including a user\-defined function in a dollar quote [GH3006]:
+.sp
+\(dqinput.sql\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+CREATE OR REPLACE FUNCTION fun2() RETURNS VARCHAR LANGUAGE plpgsql AS $$
+DECLARE
+        test2_var1 VARCHAR(64) := \(aqABC2\(aq;
+        test2_var2 VARCHAR(64) := \(aqXYZ2\(aq;
+        test2_var3        INTEGER := 2;
+BEGIN
+        RETURN  TO_CHAR(test2_var3, \(aq000\(aq) || test2_var1 || test2_var2;
+END;
+$$;
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-o \- \-\-sort=no \-\-extras=+{guest} input.sql\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+fun2    input.sql       /^CREATE OR REPLACE FUNCTION fun2() RETURNS VARCHAR LANGUAGE plpgsql AS $\e$$/;\(dq f
+test2_var1      input.sql       /^      test2_var1 VARCHAR(64) := \(aqABC2\(aq;$/;\(dq   v
+test2_var2      input.sql       /^      test2_var2 VARCHAR(64) := \(aqXYZ2\(aq;$/;\(dq   v
+test2_var3      input.sql       /^      test2_var3        INTEGER := 2;$/;\(dq     v
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+tagging code including a user\-defined written in JavaScript:
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+\-\- Derived from https://github.com/plv8/plv8/blob/r3.0alpha/sql/plv8.sql
+CREATE FUNCTION test(keys text[], vals text[]) RETURNS text AS
+$$
+        var o = {};
+        for (var i = 0; i < keys.length; i++)
+                o[keys[i]] = vals[i];
+        return JSON.stringify(o);
+$$
+LANGUAGE plv8 IMMUTABLE STRICT;
+.EE
+.UNINDENT
+.UNINDENT
+.sp
+\(dqoutput.tags\(dq
+with \(dq\-\-options=NONE \-o \- \-\-sort=no \-\-extras=+{guest} input.sql\(dq
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.EX
+test    input.sql       /^CREATE FUNCTION test(keys text[], vals text[]) RETURNS text AS$/;\(dq    f
+o       input.sql       /^      var o = {};$/;\(dq v
+.EE
+.UNINDENT
+.UNINDENT
+.SH KNOWN BUGS
+.sp
+Escape sequences (\fI\(aq\(aq\fP) in a string literal may make a guest parser confused.
+.SH SEE ALSO
+.sp
+ctags(1), ctags\-client\-tools(7)
+.SH REFERENCES
+.IP [PL] 5
+PostgreSQL 9.5.25 Documentation, \(dqChapter 39. Procedural Languages\(dq,  <https://www.postgresql.org/docs/9.5/xplang.html> 
+.IP [GH3006] 5
+@bagl\(aqs comment submitted to  <https://github.com/universal\-ctags/ctags/issues/3006> 
+.\" Generated by docutils manpage writer.
+.
