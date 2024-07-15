@@ -1,4 +1,7 @@
 history
 .git
+.github
 **/.git
+**/.github
 plugged/**/.git
+plugged/**/.github
