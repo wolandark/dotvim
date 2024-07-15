@@ -143,6 +143,7 @@ class GitLogExplorer(GitExplorer):
     def __init__(self):
         super(GitLogExplorer, self).__init__()
         self.orig_name = {}
+        self.patches = {}
 
     def generateContent(self, content):
         for line1, line2, _ in itertools.zip_longest(content, content, content):
@@ -150,8 +151,22 @@ class GitLogExplorer(GitExplorer):
             self.orig_name[commit_id] = line2
             yield line1
 
+    def generateContentPatches(self, content):
+        result = []
+        commit = None
+        for line in content:
+            if line.startswith("$"):
+                result.append(line[1:])
+                commit = line.split(None, 1)[0].lstrip("$")
+                self.patches[commit] = []
+            else:
+                self.patches[commit].append(line)
+
+        return result
+
     def getContent(self, *args, **kwargs):
         self.orig_name.clear()
+        self.patches = {}
 
         arguments_dict = kwargs.get("arguments", {})
 
@@ -162,9 +177,17 @@ class GitLogExplorer(GitExplorer):
         cmd = 'git log {} --pretty=format:"%h%d %s"'.format(options)
         if "--current-file" in arguments_dict and "current_file" in arguments_dict:
             cmd += " --name-only --follow -- {}".format(arguments_dict["current_file"])
+        elif "--current-line" in arguments_dict and "current_file" in arguments_dict:
+            cmd = 'git log {} --pretty=format:"$%h%d %s"'.format(options)
+            cmd += " -L{},{}:{}".format(arguments_dict["current_line_num"],
+                                        arguments_dict["current_line_num"],
+                                        arguments_dict["current_file"])
+            content = executor.execute(cmd, encoding=lfEval("&encoding"))
+            return self.generateContentPatches(content)
 
         if "extra" in arguments_dict:
             cmd += " " + " ".join(arguments_dict["extra"])
+
         content = executor.execute(cmd, encoding=lfEval("&encoding"))
 
         if "--current-file" in arguments_dict and "current_file" in arguments_dict:
@@ -260,10 +283,11 @@ class GitDiffCommand(GitCommand):
             extra_options += " " + " ".join(self._arguments["extra"])
 
         if self._source is not None:
-            file_name = lfGetFilePath(self._source)
-            if " " in file_name:
-                file_name = file_name.replace(' ', r'\ ')
-            extra_options += " -- {}".format(file_name)
+            if " -- " not in self._arguments["arg_line"]:
+                file_name = lfGetFilePath(self._source)
+                if " " in file_name:
+                    file_name = file_name.replace(' ', r'\ ')
+                extra_options += " -- {}".format(file_name)
         elif "--current-file" in self._arguments and "current_file" in self._arguments:
             extra_options += " -- {}".format(self._arguments["current_file"])
 
@@ -354,6 +378,8 @@ class GitLogCommand(GitCommand):
                 self._cmd += " --follow -- {}".format(self._arguments["current_file"])
 
             self._buffer_name = "LeaderF://" + self._cmd
+        elif "--current-line" in self._arguments and "current_file" in self._arguments:
+            self._buffer_name = "LeaderF://" + self._source
         else:
             sep = ' ' if os.name == 'nt' else ''
             if "--find-copies-harder" in self._arguments:
@@ -467,7 +493,7 @@ class GitShowCommand(GitCommand):
         super(GitShowCommand, self).__init__(arguments_dict, None)
 
     def buildCommandAndBufferName(self):
-        self._cmd = "git show {} -- {}".format(self._commit_id, self._file_name)
+        self._cmd = "git log -1 -p --follow {} -- {}".format(self._commit_id, self._file_name)
         self._file_type = "git"
         self._file_type_cmd = "setlocal filetype=git"
 
@@ -1026,9 +1052,16 @@ class GitBlameView(GitCommandView):
         self._highlight(current_time, date_dict)
 
     def _highlight(self, current_time, date_dict):
+        date_set = set()
         for date, timestamp in date_dict.values():
-            index = Bisect.bisect_left(self._heat_seconds, current_time - timestamp)
-            lfCmd(r"syn match Lf_hl_blame_heat_{} /\<{}\>/".format(index, date))
+            if date not in date_set:
+                date_set.add(date)
+                index = Bisect.bisect_left(self._heat_seconds, current_time - timestamp)
+                lfCmd(r"syn match Lf_hl_blame_heat_{} /\<{}\>/".format(index, date))
+
+    def clearHeatSyntax(self):
+        for i in range(len(self._heat_seconds)):
+            lfCmd("silent! syn clear Lf_hl_blame_heat_{}".format(i))
 
 
 class LfOrderedDict(OrderedDict):
@@ -1177,6 +1210,8 @@ class TreeView(GitCommandView):
             if "algorithm:" in diffopt:
                 algo = re.sub(r".*algorithm:(\w+).*", r"\1", diffopt)
                 self.setDiffAlgorithm(algo)
+            else:
+                self.setDiffAlgorithm("myers")
         else:
             self._buffer[1] = ' Side-by-side ○ Unified ◉'
         self._buffer.options['modifiable'] = False
@@ -2270,7 +2305,10 @@ class UnifiedDiffViewPanel(Panel):
             del self._hidden_views[name]
 
     def bufHidden(self, view):
-        lfCmd("silent! call leaderf#Git#ClearMatches()")
+        # window is closed if not equal
+        if int(lfEval("win_getid()")) == view.getWindowId():
+            lfCmd("silent! call leaderf#Git#ClearMatches()")
+
         name = view.getBufferName()
         if name in self._views:
             del self._views[name]
@@ -2677,13 +2715,13 @@ class UnifiedDiffViewPanel(Panel):
                 lfCmd("let b:lf_explorer_page_id = {}".format(kwargs.get("explorer_page_id", 0)))
                 lfCmd("let b:lf_diff_view_mode = 'unified'")
                 lfCmd("let b:lf_diff_view_source = {}".format(str(list(source))))
-                blame_map = lfEval("g:Lf_GitKeyMap")
-                lfCmd("nnoremap <buffer> <silent> {} :<C-U>call leaderf#Git#PreviousChange()<CR>"
-                      .format(blame_map["previous_change"]))
-                lfCmd("nnoremap <buffer> <silent> {} :<C-U>call leaderf#Git#NextChange()<CR>"
-                      .format(blame_map["next_change"]))
+                key_map = lfEval("g:Lf_GitKeyMap")
+                lfCmd("nnoremap <buffer> <silent> {} :<C-U>call leaderf#Git#PreviousChange(0)<CR>"
+                      .format(key_map["previous_change"]))
+                lfCmd("nnoremap <buffer> <silent> {} :<C-U>call leaderf#Git#NextChange(0)<CR>"
+                      .format(key_map["next_change"]))
                 lfCmd("nnoremap <buffer> <silent> {} :<C-U>call leaderf#Git#EditFile(0)<CR>"
-                      .format(blame_map["edit_file"]))
+                      .format(key_map["edit_file"]))
             else:
                 lfCmd("call win_gotoid({})".format(winid))
                 if not vim.current.buffer.name: # buffer name is empty
@@ -2878,6 +2916,14 @@ class BlamePanel(Panel):
                 self._views[buffer_name].create(-1, buf_content=outputs[0])
                 lfCmd("vertical resize {}".format(line_width + line_num_width))
                 lfCmd("noautocmd norm! {}Gzt{}G0".format(top_line, cursor_line))
+                if date_format != lfEval("b:lf_blame_date_format"):
+                    lfCmd("let b:lf_blame_date_format = '{}'".format(date_format))
+                    blame_view = self._views[buffer_name]
+                    blame_view.clearHeatSyntax()
+                    if date_format in ["iso", "iso-strict", "short"]:
+                        blame_view.highlightHeatDate1(date_format, outputs[0])
+                    else:
+                        blame_view.highlightHeatDate2(outputs[1], outputs[2])
             else:
                 winid = int(lfEval("win_getid()"))
                 blame_view = GitBlameView(self, cmd)
@@ -2896,6 +2942,8 @@ class BlamePanel(Panel):
                     blame_view.highlightHeatDate2(outputs[1], outputs[2])
                 self._owner.defineMaps(blame_winid)
                 lfCmd("let b:lf_blame_project_root = '{}'".format(self._project_root))
+                lfCmd("let b:lf_blame_date_format = '{}'".format(date_format))
+                lfCmd("let b:lf_blame_file_name = '{}'".format(escQuote(arguments_dict["blamed_file_name"])))
                 lfCmd("noautocmd norm! {}Gzt{}G0".format(top_line, cursor_line))
                 lfCmd("call win_execute({}, 'setlocal scrollbind')".format(winid))
                 lfCmd("setlocal scrollbind")
@@ -3082,6 +3130,14 @@ class ExplorerPage(object):
                 lfCmd("set diffopt-=iwhiteall")
 
         self._navigation_panel.tree_view.setDiffViewMode(self._diff_view_mode)
+
+        if self._diff_view_mode == 'side-by-side':
+            diffopt = lfEval("&diffopt")
+            if "algorithm:" in diffopt:
+                algo = re.sub(r".*algorithm:(\w+).*", r"\1", diffopt)
+                self._diff_algorithm = algo
+            else:
+                self._diff_algorithm = "myers"
 
         source = self.getExistingSource()
         self.open(False, preview=True, diff_view_source=source)
@@ -3628,9 +3684,15 @@ class GitLogExplManager(GitExplManager):
         if source is None:
             return
 
-        self._preview_panel.create(self.createGitCommand(self._arguments, source),
-                                   config,
-                                   project_root=self._project_root)
+        if "--current-line" in self._arguments and len(self._getExplorer().patches) > 0:
+            self._preview_panel.create(self.createGitCommand(self._arguments, source),
+                                       config,
+                                       buf_content=self._getExplorer().patches[source],
+                                       project_root=self._project_root)
+        else:
+            self._preview_panel.create(self.createGitCommand(self._arguments, source),
+                                       config,
+                                       project_root=self._project_root)
         self._preview_winid = self._preview_panel.getPreviewWinId()
         self._setWinOptions(self._preview_winid)
 
@@ -3648,7 +3710,10 @@ class GitLogExplManager(GitExplManager):
 
         content = self._preview_panel.getContent(source)
         if content is None:
-            self._preview_panel.createView(self.createGitCommand(self._arguments, source))
+            if "--current-line" in self._arguments and len(self._getExplorer().patches) > 0:
+                self._preview_panel.setContent(self._getExplorer().patches[source])
+            else:
+                self._preview_panel.createView(self.createGitCommand(self._arguments, source))
         else:
             self._preview_panel.setContent(content)
 
@@ -3668,6 +3733,15 @@ class GitLogExplManager(GitExplManager):
                     file_name = file_name.replace(' ', r'\ ')
                 self._arguments["current_file"] = lfRelpath(file_name)
                 self._arguments["orig_name"] = self._getExplorer().orig_name
+            elif ("--current-line" in arguments_dict
+                and vim.current.buffer.name
+                and not vim.current.buffer.options['bt']
+               ):
+                file_name = vim.current.buffer.name
+                if " " in file_name:
+                    file_name = file_name.replace(' ', r'\ ')
+                self._arguments["current_file"] = lfRelpath(file_name)
+                self._arguments["current_line_num"] = vim.current.window.cursor[0]
 
         if "--recall" in arguments_dict:
             super(GitExplManager, self).startExplorer(win_pos, *args, **kwargs)
@@ -3721,14 +3795,42 @@ class GitLogExplManager(GitExplManager):
     def _accept(self, file, mode, *args, **kwargs):
         super(GitExplManager, self)._accept(file, mode, *args, **kwargs)
 
-    def _createExplorerPage(self, commit_id, target_path=None):
+    def _createExplorerPage(self, commit_id, target_path=None, line_num=None):
         if commit_id in self._pages:
             vim.current.tabpage = self._pages[commit_id].tabpage
         else:
             self._pages[commit_id] = ExplorerPage(self._project_root, commit_id, self)
             self._pages[commit_id].create(self._arguments,
                                           GitLogExplCommand(self._arguments, commit_id),
-                                          target_path=target_path)
+                                          target_path=target_path,
+                                          line_num=line_num)
+
+    def _getPathAndLineNum(self, commit_id):
+        patch = self._getExplorer().patches[commit_id]
+        file_path = patch[0].rsplit(None, 1)[1][2:]
+        line_num = 1
+        count = 0
+        found = False
+        for line in patch:
+            if line.startswith("@@"):
+                found = True
+                line_numbers = line.split("+", 1)[1].split(None, 1)[0]
+                if "," in line_numbers:
+                    line_num, _ = line_numbers.split(",")
+                    line_num = int(line_num)
+                else:
+                    # @@ -1886 +1893 @@
+                    line_num = int(line_numbers)
+            elif found:
+                if line.startswith("-"):
+                    pass
+                elif line.startswith("+"):
+                    line_num += count
+                    break
+                else:
+                    count += 1
+
+        return (file_path, line_num)
 
     def _acceptSelection(self, *args, **kwargs):
         if len(args) == 0:
@@ -3754,6 +3856,22 @@ class GitLogExplManager(GitExplManager):
                 if len(outputs[0]) > 0:
                     _, source = TreeView.generateSource(outputs[0][0])
                     self._diff_view_panel.create(self._arguments, source, **kwargs)
+        elif "--current-line" in self._arguments and len(self._getExplorer().patches) > 0:
+            if "--explorer" in self._arguments:
+                file_path, line_num = self._getPathAndLineNum(commit_id)
+                self._createExplorerPage(commit_id, file_path, line_num)
+            else:
+                if kwargs.get("mode", '') == 't' and commit_id not in self._result_panel.getSources():
+                    self._arguments["mode"] = 't'
+                    lfCmd("tabnew")
+
+                tabpage_count = len(vim.tabpages)
+
+                self._result_panel.create(self.createGitCommand(self._arguments, commit_id),
+                                          self._getExplorer().patches[commit_id])
+
+                if kwargs.get("mode", '') == 't' and len(vim.tabpages) > tabpage_count:
+                    tabmove()
         elif "--explorer" in self._arguments:
             self._createExplorerPage(commit_id)
         else:
@@ -3813,6 +3931,51 @@ class GitBlameExplManager(GitExplManager):
         lfCmd("call win_execute({}, 'setlocal noswapfile')".format(winid))
         lfCmd("call win_execute({}, 'setlocal nospell')".format(winid))
 
+    def getLineNumber(self, commit_id, file_name, line_num, text, project_root):
+        cmd = 'git log -1 -p --pretty= -U0 --follow {} -- {}'.format(commit_id, file_name)
+        outputs = ParallelExecutor.run(cmd, directory=project_root)
+        found = False
+        for i, line in enumerate(outputs[0]):
+            # @@ -2,11 +2,21 @@
+            if line.startswith("@@"):
+                line_numbers = line.split("+", 1)[1].split(None, 1)[0]
+                if "," in line_numbers:
+                    start, count = line_numbers.split(",")
+                    start = int(start)
+                    count = int(count)
+                else:
+                    # @@ -1886 +1893 @@
+                    start = int(line_numbers)
+                    count = 1
+
+                if start + count > line_num:
+                    found = True
+                    orig_line_numbers = line.split(None, 2)[1].lstrip("-")
+                    if "," in orig_line_numbers:
+                        orig_start, orig_count = orig_line_numbers.split(",")
+                        orig_start = int(orig_start)
+                        orig_count = int(orig_count)
+                    else:
+                        orig_start = int(orig_line_numbers)
+                        orig_count = 1
+
+                    if orig_count == 1 or orig_count == 0:
+                        return orig_start
+                    elif orig_count == count:
+                        return orig_start + line_num - start
+                    else:
+                        ratio = 0
+                        index = i + 1
+                        for j, line in enumerate(outputs[0][index: index + orig_count], index):
+                            r = SequenceMatcher(None, text, line).ratio()
+                            if r > ratio:
+                                ratio = r
+                                index = j
+
+                        return orig_start + index - i - 1
+
+        return line_num
+
     def blamePrevious(self):
         if vim.current.line == "":
             return
@@ -3827,11 +3990,17 @@ class GitBlameExplManager(GitExplManager):
             return
 
         line_num, file_name = vim.current.line.rsplit('\t', 1)[1].split(None, 1)
+        line_num = int(line_num)
         project_root = lfEval("b:lf_blame_project_root")
         blame_panel = self._blame_panels[project_root]
         blame_buffer_name = vim.current.buffer.name
         alternate_winid = blame_panel.getAlternateWinid(blame_buffer_name)
         blame_winid = lfEval("win_getid()")
+
+        alternate_buffer_num = int(lfEval("winbufnr({})".format(alternate_winid)))
+        text = vim.buffers[alternate_buffer_num][vim.current.window.cursor[0] - 1]
+        line_num = self.getLineNumber(commit_id, file_name, line_num, text, project_root)
+        top_line_delta = vim.current.window.cursor[0] - int(lfEval("line('w0')"))
 
         if commit_id not in blame_panel.getBlameDict(blame_buffer_name):
             cmd = 'git log -2 --pretty="%H" --name-status --follow {} -- {}'.format(commit_id,
@@ -3875,7 +4044,7 @@ class GitBlameExplManager(GitExplManager):
             if alternate_buffer_name in blame_buffer_dict:
                 blame_buffer, alternate_buffer_num = blame_buffer_dict[alternate_buffer_name]
                 lfCmd("buffer {}".format(alternate_buffer_num))
-                lfCmd("noautocmd norm! {}Gzz".format(line_num))
+                lfCmd("noautocmd norm! {}Gzt{}G0".format(line_num-top_line_delta, line_num))
                 top_line = lfEval("line('w0')")
 
                 lfCmd("noautocmd call win_gotoid({})".format(blame_winid))
@@ -3913,7 +4082,7 @@ class GitBlameExplManager(GitExplManager):
                 lfCmd("setlocal nomodifiable")
                 alternate_buffer_num = vim.current.buffer.number
 
-                lfCmd("noautocmd norm! {}Gzz".format(line_num))
+                lfCmd("noautocmd norm! {}Gzt{}G0".format(line_num-top_line_delta, line_num))
                 top_line = lfEval("line('w0')")
 
                 lfCmd("noautocmd call win_gotoid({})".format(blame_winid))
@@ -3958,7 +4127,7 @@ class GitBlameExplManager(GitExplManager):
              ) = blame_panel.getBlameDict(blame_buffer_name)[commit_id]
             lfCmd("noautocmd call win_gotoid({})".format(alternate_winid))
             lfCmd("buffer {}".format(alternate_buffer_num))
-            lfCmd("noautocmd norm! {}Gzz".format(line_num))
+            lfCmd("noautocmd norm! {}Gzt{}G0".format(line_num-top_line_delta, line_num))
             top_line = lfEval("line('w0')")
 
             lfCmd("noautocmd call win_gotoid({})".format(blame_winid))
@@ -3967,6 +4136,13 @@ class GitBlameExplManager(GitExplManager):
             lfCmd("setlocal nomodifiable")
             lfCmd("vertical resize {}".format(blame_win_width))
             lfCmd("noautocmd norm! {}Gzt{}G0".format(top_line, line_num))
+
+        if lfEval("exists('b:lf_preview_winid') && winbufnr(b:lf_preview_winid) != -1") == '1':
+            if lfEval("has('nvim')") == '1':
+                lfCmd("call nvim_win_close(b:lf_preview_winid, 1)")
+            else:
+                lfCmd("call popup_close(b:lf_preview_winid)")
+            self.preview()
 
     def blameNext(self):
         project_root = lfEval("b:lf_blame_project_root")
@@ -3981,6 +4157,7 @@ class GitBlameExplManager(GitExplManager):
 
         lfCmd("noautocmd call win_gotoid({})".format(alternate_winid))
         lfCmd("buffer {}".format(alternate_buffer_num))
+        lfCmd("noautocmd norm! {}Gzt{}G0".format(top_line, cursor_line))
 
         lfCmd("noautocmd call win_gotoid({})".format(blame_winid))
         lfCmd("setlocal modifiable")
@@ -3988,6 +4165,13 @@ class GitBlameExplManager(GitExplManager):
         lfCmd("setlocal nomodifiable")
         lfCmd("vertical resize {}".format(blame_win_width))
         lfCmd("noautocmd norm! {}Gzt{}G0".format(top_line, cursor_line))
+
+        if lfEval("exists('b:lf_preview_winid') && winbufnr(b:lf_preview_winid) != -1") == '1':
+            if lfEval("has('nvim')") == '1':
+                lfCmd("call nvim_win_close(b:lf_preview_winid, 1)")
+            else:
+                lfCmd("call popup_close(b:lf_preview_winid)")
+            self.preview()
 
     def showCommitMessage(self):
         if vim.current.line == "":
@@ -4119,14 +4303,23 @@ class GitBlameExplManager(GitExplManager):
         self._preview_panel.create(cmd, self.generateConfig(project_root), outputs[0])
         preview_winid = self._preview_panel.getPreviewWinId()
         self._setWinOptions(preview_winid)
+        lfCmd("let b:lf_preview_winid = {}".format(preview_winid))
         if lfEval("has('nvim')") == '1':
-            lfCmd("let b:lf_preview_winid = {}".format(preview_winid))
             lfCmd("call nvim_win_set_option(%d, 'number', v:false)" % preview_winid)
         else:
             lfCmd("call win_execute({}, 'setlocal nonumber')".format(preview_winid))
+            lfCmd("call win_execute({}, 'let b:lf_blame_manager_id = {}')".format(preview_winid,
+                                                                                  id(self)))
 
         self.gotoLine(preview_winid, line_num)
         lfCmd("call win_execute({}, 'setlocal filetype=diff')".format(preview_winid))
+
+    def quit(self):
+        if lfEval("has('nvim')") == '1':
+            if lfEval("exists('b:lf_preview_winid') && winbufnr(b:lf_preview_winid) != -1") == '1':
+                lfCmd("call nvim_win_close(b:lf_preview_winid, 1)")
+
+        lfCmd("bwipe")
 
     def gotoLine(self, winid, line_num):
         found = False
@@ -4147,8 +4340,9 @@ class GitBlameExplManager(GitExplManager):
                     start = int(start)
                     count = int(count)
                 else:
+                    # @@ -1886 +1893 @@
                     start = int(line_numbers)
-                    count = 0
+                    count = 1
 
                 if start + count > line_num:
                     found = True
@@ -4379,11 +4573,19 @@ class GitBlameExplManager(GitExplManager):
         arguments_dict = kwargs.get("arguments", {})
         self.setArguments(arguments_dict)
 
+        if lfEval("exists('b:lf_blame_file_name')") == "1":
+            buf_winid = int(lfEval("bufwinid(b:lf_blame_file_name)"))
+            if buf_winid != -1:
+                lfCmd("call win_gotoid({})".format(buf_winid))
+            else:
+                lfCmd("bel vsp {}".format(lfEval("b:lf_blame_file_name")))
+
         if vim.current.buffer.name and not vim.current.buffer.options['bt']:
             if not vim.current.buffer.name.startswith(self._project_root):
                 lfPrintError("fatal: '{}' is outside repository at '{}'"
                              .format(lfRelpath(vim.current.buffer.name), self._project_root))
             else:
+                self._arguments["blamed_file_name"] = vim.current.buffer.name
                 tmp_file_name = None
                 if vim.current.buffer.options["modified"]:
                     if sys.version_info >= (3, 0):

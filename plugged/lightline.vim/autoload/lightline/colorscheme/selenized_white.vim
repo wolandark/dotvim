@@ -46,4 +46,4 @@ let s:p.tabline.right = [[ s:bg_1, s:red ]]
 let s:p.tabline.left = [[ s:cyan, s:bg_2 ]]
 let s:p.tabline.tabsel = [[ s:bg_1, s:blue ]]
 
-let g:lightline#colorscheme#selenized_white#pagette = lightline#colorscheme#flatten(s:p)
+let g:lightline#colorscheme#selenized_white#palette = lightline#colorscheme#flatten(s:p)

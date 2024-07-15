@@ -67,7 +67,7 @@ def catchException(func):
     @wraps(func)
     def deco(self, *args, **kwargs):
         try:
-            func(self, *args, **kwargs)
+            return func(self, *args, **kwargs)
         except vim.error as e: # for neovim
             if str(e) != "b'Keyboard interrupt'" and str(e) != 'Keyboard interrupt':
                 raise e
@@ -131,6 +131,7 @@ class Manager(object):
         self._preview_filetype = None
         self._orig_source = None
         self._preview_config = {}
+        self.is_autocmd = False
         self._circular_scroll = lfEval("get(g:, 'Lf_EnableCircularScroll', 0)") == '1'
         if lfEval("has('patch-8.1.1615') || has('nvim-0.5.0')") == '0':
             lfCmd("let g:Lf_PreviewInPopup = 0")
@@ -432,6 +433,7 @@ class Manager(object):
         if not self._needPreview(preview, preview_in_popup):
             if preview_in_popup:
                 self._closePreviewPopup()
+                self._getInstance().enlargePopupWindow()
             return
 
         line_num = self._getInstance().window.cursor[0]
@@ -439,6 +441,10 @@ class Manager(object):
 
         if preview_in_popup:
             self._previewInPopup(line, self._getInstance().buffer, line_num)
+
+            if not self.isPreviewWindowOpen():
+                self._getInstance().enlargePopupWindow()
+
             return
 
         orig_pos = self._getInstance().getOriginalPos()
@@ -634,6 +640,8 @@ class Manager(object):
                 if the type is str, it is a file name
 
         """
+        self._getInstance().shrinkPopupWindow()
+
         self._is_previewed = True
 
         show_borders = lfEval("get(g:, 'Lf_PopupShowBorder', 1)") == '1'
@@ -2014,7 +2022,7 @@ class Manager(object):
                 if return_index == True:
                     step = 30000 * cpu_count
                 else:
-                    step = 60000 * cpu_count
+                    step = 50000 * cpu_count
 
             _, self._result_content = self._filter(step, filter_method, content, is_continue, True, return_index)
         else:
@@ -2040,9 +2048,6 @@ class Manager(object):
         else:
             self._highlight_method = highlight_method
             self._highlight_method()
-
-        if len(self._cli.pattern) > 1 and not is_continue:
-            lfCmd("silent! redraw")
 
     def _guessFilter(self, filename, suffix, dirname, icon, iterable):
         """
@@ -2930,7 +2935,7 @@ class Manager(object):
                     self._timer_id = None
 
                 lfPrintError(self._read_content_exception[1])
-                return
+                return None
             else:
                 raise self._read_content_exception[1]
 
@@ -2943,7 +2948,9 @@ class Manager(object):
                 else:
                     step = 2000
                 self._search(self._content, True, step)
-            return
+                return None
+            else:
+                return 100
 
         if content:
             i = -1
@@ -3020,6 +3027,10 @@ class Manager(object):
 
                     if bang:
                         self._getInstance().appendBuffer(self._result_content[self._initial_count:])
+                else:
+                    return 100
+            else:
+                return 100
         else:
             cur_len = len(self._content)
             if time.time() - self._start_time > 0.1:
@@ -3066,6 +3077,8 @@ class Manager(object):
 
                 if not self.isPreviewWindowOpen():
                     self._previewResult(False)
+
+        return None
 
 
     @modifiableController

@@ -297,7 +297,7 @@ function! leaderf#Git#ShowCommitMessage(message) abort
                     \ "border":          [1, 1, 1, 1],
                     \ "borderchars":     g:Lf_PopupBorders,
                     \ "borderhighlight": ["Lf_hl_popupBorder"],
-                    \ "filter":          "leaderf#Git#PreviewFilter",
+                    \ "filter":          "leaderf#Git#ShowMsgFilter",
                     \ "mapping":         0,
                     \}
 
@@ -308,6 +308,53 @@ function! leaderf#Git#ShowCommitMessage(message) abort
 endfunction
 
 function leaderf#Git#PreviewFilter(winid, key) abort
+    if a:key == "\<LeftMouse>"
+        if exists("*getmousepos")
+            let pos = getmousepos()
+            if pos.winid != a:winid
+                call popup_close(a:winid)
+            endif
+        endif
+    endif
+
+    if a:key == "\<ESC>"
+        call popup_close(a:winid)
+        return 1
+    elseif a:key == "j" || a:key == "k"
+        call popup_close(a:winid)
+        return 0
+    elseif a:key == "\<CR>"
+        call popup_close(a:winid)
+        call feedkeys("\<CR>", 't')
+        return 1
+    elseif a:key == "q"
+        call popup_close(a:winid)
+        call feedkeys("q", 't')
+        return 1
+    elseif a:key == "h"
+        let manager_id = getbufvar(winbufnr(a:winid), 'lf_blame_manager_id')
+        exec g:Lf_py "import ctypes"
+        exec g:Lf_py printf("ctypes.cast(%d, ctypes.py_object).value.blamePrevious()", manager_id)
+        return 1
+    elseif a:key == "l"
+        let manager_id = getbufvar(winbufnr(a:winid), 'lf_blame_manager_id')
+        exec g:Lf_py "import ctypes"
+        exec g:Lf_py printf("ctypes.cast(%d, ctypes.py_object).value.blameNext()", manager_id)
+        return 1
+    elseif a:key == "\<C-J>"
+        call win_execute(a:winid, "norm! j")
+        return 1
+    elseif a:key == "\<C-K>"
+        call win_execute(a:winid, "norm! k")
+        return 1
+    else
+        return leaderf#popupModePreviewFilter(a:winid, a:key)
+    endif
+
+    return 1
+endfunction
+
+function leaderf#Git#ShowMsgFilter(winid, key) abort
     if a:key == "\<LeftMouse>"
         if exists("*getmousepos")
             let pos = getmousepos()
@@ -397,6 +444,7 @@ function! leaderf#Git#BlameMaps(id) abort
     exec printf('nnoremap <buffer> <silent> l             :exec g:Lf_py "%s.blameNext()"<CR>', blame_manager)
     exec printf('nnoremap <buffer> <silent> m             :exec g:Lf_py "%s.showCommitMessage()"<CR>', blame_manager)
     exec printf('nnoremap <buffer> <silent> p             :exec g:Lf_py "%s.preview()"<CR>', blame_manager)
+    exec printf('nnoremap <buffer> <silent> q             :exec g:Lf_py "%s.quit()"<CR>', blame_manager)
     if has("nvim")
         nnoremap <buffer> <silent> j         :call leaderf#Git#CloseFloatWin()<CR>j
         nnoremap <buffer> <silent> k         :call leaderf#Git#CloseFloatWin()<CR>k
@@ -404,7 +452,6 @@ function! leaderf#Git#BlameMaps(id) abort
         nnoremap <buffer> <silent> <LeftMouse>     :call leaderf#Git#CloseFloatWinMouse()<CR><LeftMouse>
     endif
     nnoremap <buffer> <silent> <F1>          :call leaderf#Git#ShowHelp("blame")<CR>
-    nnoremap <buffer> <silent> q             :bwipe<CR>
 endfunction
 
 function! leaderf#Git#TimerCallback(manager_id, id) abort
@@ -510,6 +557,8 @@ function! leaderf#Git#Commands() abort
                     \ {"Leaderf git log --explorer --navigation-position bottom": "specify the position of navigation panel in explorer tabpage"},
                     \ {"Leaderf git log --current-file":           "fuzzy search and view the log of current file"},
                     \ {"Leaderf git log --current-file --explorer":"fuzzy search and view the log of current file in explorer tabpage"},
+                    \ {"Leaderf git log --current-line":           "fuzzy search and view the log of current line"},
+                    \ {"Leaderf git log --current-line --explorer":"fuzzy search and view the log of current line in explorer tabpage"},
                     \ {"Leaderf git blame":                        "git blame current file"},
                     \ {"Leaderf git blame -w":                     "ignore whitespace when git blame current file"},
                     \ {"Leaderf git blame --date relative":        "show relative date when git blame current file"},
@@ -628,6 +677,11 @@ function! leaderf#Git#PreviousChange(tag) abort
             exec printf("norm! %dG0", b:lf_change_start_lines[low - 1])
         endif
     else
+        call s:PreviousChange()
+    endif
+endfunction
+
+function! s:PreviousChange() abort
 exec g:Lf_py "<< EOF"
 cur_line = vim.current.window.cursor[0]
 flag = False
@@ -640,7 +694,6 @@ for i, line in enumerate(reversed(vim.current.buffer[:cur_line])):
         flag = True
 
 EOF
-    endif
 endfunction
 
 function! leaderf#Git#NextChange(tag) abort
@@ -662,6 +715,11 @@ function! leaderf#Git#NextChange(tag) abort
             exec printf("norm! %dG0", b:lf_change_start_lines[high])
         endif
     else
+        call s:NextChange()
+    endif
+endfunction
+
+function! s:NextChange() abort
 exec g:Lf_py "<< EOF"
 cur_line = vim.current.window.cursor[0] - 1
 flag = False
@@ -674,11 +732,13 @@ for i, line in enumerate(vim.current.buffer[cur_line:], cur_line):
         flag = True
 
 EOF
-    endif
 endfunction
 
 function! s:GoToFile(file_name) abort
     if !filereadable(a:file_name)
+        echohl WarningMsg
+        echo a:file_name .. " does not exist."
+        echohl None
         return
     endif
 
@@ -687,13 +747,20 @@ function! s:GoToFile(file_name) abort
         exec "tabedit " . a:file_name
     else
         let buf_ids = win_findbuf(buffer_num)
-        call win_gotoid(buf_ids[0])
+        if len(buf_ids) == 0
+            exec "tabedit " . a:file_name
+        else
+            call win_gotoid(buf_ids[0])
+        endif
     endif
 endfunction
 
 function! leaderf#Git#EditFile(tag) abort
     if a:tag == 0
         if !filereadable(b:lf_git_buffer_name)
+            echohl WarningMsg
+            echo b:lf_git_buffer_name .. " does not exist."
+            echohl None
             return
         endif
 
@@ -714,7 +781,11 @@ function! leaderf#Git#EditFile(tag) abort
             exec "tabedit " . b:lf_git_buffer_name
         else
             let buf_ids = win_findbuf(buffer_num)
-            call win_gotoid(buf_ids[0])
+            if len(buf_ids) == 0
+                exec "tabedit " . b:lf_git_buffer_name
+            else
+                call win_gotoid(buf_ids[0])
+            endif
         endif
 
         let i = start_line_num - 1

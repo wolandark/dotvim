@@ -1,3 +1,4 @@
+g:vifm_drop_gone_buffers	plugin/vifm-plugin.txt	/*g:vifm_drop_gone_buffers*
 g:vifm_embed_cwd	plugin/vifm-plugin.txt	/*g:vifm_embed_cwd*
 g:vifm_embed_split	plugin/vifm-plugin.txt	/*g:vifm_embed_split*
 g:vifm_embed_term	plugin/vifm-plugin.txt	/*g:vifm_embed_term*

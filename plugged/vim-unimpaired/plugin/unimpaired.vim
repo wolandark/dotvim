@@ -364,10 +364,10 @@ exe s:Map('n', ']o', '<Plug>(unimpaired-disable)')
 exe s:Map('n', 'yo<Esc>', '<Nop>')
 exe s:Map('n', '[o<Esc>', '<Nop>')
 exe s:Map('n', ']o<Esc>', '<Nop>')
-" exe s:Map('n', '=s', '<Plug>(unimpaired-toggle)')
+exe s:Map('n', '=s', '<Plug>(unimpaired-toggle)')
 exe s:Map('n', '<s', '<Plug>(unimpaired-enable)')
 exe s:Map('n', '>s', '<Plug>(unimpaired-disable)')
-" exe s:Map('n', '=s<Esc>', '<Nop>')
+exe s:Map('n', '=s<Esc>', '<Nop>')
 exe s:Map('n', '<s<Esc>', '<Nop>')
 exe s:Map('n', '>s<Esc>', '<Nop>')
 
@@ -438,8 +438,8 @@ exe s:Map('n', '>P', "<Plug>(unimpaired-put-above-rightward)")
 exe s:Map('n', '>p', "<Plug>(unimpaired-put-below-rightward)")
 exe s:Map('n', '<P', "<Plug>(unimpaired-put-above-leftward)")
 exe s:Map('n', '<p', "<Plug>(unimpaired-put-below-leftward)")
-" exe s:Map('n', '=P', "<Plug>(unimpaired-put-above-reformat)")
-" exe s:Map('n', '=p', "<Plug>(unimpaired-put-below-reformat)")
+exe s:Map('n', '=P', "<Plug>(unimpaired-put-above-reformat)")
+exe s:Map('n', '=p', "<Plug>(unimpaired-put-below-reformat)")
 
 " Section: Encoding and decoding
 

@@ -78,6 +78,7 @@ Plug 'junegunn/vim-after-object'
 Plug 'https://github.com/sedm0784/vim-you-autocorrect.git'
 Plug 'TaDaa/vimade'
 Plug 'ron89/thesaurus_query.vim'
+Plug 'vifm/vifm.vim'
 call plug#end()
 
 let g:tq_enabled_backends=["mthesaur_txt"]

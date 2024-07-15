@@ -74,7 +74,7 @@ call s:InitVar('g:Lf_WindowHeight', '0.5')
 call s:InitVar('g:Lf_TabpagePosition', 3)
 call s:InitVar('g:Lf_ShowRelativePath', 1)
 call s:InitVar('g:Lf_DefaultMode', 'FullPath')
-call s:InitVar('g:Lf_CursorBlink', 1)
+call s:InitVar('g:Lf_CursorBlink', 0)
 call s:InitVar('g:Lf_NeedCacheTime', '1.5')
 call s:InitVar('g:Lf_NumberOfCache', 5)
 call s:InitVar('g:Lf_UseMemoryCache', 1)
@@ -621,7 +621,9 @@ endfunction
 
 function! leaderf#Quit(manager_id) abort
     exec g:Lf_py "import ctypes"
+    exec g:Lf_py printf("ctypes.cast(%d, ctypes.py_object).value.is_autocmd = True", a:manager_id)
     exec g:Lf_py printf("ctypes.cast(%d, ctypes.py_object).value.quit()", a:manager_id)
+    exec g:Lf_py printf("ctypes.cast(%d, ctypes.py_object).value.is_autocmd = False", a:manager_id)
 endfunction
 
 function! leaderf#ResetPopupOptions(winid, option, value) abort
