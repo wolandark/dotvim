@@ -286,3 +286,20 @@ endfunction
 command! Writer call SetUpForWriting()
 
 " let g:piper_voice = '/home/woland/tmp/piper/piper-voices/en/en_US/libritts/high/en_US-libritts-high.onnx'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
