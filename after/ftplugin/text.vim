@@ -24,3 +24,4 @@ nnoremap <F3> :DDGV <CR>
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
+

@@ -186,14 +186,20 @@ function ColumnNumber()
 	return "C:" . col(".")
 endfunction
 
-" word count
-function! WordCount()
+"===[ Word Count ]==="
+let g:word_count = 0
+
+function! UpdateWordCount()
     let lines = getline(1, '$')
     let full_text = join(lines, " ")
     let words = split(full_text, '\W\+')
-    let word_count = len(words)
-    return "W:" . word_count
+    let g:word_count = len(words)
 endfunction
+
+augroup WordCount
+    autocmd!
+    autocmd BufReadPost,BufWritePost,TextChanged,TextChangedI * call UpdateWordCount()
+augroup END
 
 let g:lightline = {
 			\ 'colorscheme': 'catppuccin_mocha',
@@ -252,7 +258,7 @@ packadd comment
 packadd justify
 packadd matchit
 packadd goyo
-" packadd limelight
+packadd limelight
 " packadd vim-ddgpb
 " packadd dict
 
@@ -268,7 +274,7 @@ nnoremap Y y$
 
 function SetUpForWriting()
 	packadd goyo
-	" packadd limelight
+	packadd limelight
 	packadd vim-ddgpb
 	packadd dict
 	:Goyo
@@ -276,7 +282,7 @@ function SetUpForWriting()
 	:colo farout
 	:set so=50
 endfunction
+
 command! Writer call SetUpForWriting()
 
 " let g:piper_voice = '/home/woland/tmp/piper/piper-voices/en/en_US/libritts/high/en_US-libritts-high.onnx'
-
