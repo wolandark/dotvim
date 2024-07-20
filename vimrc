@@ -252,7 +252,7 @@ packadd comment
 packadd justify
 packadd matchit
 packadd goyo
-packadd limelight
+" packadd limelight
 " packadd vim-ddgpb
 " packadd dict
 
@@ -268,7 +268,7 @@ nnoremap Y y$
 
 function SetUpForWriting()
 	packadd goyo
-	packadd limelight
+	" packadd limelight
 	packadd vim-ddgpb
 	packadd dict
 	:Goyo
@@ -276,5 +276,7 @@ function SetUpForWriting()
 	:colo farout
 	:set so=50
 endfunction
-
 command! Writer call SetUpForWriting()
+
+" let g:piper_voice = '/home/woland/tmp/piper/piper-voices/en/en_US/libritts/high/en_US-libritts-high.onnx'
+

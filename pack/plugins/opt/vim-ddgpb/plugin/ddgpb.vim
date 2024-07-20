@@ -27,10 +27,10 @@ vim9script
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# if exists("g:loaded_ddgpb")
-# 	finish
-# endif
-# g:loaded_ddgpb = 1
+if exists("g:loaded_ddgpb")
+	finish
+endif
+g:loaded_ddgpb = 1
 
 if v:version < 900
 	echo "This plugin requires Vim 9.0 or later"
@@ -71,14 +71,31 @@ def SearchDuckDuckGo()
 	var result = system('xdg-open https://duckduckgo.com/?q=' .. word_under_cursor)
 enddef
 
+# Search with w3m in tmux pane 
+def SearchDuckDuckGoTmux()
+	var word_under_cursor = expand('<cword>')
+	var result = system('tmux split-window -h w3m https://duckduckgo.com/?q=' .. word_under_cursor)
+enddef
+
+def SearchDuckDuckGoVisuallyTmux()
+	PassVisualSelection()
+	var url = 'https://duckduckgo.com/?q=' .. g:selection
+	call system('tmux split-window -h w3m "' .. url .. '"')
+enddef
+
+
 # Commands
-command! -range DDGV call SearchDuckDuckGoVisually()
-command! DDG call SearchDuckDuckGo()
 command! -range Binint call PasteBin()
+command! -range DDGV call SearchDuckDuckGoVisually()
+command! -range DDGVT call SearchDuckDuckGoVisuallyTmux()
+command! DDG call SearchDuckDuckGo()
+command! DDGT call SearchDuckDuckGoTmux()
 
 # Mappings
-vnoremap \s :DDGV<CR>
 vnoremap \p :Binint<CR>
+vnoremap \s :DDGV<CR>
+vnoremap \t :DDGVT<CR>
 nnoremap <F3> :DDG<CR>
+nnoremap <F4> :DDGT<CR>
 
 defcompile
