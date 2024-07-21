@@ -29,12 +29,12 @@ call plug#begin()
 Plug 'ryanoasis/vim-devicons'
 Plug 'wolandark/vim-live-server', {'for':['html', 'javascript', 'css']}
 Plug 'jwalton512/vim-blade', {'for':['php','blade']}
-Plug 'rrethy/vim-hexokinase' ", { 'do': 'make hexokinase','for':['html', 'css', 'javascript', 'php', 'blade', 'markdown', 'vimwiki', 'c', 'vim']}
+Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase','for':['html', 'css', 'javascript', 'php', 'blade', 'markdown', 'vimwiki', 'c', 'vim']}
 Plug 'DougBeney/pickachu', {'for':['css','html']}
 Plug 'voldikss/vim-floaterm'
-Plug 'https://github.com/rhysd/git-messenger.vim.git'
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
+Plug 'https://github.com/rhysd/git-messenger.vim.git', {'for':['html','css','javascript','php','blade','markdown', 'vimwiki','c','vim']}
+Plug 'airblade/vim-gitgutter', {'for':['html','css','javascript','php','blade','markdown', 'vimwiki','c','vim']}
+Plug 'tpope/vim-fugitive', {'for':['html','css','javascript','php','blade','markdown', 'vimwiki','c','vim']}
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'https://github.com/rhysd/clever-f.vim.git'
 Plug 'https://github.com/monkoose/vim9-stargate.git'
@@ -47,7 +47,7 @@ Plug 'honza/vim-snippets', {'for':['html','css','javascript','php','blade','mark
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/vim-peekaboo'
-Plug 'https://github.com/godlygeek/tabular.git'
+Plug 'https://github.com/godlygeek/tabular.git', {'for':['markdown', 'vimwiki']}
 Plug 'https://github.com/markonm/traces.vim.git'
 Plug 'vimwiki/vimwiki'
 Plug 'https://github.com/preservim/tagbar.git', {'for':['html','css','javascript','php','blade','markdown', 'vimwiki','c']}
@@ -58,7 +58,6 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install',
 Plug 'mileszs/ack.vim'
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
 Plug 'alvan/vim-closetag', {'for':['html','css','javascript','php','blade','markdown']}
-Plug 'ptzz/lf.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'fcpg/vim-farout'
@@ -66,7 +65,7 @@ Plug 'https://github.com/habamax/vim-shout.git'
 Plug 'mbbill/undotree'
 Plug 'junegunn/vim-after-object'
 " Plug 'https://github.com/habamax/vim-ii.git'
-" Plug 'ubaldot/vim-highlight-yanked'
+Plug 'ubaldot/vim-highlight-yanked'
 " Plug 'chriskempson/base16-vim'
 " Plug 'https://github.com/Valloric/MatchTagAlways.git', {'for':['markdown','html']}
 " Plug 'tpope/vim-commentary'
@@ -75,9 +74,10 @@ Plug 'junegunn/vim-after-object'
 " Plug 'https://github.com/Rican7/php-doc-modded.git', {'for':'php'}
 " Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production', 'for':['html', 'css', 'javascript'] }
 " Plug 'fcpg/vim-fahrenheit'
-Plug 'https://github.com/sedm0784/vim-you-autocorrect.git'
+Plug 'https://github.com/sedm0784/vim-you-autocorrect.git', {'for':['text', 'markdown', 'vimwiki']}
 Plug 'TaDaa/vimade'
-Plug 'ron89/thesaurus_query.vim'
+Plug 'ron89/thesaurus_query.vim', {'for':['text', 'markdown', 'vimwiki']}
+Plug 'ptzz/lf.vim'
 Plug 'vifm/vifm.vim'
 call plug#end()
 
@@ -288,6 +288,7 @@ command! Writer call SetUpForWriting()
 " let g:piper_voice = '/home/woland/tmp/piper/piper-voices/en/en_US/libritts/high/en_US-libritts-high.onnx'
 let g:piper_voice = '/home/woland/tmp/piper/piper-voices/en/en_US/joe/medium/en_US-joe-medium.onnx'
 let g:piper_bin = '/home/woland/tmp/piper/piper-bin/piper/piper'
+
 
 
 
