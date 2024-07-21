@@ -31,11 +31,11 @@ let g:loaded_piper = 1
 "│Check vars│
 "└──────────┘
 if !exists('g:piper_bin')
-	let g:piper_bin = '/home/woland/tmp/piper/piper-bin/piper/piper'
+	let g:piper_bin = '/usr/bin/piper-tts'
 endif
 
 if !exists('g:piper_voice')
-	let g:piper_voice = '/home/woland/tmp/piper/piper-voices/en/en_US/joe/medium/en_US-joe-medium.onnx'
+	let g:piper_voice = '/usr/share/piper-voices/en/en_US/joe/medium/en_US-joe-medium.onnx'
 endif
 
 "┌────────────────────────────────────────────┐
@@ -47,7 +47,7 @@ function! PassVisualSelection()
 	let lines = getline(start[1], end[1])
 	let lines[-1] = lines[-1][ : end[2] - (&selection == 'inclusive' ? 1 : 2)]
 	let lines[0] = lines[0][start[2] - 1 : ]
-	let g:selection = join(lines, "\n")
+	let g:selection = join(lines)
 	return g:selection
 endfunction
 
@@ -90,6 +90,7 @@ endfunction
 "│Speak Visual Selection│
 "└──────────────────────┘
 function! SpeakVisualSelection()
+	let g:selection = ''
 	call PassVisualSelection()
 	" Execute the Piper command using the contents of the 'a' register
 	call system('echo "' . g:selection . '" | '. g:piper_bin .' --model '. g:piper_voice .' --output-raw | aplay -r 22050 -f S16_LE -t raw -')
@@ -118,84 +119,4 @@ nnoremap <Leader>tw :call SpeakWord()<CR>
 nnoremap <Leader>tc :call SpeakCurrentLine()<CR>
 nnoremap <Leader>tp :call SpeakCurrentParagraph()<CR>
 nnoremap <Leader>tf :call SpeakCurrentFile()<CR>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"++++++++++++++++++++++++++
-" Speaks the whole damn file
-" function! SpeakCurrentParagraph()
-"     " Yank the current paragraph to the 'a' register
-"     normal! vap"ay
-
-"     " Write the contents of register 'a' to a temporary file
-"     let temp_file = tempname()
-"     call writefile(split(@a, "\n"), temp_file)
-
-"     " Execute the Piper command using the temporary file
-"     call system('cat ' . temp_file . ' | $HOME/tmp/piper/piper-bin/piper/piper --model $HOME/tmp/piper/piper-voices/en/en_US/joe/medium/en_US-joe-medium.onnx --output-raw | aplay -r 22050 -f S16_LE -t raw -')
-
-"     " Delete the temporary file
-"     call delete(temp_file)
-
-"     " Redraw the screen to clean up
-"     redraw!
-" endfunction
-
-" " Map the function to a key combination (e.g., <Leader>p)
-" nnoremap <Leader>p :call SpeakCurrentParagraph()<CR>
-" ---------------------
-
-" function! SpeakCurrentParagraph()
-" 	Yank the current paragraph to the 'a' register
-" 	normal! vap"ay
-
-" 	" Get the contents of register 'a' and join them with '\n' to form a single string
-" 	let paragraph_text = join(split(@a, "\n"), "\n")
-
-" 	" Execute the Piper command using the contents of the paragraph
-" 	call system('echo ' . shellescape(paragraph_text) . ' | $HOME/tmp/piper/piper-bin/piper/piper --model $HOME/tmp/piper/piper-voices/en/en_US/joe/medium/en_US-joe-medium.onnx --output-raw | aplay -r 22050 -f S16_LE -t raw -')
-
-" 	" Redraw the screen to clean up
-" 	redraw!
-" endfunction
-
-" " Map the function to a key combination (e.g., <Leader>p)
-" nnoremap <Leader>tp :call SpeakCurrentParagraph()<CR>
-
-
-
+vnoremap <Leader>tv :<C-U>call SpeakVisualSelection()<CR>
