@@ -218,6 +218,8 @@ vifm-:bmgo	app/vifm-app.txt	/*vifm-:bmgo*
 vifm-:c	app/vifm-app.txt	/*vifm-:c*
 vifm-:ca	app/vifm-app.txt	/*vifm-:ca*
 vifm-:cabbrev	app/vifm-app.txt	/*vifm-:cabbrev*
+vifm-:cal	app/vifm-app.txt	/*vifm-:cal*
+vifm-:call	app/vifm-app.txt	/*vifm-:call*
 vifm-:cd	app/vifm-app.txt	/*vifm-:cd*
 vifm-:cds	app/vifm-app.txt	/*vifm-:cds*
 vifm-:change	app/vifm-app.txt	/*vifm-:change*
@@ -345,8 +347,10 @@ vifm-:norm	app/vifm-app.txt	/*vifm-:norm*
 vifm-:normal	app/vifm-app.txt	/*vifm-:normal*
 vifm-:nun	app/vifm-app.txt	/*vifm-:nun*
 vifm-:nunmap	app/vifm-app.txt	/*vifm-:nunmap*
+vifm-:o	app/vifm-app.txt	/*vifm-:o*
 vifm-:on	app/vifm-app.txt	/*vifm-:on*
 vifm-:only	app/vifm-app.txt	/*vifm-:only*
+vifm-:open	app/vifm-app.txt	/*vifm-:open*
 vifm-:plugin	app/vifm-app.txt	/*vifm-:plugin*
 vifm-:plugins	app/vifm-app.txt	/*vifm-:plugins*
 vifm-:popd	app/vifm-app.txt	/*vifm-:popd*
@@ -442,6 +446,7 @@ vifm-:w	app/vifm-app.txt	/*vifm-:w*
 vifm-:winc	app/vifm-app.txt	/*vifm-:winc*
 vifm-:wincmd	app/vifm-app.txt	/*vifm-:wincmd*
 vifm-:windo	app/vifm-app.txt	/*vifm-:windo*
+vifm-:wingo	app/vifm-app.txt	/*vifm-:wingo*
 vifm-:winrun	app/vifm-app.txt	/*vifm-:winrun*
 vifm-:wq	app/vifm-app.txt	/*vifm-:wq*
 vifm-:wqa	app/vifm-app.txt	/*vifm-:wqa*

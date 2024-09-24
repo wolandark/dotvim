@@ -1158,11 +1158,11 @@ var require_commonjs = __commonJS({
       return (f) => f.length === len && f !== "." && f !== "..";
     };
     var defaultPlatform = typeof process === "object" && process ? typeof process.env === "object" && process.env && process.env.__MINIMATCH_TESTING_PLATFORM__ || process.platform : "posix";
-    var path2 = {
+    var path3 = {
       win32: { sep: "\\" },
       posix: { sep: "/" }
     };
-    exports2.sep = defaultPlatform === "win32" ? path2.win32.sep : path2.posix.sep;
+    exports2.sep = defaultPlatform === "win32" ? path3.win32.sep : path3.posix.sep;
     exports2.minimatch.sep = exports2.sep;
     exports2.GLOBSTAR = Symbol("globstar **");
     exports2.minimatch.GLOBSTAR = exports2.GLOBSTAR;
@@ -4316,12 +4316,12 @@ var require_commonjs4 = __commonJS({
       /**
        * Get the Path object referenced by the string path, resolved from this Path
        */
-      resolve(path2) {
-        if (!path2) {
+      resolve(path3) {
+        if (!path3) {
           return this;
         }
-        const rootPath = this.getRootString(path2);
-        const dir = path2.substring(rootPath.length);
+        const rootPath = this.getRootString(path3);
+        const dir = path3.substring(rootPath.length);
         const dirParts = dir.split(this.splitSep);
         const result = rootPath ? this.getRoot(rootPath).#resolveParts(dirParts) : this.#resolveParts(dirParts);
         return result;
@@ -5074,8 +5074,8 @@ var require_commonjs4 = __commonJS({
       /**
        * @internal
        */
-      getRootString(path2) {
-        return node_path_1.win32.parse(path2).root;
+      getRootString(path3) {
+        return node_path_1.win32.parse(path3).root;
       }
       /**
        * @internal
@@ -5122,8 +5122,8 @@ var require_commonjs4 = __commonJS({
       /**
        * @internal
        */
-      getRootString(path2) {
-        return path2.startsWith("/") ? "/" : "";
+      getRootString(path3) {
+        return path3.startsWith("/") ? "/" : "";
       }
       /**
        * @internal
@@ -5213,11 +5213,11 @@ var require_commonjs4 = __commonJS({
       /**
        * Get the depth of a provided path, string, or the cwd
        */
-      depth(path2 = this.cwd) {
-        if (typeof path2 === "string") {
-          path2 = this.cwd.resolve(path2);
+      depth(path3 = this.cwd) {
+        if (typeof path3 === "string") {
+          path3 = this.cwd.resolve(path3);
         }
-        return path2.depth();
+        return path3.depth();
       }
       /**
        * Return the cache of child entries.  Exposed so subclasses can create
@@ -5704,9 +5704,9 @@ var require_commonjs4 = __commonJS({
         process2();
         return results;
       }
-      chdir(path2 = this.cwd) {
+      chdir(path3 = this.cwd) {
         const oldCwd = this.cwd;
-        this.cwd = typeof path2 === "string" ? this.cwd.resolve(path2) : path2;
+        this.cwd = typeof path3 === "string" ? this.cwd.resolve(path3) : path3;
         this.cwd[setAsCwd](oldCwd);
       }
     };
@@ -6089,8 +6089,8 @@ var require_processor = __commonJS({
       }
       // match, absolute, ifdir
       entries() {
-        return [...this.store.entries()].map(([path2, n]) => [
-          path2,
+        return [...this.store.entries()].map(([path3, n]) => [
+          path3,
           !!(n & 2),
           !!(n & 1)
         ]);
@@ -6307,9 +6307,9 @@ var require_walker = __commonJS({
       #sep;
       signal;
       maxDepth;
-      constructor(patterns, path2, opts) {
+      constructor(patterns, path3, opts) {
         this.patterns = patterns;
-        this.path = path2;
+        this.path = path3;
         this.opts = opts;
         this.#sep = !opts.posix && opts.platform === "win32" ? "\\" : "/";
         if (opts.ignore) {
@@ -6323,11 +6323,11 @@ var require_walker = __commonJS({
           });
         }
       }
-      #ignored(path2) {
-        return this.seen.has(path2) || !!this.#ignore?.ignored?.(path2);
+      #ignored(path3) {
+        return this.seen.has(path3) || !!this.#ignore?.ignored?.(path3);
       }
-      #childrenIgnored(path2) {
-        return !!this.#ignore?.childrenIgnored?.(path2);
+      #childrenIgnored(path3) {
+        return !!this.#ignore?.childrenIgnored?.(path3);
       }
       // backpressure mechanism
       pause() {
@@ -6539,8 +6539,8 @@ var require_walker = __commonJS({
     exports2.GlobUtil = GlobUtil;
     var GlobWalker = class extends GlobUtil {
       matches;
-      constructor(patterns, path2, opts) {
-        super(patterns, path2, opts);
+      constructor(patterns, path3, opts) {
+        super(patterns, path3, opts);
         this.matches = /* @__PURE__ */ new Set();
       }
       matchEmit(e) {
@@ -6579,8 +6579,8 @@ var require_walker = __commonJS({
     exports2.GlobWalker = GlobWalker;
     var GlobStream = class extends GlobUtil {
       results;
-      constructor(patterns, path2, opts) {
-        super(patterns, path2, opts);
+      constructor(patterns, path3, opts) {
+        super(patterns, path3, opts);
         this.results = new minipass_1.Minipass({
           signal: this.signal,
           objectMode: true
@@ -6930,10 +6930,10 @@ var require_posix = __commonJS({
     exports2.sync = exports2.isexe = void 0;
     var fs_1 = require("fs");
     var promises_1 = require("fs/promises");
-    var isexe = async (path2, options2 = {}) => {
+    var isexe = async (path3, options2 = {}) => {
       const { ignoreErrors = false } = options2;
       try {
-        return checkStat(await (0, promises_1.stat)(path2), options2);
+        return checkStat(await (0, promises_1.stat)(path3), options2);
       } catch (e) {
         const er = e;
         if (ignoreErrors || er.code === "EACCES")
@@ -6942,10 +6942,10 @@ var require_posix = __commonJS({
       }
     };
     exports2.isexe = isexe;
-    var sync = (path2, options2 = {}) => {
+    var sync = (path3, options2 = {}) => {
       const { ignoreErrors = false } = options2;
       try {
-        return checkStat((0, fs_1.statSync)(path2), options2);
+        return checkStat((0, fs_1.statSync)(path3), options2);
       } catch (e) {
         const er = e;
         if (ignoreErrors || er.code === "EACCES")
@@ -6983,10 +6983,10 @@ var require_win32 = __commonJS({
     exports2.sync = exports2.isexe = void 0;
     var fs_1 = require("fs");
     var promises_1 = require("fs/promises");
-    var isexe = async (path2, options2 = {}) => {
+    var isexe = async (path3, options2 = {}) => {
       const { ignoreErrors = false } = options2;
       try {
-        return checkStat(await (0, promises_1.stat)(path2), path2, options2);
+        return checkStat(await (0, promises_1.stat)(path3), path3, options2);
       } catch (e) {
         const er = e;
         if (ignoreErrors || er.code === "EACCES")
@@ -6995,10 +6995,10 @@ var require_win32 = __commonJS({
       }
     };
     exports2.isexe = isexe;
-    var sync = (path2, options2 = {}) => {
+    var sync = (path3, options2 = {}) => {
       const { ignoreErrors = false } = options2;
       try {
-        return checkStat((0, fs_1.statSync)(path2), path2, options2);
+        return checkStat((0, fs_1.statSync)(path3), path3, options2);
       } catch (e) {
         const er = e;
         if (ignoreErrors || er.code === "EACCES")
@@ -7007,7 +7007,7 @@ var require_win32 = __commonJS({
       }
     };
     exports2.sync = sync;
-    var checkPathExt = (path2, options2) => {
+    var checkPathExt = (path3, options2) => {
       const { pathExt = process.env.PATHEXT || "" } = options2;
       const peSplit = pathExt.split(";");
       if (peSplit.indexOf("") !== -1) {
@@ -7015,14 +7015,14 @@ var require_win32 = __commonJS({
       }
       for (let i = 0; i < peSplit.length; i++) {
         const p = peSplit[i].toLowerCase();
-        const ext = path2.substring(path2.length - p.length).toLowerCase();
+        const ext = path3.substring(path3.length - p.length).toLowerCase();
         if (p && ext === p) {
           return true;
         }
       }
       return false;
     };
-    var checkStat = (stat, path2, options2) => stat.isFile() && checkPathExt(path2, options2);
+    var checkStat = (stat, path3, options2) => stat.isFile() && checkPathExt(path3, options2);
   }
 });
 
@@ -7973,6 +7973,7 @@ var require_lrucache = __commonJS({
 // node_modules/semver/classes/range.js
 var require_range = __commonJS({
   "node_modules/semver/classes/range.js"(exports2, module2) {
+    var SPACE_CHARACTERS = /\s+/g;
     var Range12 = class _Range {
       constructor(range, options2) {
         options2 = parseOptions(options2);
@@ -7986,13 +7987,13 @@ var require_range = __commonJS({
         if (range instanceof Comparator) {
           this.raw = range.value;
           this.set = [[range]];
-          this.format();
+          this.formatted = void 0;
           return this;
         }
         this.options = options2;
         this.loose = !!options2.loose;
         this.includePrerelease = !!options2.includePrerelease;
-        this.raw = range.trim().split(/\s+/).join(" ");
+        this.raw = range.trim().replace(SPACE_CHARACTERS, " ");
         this.set = this.raw.split("||").map((r) => this.parseRange(r.trim())).filter((c) => c.length);
         if (!this.set.length) {
           throw new TypeError(`Invalid SemVer Range: ${this.raw}`);
@@ -8011,10 +8012,27 @@ var require_range = __commonJS({
             }
           }
         }
-        this.format();
+        this.formatted = void 0;
+      }
+      get range() {
+        if (this.formatted === void 0) {
+          this.formatted = "";
+          for (let i = 0; i < this.set.length; i++) {
+            if (i > 0) {
+              this.formatted += "||";
+            }
+            const comps = this.set[i];
+            for (let k = 0; k < comps.length; k++) {
+              if (k > 0) {
+                this.formatted += " ";
+              }
+              this.formatted += comps[k].toString().trim();
+            }
+          }
+        }
+        return this.formatted;
       }
       format() {
-        this.range = this.set.map((comps) => comps.join(" ").trim()).join("||").trim();
         return this.range;
       }
       toString() {
@@ -11802,7 +11820,7 @@ var init_log = __esm({
         return format(args, depth, color, showHidden);
       }
       createLogger(scope) {
-        let logger57 = this.loggers.has(scope) ? this.loggers.get(scope) : {
+        let logger59 = this.loggers.has(scope) ? this.loggers.get(scope) : {
           category: scope,
           mark: () => {
           },
@@ -11851,8 +11869,8 @@ var init_log = __esm({
             return this.promise;
           }
         };
-        this.loggers.set(scope, logger57);
-        return logger57;
+        this.loggers.set(scope, logger59);
+        return logger59;
       }
       async initialize() {
         return Promise.resolve();
@@ -14822,11 +14840,11 @@ var require_base = __commonJS({
     var events_1 = require("events");
     var logger_1 = require_logger();
     var debug = logger_1.level === "debug";
-    var logger57 = (0, logger_1.createLogger)("transport");
+    var logger59 = (0, logger_1.createLogger)("transport");
     var Transport3 = class extends events_1.EventEmitter {
-      constructor(logger58, isVim2) {
+      constructor(logger60, isVim2) {
         super();
-        this.logger = logger58;
+        this.logger = logger60;
         this.isVim = isVim2;
         this.pauseLevel = 0;
         this.paused = /* @__PURE__ */ new Map();
@@ -14834,22 +14852,22 @@ var require_base = __commonJS({
       debug(key, ...meta) {
         if (!debug)
           return;
-        logger57.debug(key, ...meta);
+        logger59.debug(key, ...meta);
       }
       info(key, ...meta) {
-        logger57.info(key, ...meta);
+        logger59.info(key, ...meta);
       }
       debugMessage(msg) {
         if (!debug)
           return;
         const msgType = msg[0];
         if (msgType == 0) {
-          logger57.debug("receive request:", msg.slice(1));
+          logger59.debug("receive request:", msg.slice(1));
         } else if (msgType == 1) {
         } else if (msgType == 2) {
-          logger57.debug("receive notification:", msg.slice(1));
+          logger59.debug("receive notification:", msg.slice(1));
         } else {
-          logger57.debug("unknown message:", msg);
+          logger59.debug("unknown message:", msg);
         }
       }
       pauseNotification() {
@@ -14944,8 +14962,8 @@ var require_nvim = __commonJS({
     var buffered_1 = __importDefault(require_buffered());
     var base_1 = __importDefault(require_base());
     var NvimTransport = class extends base_1.default {
-      constructor(logger57) {
-        super(logger57, false);
+      constructor(logger59) {
+        super(logger59, false);
         this.pending = /* @__PURE__ */ new Map();
         this.nextRequestId = 1;
         this.attached = false;
@@ -15099,7 +15117,7 @@ var require_connection = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     var events_1 = __importDefault(require("events"));
     var logger_1 = require_logger();
-    var logger57 = (0, logger_1.createLogger)("connection");
+    var logger59 = (0, logger_1.createLogger)("connection");
     var NR_CODE = 10;
     var Connection2 = class extends events_1.default {
       constructor(readable, writeable) {
@@ -15136,7 +15154,7 @@ var require_connection = __commonJS({
         };
         readable.on("data", onData);
         let onClose = () => {
-          logger57.warn("readable stream closed.");
+          logger59.warn("readable stream closed.");
         };
         readable.on("close", onClose);
         this.clean = () => {
@@ -15156,13 +15174,13 @@ var require_connection = __commonJS({
         }
         let [id, obj] = arr;
         if (id > 0) {
-          logger57.debug("received request:", id, obj);
+          logger59.debug("received request:", id, obj);
           this.emit("request", id, obj);
         } else if (id == 0) {
-          logger57.debug("received notification:", obj);
+          logger59.debug("received notification:", obj);
           this.emit("notification", obj);
         } else {
-          logger57.debug("received response:", id, obj);
+          logger59.debug("received response:", id, obj);
           this.emit("response", id, obj);
         }
       }
@@ -15173,7 +15191,7 @@ var require_connection = __commonJS({
         this.send([0, [event, data || null]]);
       }
       send(arr) {
-        logger57.debug("send to vim:", arr);
+        logger59.debug("send to vim:", arr);
         this.writeable.write(JSON.stringify(arr) + "\n");
       }
       redraw(force) {
@@ -15267,8 +15285,8 @@ var require_vim = __commonJS({
     var connection_1 = __importDefault(require_connection());
     var request_1 = __importDefault(require_request());
     var VimTransport = class extends base_1.default {
-      constructor(logger57) {
-        super(logger57, true);
+      constructor(logger59) {
+        super(logger59, true);
         this.pending = /* @__PURE__ */ new Map();
         this.nextRequestId = -1;
         this.attached = false;
@@ -15866,14 +15884,14 @@ var require_client = __commonJS({
       });
     }
     var NeovimClient = class extends Neovim_1.Neovim {
-      constructor(logger57, isVim2) {
+      constructor(logger59, isVim2) {
         super({});
-        this.logger = logger57;
+        this.logger = logger59;
         this.isVim = isVim2;
         this.requestId = 1;
         this.responses = /* @__PURE__ */ new Map();
         this.attachedBuffers = /* @__PURE__ */ new Map();
-        this._transport = isVim2 ? new vim_1.VimTransport(logger57) : new nvim_1.NvimTransport(logger57);
+        this._transport = isVim2 ? new vim_1.VimTransport(logger59) : new nvim_1.NvimTransport(logger59);
         this.handleRequest = this.handleRequest.bind(this);
         this.handleNotification = this.handleNotification.bind(this);
       }
@@ -16101,12 +16119,12 @@ var require_attach = __commonJS({
     var net_1 = require("net");
     var client_1 = require_client();
     var logger_1 = require_logger();
-    function attach2({ reader: _reader, writer: _writer, proc, socket }, logger57 = null, requestApi = true) {
+    function attach2({ reader: _reader, writer: _writer, proc, socket }, logger59 = null, requestApi = true) {
       let writer;
       let reader;
       let neovim;
-      if (!logger57)
-        logger57 = logger_1.nullLogger;
+      if (!logger59)
+        logger59 = logger_1.nullLogger;
       if (socket) {
         const client = (0, net_1.createConnection)(socket);
         writer = client;
@@ -16130,7 +16148,7 @@ var require_attach = __commonJS({
         }
       });
       if (writer && reader) {
-        neovim = new client_1.NeovimClient(logger57, process.env.VIM_NODE_RPC == "1");
+        neovim = new client_1.NeovimClient(logger59, process.env.VIM_NODE_RPC == "1");
         neovim.attach({
           writer,
           reader
@@ -16777,11 +16795,11 @@ var init_main = __esm({
       }
       DiagnosticRelatedInformation2.is = is;
     })(DiagnosticRelatedInformation || (DiagnosticRelatedInformation = {}));
-    (function(DiagnosticSeverity2) {
-      DiagnosticSeverity2.Error = 1;
-      DiagnosticSeverity2.Warning = 2;
-      DiagnosticSeverity2.Information = 3;
-      DiagnosticSeverity2.Hint = 4;
+    (function(DiagnosticSeverity3) {
+      DiagnosticSeverity3.Error = 1;
+      DiagnosticSeverity3.Warning = 2;
+      DiagnosticSeverity3.Information = 3;
+      DiagnosticSeverity3.Hint = 4;
     })(DiagnosticSeverity || (DiagnosticSeverity = {}));
     (function(DiagnosticTag2) {
       DiagnosticTag2.Unnecessary = 1;
@@ -16794,7 +16812,7 @@ var init_main = __esm({
       }
       CodeDescription2.is = is;
     })(CodeDescription || (CodeDescription = {}));
-    (function(Diagnostic7) {
+    (function(Diagnostic8) {
       function create(range, message, severity, code, source, relatedInformation) {
         let result = { range, message };
         if (Is.defined(severity)) {
@@ -16811,13 +16829,13 @@ var init_main = __esm({
         }
         return result;
       }
-      Diagnostic7.create = create;
+      Diagnostic8.create = create;
       function is(value) {
         var _a2;
         let candidate = value;
         return Is.defined(candidate) && Range.is(candidate.range) && Is.string(candidate.message) && (Is.number(candidate.severity) || Is.undefined(candidate.severity)) && (Is.integer(candidate.code) || Is.string(candidate.code) || Is.undefined(candidate.code)) && (Is.undefined(candidate.codeDescription) || Is.string((_a2 = candidate.codeDescription) === null || _a2 === void 0 ? void 0 : _a2.href)) && (Is.string(candidate.source) || Is.undefined(candidate.source)) && (Is.undefined(candidate.relatedInformation) || Is.typedArray(candidate.relatedInformation, DiagnosticRelatedInformation.is));
       }
-      Diagnostic7.is = is;
+      Diagnostic8.is = is;
     })(Diagnostic || (Diagnostic = {}));
     (function(Command3) {
       function create(title, command, ...args) {
@@ -17465,7 +17483,7 @@ var init_main = __esm({
     (function(SymbolTag2) {
       SymbolTag2.Deprecated = 1;
     })(SymbolTag || (SymbolTag = {}));
-    (function(SymbolInformation6) {
+    (function(SymbolInformation5) {
       function create(name2, kind, range, uri, containerName) {
         let result = {
           name: name2,
@@ -17477,7 +17495,7 @@ var init_main = __esm({
         }
         return result;
       }
-      SymbolInformation6.create = create;
+      SymbolInformation5.create = create;
     })(SymbolInformation || (SymbolInformation = {}));
     (function(WorkspaceSymbol5) {
       function create(name2, kind, uri, range) {
@@ -19904,7 +19922,7 @@ var require_connection2 = __commonJS({
       ConnectionState2[ConnectionState2["Disposed"] = 4] = "Disposed";
     })(ConnectionState || (ConnectionState = {}));
     function createMessageConnection(messageReader, messageWriter, _logger, options2) {
-      const logger57 = _logger !== void 0 ? _logger : exports2.NullLogger;
+      const logger59 = _logger !== void 0 ? _logger : exports2.NullLogger;
       let sequenceNumber = 0;
       let notificationSequenceNumber = 0;
       let unknownResponseSequenceNumber = 0;
@@ -20032,7 +20050,7 @@ var require_connection2 = __commonJS({
                 requestTokens.delete(cancelId);
                 response.id = toCancel.id;
                 traceSendingResponse(response, message.method, Date.now());
-                messageWriter.write(response).catch(() => logger57.error(`Sending response for canceled message failed.`));
+                messageWriter.write(response).catch(() => logger59.error(`Sending response for canceled message failed.`));
                 return;
               }
             }
@@ -20065,7 +20083,7 @@ var require_connection2 = __commonJS({
             message.result = resultOrError === void 0 ? null : resultOrError;
           }
           traceSendingResponse(message, method, startTime2);
-          messageWriter.write(message).catch(() => logger57.error(`Sending response failed.`));
+          messageWriter.write(message).catch(() => logger59.error(`Sending response failed.`));
         }
         function replyError(error, method, startTime2) {
           const message = {
@@ -20074,7 +20092,7 @@ var require_connection2 = __commonJS({
             error: error.toJson()
           };
           traceSendingResponse(message, method, startTime2);
-          messageWriter.write(message).catch(() => logger57.error(`Sending response failed.`));
+          messageWriter.write(message).catch(() => logger59.error(`Sending response failed.`));
         }
         function replySuccess(result, method, startTime2) {
           if (result === void 0) {
@@ -20086,7 +20104,7 @@ var require_connection2 = __commonJS({
             result
           };
           traceSendingResponse(message, method, startTime2);
-          messageWriter.write(message).catch(() => logger57.error(`Sending response failed.`));
+          messageWriter.write(message).catch(() => logger59.error(`Sending response failed.`));
         }
         traceReceivedRequest(requestMessage);
         const element = requestHandlers.get(requestMessage.method);
@@ -20173,10 +20191,10 @@ var require_connection2 = __commonJS({
         }
         if (responseMessage.id === null) {
           if (responseMessage.error) {
-            logger57.error(`Received response message without id: Error is: 
+            logger59.error(`Received response message without id: Error is: 
 ${JSON.stringify(responseMessage.error, void 0, 4)}`);
           } else {
-            logger57.error(`Received response message without id. No further error information provided.`);
+            logger59.error(`Received response message without id. No further error information provided.`);
           }
         } else {
           const key = responseMessage.id;
@@ -20195,9 +20213,9 @@ ${JSON.stringify(responseMessage.error, void 0, 4)}`);
               }
             } catch (error) {
               if (error.message) {
-                logger57.error(`Response handler '${responsePromise.method}' failed with message: ${error.message}`);
+                logger59.error(`Response handler '${responsePromise.method}' failed with message: ${error.message}`);
               } else {
-                logger57.error(`Response handler '${responsePromise.method}' failed unexpectedly.`);
+                logger59.error(`Response handler '${responsePromise.method}' failed unexpectedly.`);
               }
             }
           }
@@ -20228,7 +20246,7 @@ ${JSON.stringify(responseMessage.error, void 0, 4)}`);
               if (message.params === void 0) {
                 if (type !== void 0) {
                   if (type.numberOfParams !== 0 && type.parameterStructures !== messages_1.ParameterStructures.byName) {
-                    logger57.error(`Notification ${message.method} defines ${type.numberOfParams} params but received none.`);
+                    logger59.error(`Notification ${message.method} defines ${type.numberOfParams} params but received none.`);
                   }
                 }
                 notificationHandler();
@@ -20239,17 +20257,17 @@ ${JSON.stringify(responseMessage.error, void 0, 4)}`);
                 } else {
                   if (type !== void 0) {
                     if (type.parameterStructures === messages_1.ParameterStructures.byName) {
-                      logger57.error(`Notification ${message.method} defines parameters by name but received parameters by position`);
+                      logger59.error(`Notification ${message.method} defines parameters by name but received parameters by position`);
                     }
                     if (type.numberOfParams !== message.params.length) {
-                      logger57.error(`Notification ${message.method} defines ${type.numberOfParams} params but received ${params.length} arguments`);
+                      logger59.error(`Notification ${message.method} defines ${type.numberOfParams} params but received ${params.length} arguments`);
                     }
                   }
                   notificationHandler(...params);
                 }
               } else {
                 if (type !== void 0 && type.parameterStructures === messages_1.ParameterStructures.byPosition) {
-                  logger57.error(`Notification ${message.method} defines parameters by position but received parameters by name`);
+                  logger59.error(`Notification ${message.method} defines parameters by position but received parameters by name`);
                 }
                 notificationHandler(message.params);
               }
@@ -20258,9 +20276,9 @@ ${JSON.stringify(responseMessage.error, void 0, 4)}`);
             }
           } catch (error) {
             if (error.message) {
-              logger57.error(`Notification handler '${message.method}' failed with message: ${error.message}`);
+              logger59.error(`Notification handler '${message.method}' failed with message: ${error.message}`);
             } else {
-              logger57.error(`Notification handler '${message.method}' failed unexpectedly.`);
+              logger59.error(`Notification handler '${message.method}' failed unexpectedly.`);
             }
           }
         } else {
@@ -20269,10 +20287,10 @@ ${JSON.stringify(responseMessage.error, void 0, 4)}`);
       }
       function handleInvalidMessage(message) {
         if (!message) {
-          logger57.error("Received empty message.");
+          logger59.error("Received empty message.");
           return;
         }
-        logger57.error(`Received message which is neither a response nor a notification message:
+        logger59.error(`Received message which is neither a response nor a notification message:
 ${JSON.stringify(message, null, 4)}`);
         const responseMessage = message;
         if (Is2.string(responseMessage.id) || Is2.number(responseMessage.id)) {
@@ -20557,7 +20575,7 @@ ${JSON.stringify(message, null, 4)}`);
           };
           traceSendingNotification(notificationMessage);
           return messageWriter.write(notificationMessage).catch((error) => {
-            logger57.error(`Sending notification failed.`);
+            logger59.error(`Sending notification failed.`);
             throw error;
           });
         },
@@ -20649,11 +20667,11 @@ ${JSON.stringify(message, null, 4)}`);
             disposable = token.onCancellationRequested(() => {
               const p = cancellationStrategy.sender.sendCancellation(connection, id);
               if (p === void 0) {
-                logger57.log(`Received no promise from cancellation strategy when cancelling id ${id}`);
+                logger59.log(`Received no promise from cancellation strategy when cancelling id ${id}`);
                 return Promise.resolve();
               } else {
                 return p.catch(() => {
-                  logger57.log(`Sending cancellation messages for id ${id} failed`);
+                  logger59.log(`Sending cancellation messages for id ${id} failed`);
                 });
               }
             });
@@ -20684,7 +20702,7 @@ ${JSON.stringify(message, null, 4)}`);
               await messageWriter.write(requestMessage);
               responsePromises.set(id, responsePromise);
             } catch (error) {
-              logger57.error(`Sending request failed.`);
+              logger59.error(`Sending request failed.`);
               responsePromise.reject(new messages_1.ResponseError(messages_1.ErrorCodes.MessageWriteError, error.message ? error.message : "Unknown reason"));
               throw error;
             }
@@ -21187,7 +21205,7 @@ var require_main = __commonJS({
     exports2.createMessageConnection = exports2.createServerSocketTransport = exports2.createClientSocketTransport = exports2.createServerPipeTransport = exports2.createClientPipeTransport = exports2.generateRandomPipeName = exports2.StreamMessageWriter = exports2.StreamMessageReader = exports2.SocketMessageWriter = exports2.SocketMessageReader = exports2.PortMessageWriter = exports2.PortMessageReader = exports2.IPCMessageWriter = exports2.IPCMessageReader = void 0;
     var ril_1 = require_ril();
     ril_1.default.install();
-    var path2 = require("path");
+    var path3 = require("path");
     var os2 = require("os");
     var crypto_1 = require("crypto");
     var net_1 = require("net");
@@ -21323,9 +21341,9 @@ var require_main = __commonJS({
       }
       let result;
       if (XDG_RUNTIME_DIR) {
-        result = path2.join(XDG_RUNTIME_DIR, `vscode-ipc-${randomSuffix}.sock`);
+        result = path3.join(XDG_RUNTIME_DIR, `vscode-ipc-${randomSuffix}.sock`);
       } else {
-        result = path2.join(os2.tmpdir(), `vscode-${randomSuffix}.sock`);
+        result = path3.join(os2.tmpdir(), `vscode-${randomSuffix}.sock`);
       }
       const limit = safeIpcPathLengths.get(process.platform);
       if (limit !== void 0 && result.length > limit) {
@@ -21408,16 +21426,16 @@ var require_main = __commonJS({
       const candidate = value;
       return candidate.write !== void 0 && candidate.addListener !== void 0;
     }
-    function createMessageConnection(input, output, logger57, options2) {
-      if (!logger57) {
-        logger57 = api_1.NullLogger;
+    function createMessageConnection(input, output, logger59, options2) {
+      if (!logger59) {
+        logger59 = api_1.NullLogger;
       }
       const reader = isReadableStream(input) ? new StreamMessageReader2(input) : input;
       const writer = isWritableStream(output) ? new StreamMessageWriter2(output) : output;
       if (api_1.ConnectionStrategy.is(options2)) {
         options2 = { connectionStrategy: options2 };
       }
-      return (0, api_1.createMessageConnection)(reader, writer, logger57, options2);
+      return (0, api_1.createMessageConnection)(reader, writer, logger59, options2);
     }
     exports2.createMessageConnection = createMessageConnection;
   }
@@ -21634,13 +21652,13 @@ var require_main2 = __commonJS({
         }
         DiagnosticRelatedInformation3.is = is;
       })(DiagnosticRelatedInformation2 || (exports3.DiagnosticRelatedInformation = DiagnosticRelatedInformation2 = {}));
-      var DiagnosticSeverity2;
-      (function(DiagnosticSeverity3) {
-        DiagnosticSeverity3.Error = 1;
-        DiagnosticSeverity3.Warning = 2;
-        DiagnosticSeverity3.Information = 3;
-        DiagnosticSeverity3.Hint = 4;
-      })(DiagnosticSeverity2 || (exports3.DiagnosticSeverity = DiagnosticSeverity2 = {}));
+      var DiagnosticSeverity3;
+      (function(DiagnosticSeverity4) {
+        DiagnosticSeverity4.Error = 1;
+        DiagnosticSeverity4.Warning = 2;
+        DiagnosticSeverity4.Information = 3;
+        DiagnosticSeverity4.Hint = 4;
+      })(DiagnosticSeverity3 || (exports3.DiagnosticSeverity = DiagnosticSeverity3 = {}));
       var DiagnosticTag2;
       (function(DiagnosticTag3) {
         DiagnosticTag3.Unnecessary = 1;
@@ -21654,8 +21672,8 @@ var require_main2 = __commonJS({
         }
         CodeDescription3.is = is;
       })(CodeDescription2 || (exports3.CodeDescription = CodeDescription2 = {}));
-      var Diagnostic7;
-      (function(Diagnostic8) {
+      var Diagnostic8;
+      (function(Diagnostic9) {
         function create(range, message, severity, code, source, relatedInformation) {
           var result = { range, message };
           if (Is2.defined(severity)) {
@@ -21672,14 +21690,14 @@ var require_main2 = __commonJS({
           }
           return result;
         }
-        Diagnostic8.create = create;
+        Diagnostic9.create = create;
         function is(value) {
           var _a2;
           var candidate = value;
           return Is2.defined(candidate) && Range12.is(candidate.range) && Is2.string(candidate.message) && (Is2.number(candidate.severity) || Is2.undefined(candidate.severity)) && (Is2.integer(candidate.code) || Is2.string(candidate.code) || Is2.undefined(candidate.code)) && (Is2.undefined(candidate.codeDescription) || Is2.string((_a2 = candidate.codeDescription) === null || _a2 === void 0 ? void 0 : _a2.href)) && (Is2.string(candidate.source) || Is2.undefined(candidate.source)) && (Is2.undefined(candidate.relatedInformation) || Is2.typedArray(candidate.relatedInformation, DiagnosticRelatedInformation2.is));
         }
-        Diagnostic8.is = is;
-      })(Diagnostic7 || (exports3.Diagnostic = Diagnostic7 = {}));
+        Diagnostic9.is = is;
+      })(Diagnostic8 || (exports3.Diagnostic = Diagnostic8 = {}));
       var Command3;
       (function(Command4) {
         function create(title, command) {
@@ -22388,8 +22406,8 @@ var require_main2 = __commonJS({
       (function(SymbolTag3) {
         SymbolTag3.Deprecated = 1;
       })(SymbolTag2 || (exports3.SymbolTag = SymbolTag2 = {}));
-      var SymbolInformation6;
-      (function(SymbolInformation7) {
+      var SymbolInformation5;
+      (function(SymbolInformation6) {
         function create(name2, kind, range, uri, containerName) {
           var result = {
             name: name2,
@@ -22401,8 +22419,8 @@ var require_main2 = __commonJS({
           }
           return result;
         }
-        SymbolInformation7.create = create;
-      })(SymbolInformation6 || (exports3.SymbolInformation = SymbolInformation6 = {}));
+        SymbolInformation6.create = create;
+      })(SymbolInformation5 || (exports3.SymbolInformation = SymbolInformation5 = {}));
       var WorkspaceSymbol5;
       (function(WorkspaceSymbol6) {
         function create(name2, kind, uri, range) {
@@ -22464,7 +22482,7 @@ var require_main2 = __commonJS({
         CodeActionContext6.create = create;
         function is(value) {
           var candidate = value;
-          return Is2.defined(candidate) && Is2.typedArray(candidate.diagnostics, Diagnostic7.is) && (candidate.only === void 0 || Is2.typedArray(candidate.only, Is2.string)) && (candidate.triggerKind === void 0 || candidate.triggerKind === CodeActionTriggerKind2.Invoked || candidate.triggerKind === CodeActionTriggerKind2.Automatic);
+          return Is2.defined(candidate) && Is2.typedArray(candidate.diagnostics, Diagnostic8.is) && (candidate.only === void 0 || Is2.typedArray(candidate.only, Is2.string)) && (candidate.triggerKind === void 0 || candidate.triggerKind === CodeActionTriggerKind2.Invoked || candidate.triggerKind === CodeActionTriggerKind2.Automatic);
         }
         CodeActionContext6.is = is;
       })(CodeActionContext5 || (exports3.CodeActionContext = CodeActionContext5 = {}));
@@ -22489,7 +22507,7 @@ var require_main2 = __commonJS({
         CodeAction7.create = create;
         function is(value) {
           var candidate = value;
-          return candidate && Is2.string(candidate.title) && (candidate.diagnostics === void 0 || Is2.typedArray(candidate.diagnostics, Diagnostic7.is)) && (candidate.kind === void 0 || Is2.string(candidate.kind)) && (candidate.edit !== void 0 || candidate.command !== void 0) && (candidate.command === void 0 || Command3.is(candidate.command)) && (candidate.isPreferred === void 0 || Is2.boolean(candidate.isPreferred)) && (candidate.edit === void 0 || WorkspaceEdit7.is(candidate.edit));
+          return candidate && Is2.string(candidate.title) && (candidate.diagnostics === void 0 || Is2.typedArray(candidate.diagnostics, Diagnostic8.is)) && (candidate.kind === void 0 || Is2.string(candidate.kind)) && (candidate.edit !== void 0 || candidate.command !== void 0) && (candidate.command === void 0 || Command3.is(candidate.command)) && (candidate.isPreferred === void 0 || Is2.boolean(candidate.isPreferred)) && (candidate.edit === void 0 || WorkspaceEdit7.is(candidate.edit));
         }
         CodeAction7.is = is;
       })(CodeAction6 || (exports3.CodeAction = CodeAction6 = {}));
@@ -24374,11 +24392,11 @@ var require_connection3 = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.createProtocolConnection = void 0;
     var vscode_jsonrpc_1 = require_main();
-    function createProtocolConnection2(input, output, logger57, options2) {
+    function createProtocolConnection2(input, output, logger59, options2) {
       if (vscode_jsonrpc_1.ConnectionStrategy.is(options2)) {
         options2 = { connectionStrategy: options2 };
       }
-      return (0, vscode_jsonrpc_1.createMessageConnection)(input, output, logger57, options2);
+      return (0, vscode_jsonrpc_1.createMessageConnection)(input, output, logger59, options2);
     }
     exports2.createProtocolConnection = createProtocolConnection2;
   }
@@ -24451,8 +24469,8 @@ var require_main3 = __commonJS({
     var node_1 = require_node();
     __exportStar(require_node(), exports2);
     __exportStar(require_api3(), exports2);
-    function createProtocolConnection2(input, output, logger57, options2) {
-      return (0, node_1.createMessageConnection)(input, output, logger57, options2);
+    function createProtocolConnection2(input, output, logger59, options2) {
+      return (0, node_1.createMessageConnection)(input, output, logger59, options2);
     }
     exports2.createProtocolConnection = createProtocolConnection2;
   }
@@ -25845,12 +25863,12 @@ function parseTree(text, errors = [], options2 = ParseOptions.DEFAULT) {
   }
   return result;
 }
-function findNodeAtLocation(root, path2) {
+function findNodeAtLocation(root, path3) {
   if (!root) {
     return void 0;
   }
   let node = root;
-  for (let segment of path2) {
+  for (let segment of path3) {
     if (typeof segment === "string") {
       if (node.type !== "object" || !Array.isArray(node.children)) {
         return void 0;
@@ -25879,19 +25897,39 @@ function findNodeAtLocation(root, path2) {
 function visit(text, visitor, options2 = ParseOptions.DEFAULT) {
   const _scanner = createScanner(text, false);
   const _jsonPath = [];
+  let suppressedCallbacks = 0;
   function toNoArgVisit(visitFunction) {
-    return visitFunction ? () => visitFunction(_scanner.getTokenOffset(), _scanner.getTokenLength(), _scanner.getTokenStartLine(), _scanner.getTokenStartCharacter()) : () => true;
-  }
-  function toNoArgVisitWithPath(visitFunction) {
-    return visitFunction ? () => visitFunction(_scanner.getTokenOffset(), _scanner.getTokenLength(), _scanner.getTokenStartLine(), _scanner.getTokenStartCharacter(), () => _jsonPath.slice()) : () => true;
+    return visitFunction ? () => suppressedCallbacks === 0 && visitFunction(_scanner.getTokenOffset(), _scanner.getTokenLength(), _scanner.getTokenStartLine(), _scanner.getTokenStartCharacter()) : () => true;
   }
   function toOneArgVisit(visitFunction) {
-    return visitFunction ? (arg) => visitFunction(arg, _scanner.getTokenOffset(), _scanner.getTokenLength(), _scanner.getTokenStartLine(), _scanner.getTokenStartCharacter()) : () => true;
+    return visitFunction ? (arg) => suppressedCallbacks === 0 && visitFunction(arg, _scanner.getTokenOffset(), _scanner.getTokenLength(), _scanner.getTokenStartLine(), _scanner.getTokenStartCharacter()) : () => true;
   }
   function toOneArgVisitWithPath(visitFunction) {
-    return visitFunction ? (arg) => visitFunction(arg, _scanner.getTokenOffset(), _scanner.getTokenLength(), _scanner.getTokenStartLine(), _scanner.getTokenStartCharacter(), () => _jsonPath.slice()) : () => true;
+    return visitFunction ? (arg) => suppressedCallbacks === 0 && visitFunction(arg, _scanner.getTokenOffset(), _scanner.getTokenLength(), _scanner.getTokenStartLine(), _scanner.getTokenStartCharacter(), () => _jsonPath.slice()) : () => true;
   }
-  const onObjectBegin = toNoArgVisitWithPath(visitor.onObjectBegin), onObjectProperty = toOneArgVisitWithPath(visitor.onObjectProperty), onObjectEnd = toNoArgVisit(visitor.onObjectEnd), onArrayBegin = toNoArgVisitWithPath(visitor.onArrayBegin), onArrayEnd = toNoArgVisit(visitor.onArrayEnd), onLiteralValue = toOneArgVisitWithPath(visitor.onLiteralValue), onSeparator = toOneArgVisit(visitor.onSeparator), onComment = toNoArgVisit(visitor.onComment), onError = toOneArgVisit(visitor.onError);
+  function toBeginVisit(visitFunction) {
+    return visitFunction ? () => {
+      if (suppressedCallbacks > 0) {
+        suppressedCallbacks++;
+      } else {
+        let cbReturn = visitFunction(_scanner.getTokenOffset(), _scanner.getTokenLength(), _scanner.getTokenStartLine(), _scanner.getTokenStartCharacter(), () => _jsonPath.slice());
+        if (cbReturn === false) {
+          suppressedCallbacks = 1;
+        }
+      }
+    } : () => true;
+  }
+  function toEndVisit(visitFunction) {
+    return visitFunction ? () => {
+      if (suppressedCallbacks > 0) {
+        suppressedCallbacks--;
+      }
+      if (suppressedCallbacks === 0) {
+        visitFunction(_scanner.getTokenOffset(), _scanner.getTokenLength(), _scanner.getTokenStartLine(), _scanner.getTokenStartCharacter());
+      }
+    } : () => true;
+  }
+  const onObjectBegin = toBeginVisit(visitor.onObjectBegin), onObjectProperty = toOneArgVisitWithPath(visitor.onObjectProperty), onObjectEnd = toEndVisit(visitor.onObjectEnd), onArrayBegin = toBeginVisit(visitor.onArrayBegin), onArrayEnd = toEndVisit(visitor.onArrayEnd), onLiteralValue = toOneArgVisitWithPath(visitor.onLiteralValue), onSeparator = toOneArgVisit(visitor.onSeparator), onComment = toNoArgVisit(visitor.onComment), onError = toOneArgVisit(visitor.onError);
   const disallowComments = options2 && options2.disallowComments;
   const allowTrailingComma = options2 && options2.allowTrailingComma;
   function scanNext() {
@@ -26196,14 +26234,14 @@ var init_parser = __esm({
 
 // node_modules/jsonc-parser/lib/esm/impl/edit.js
 function setProperty(text, originalPath, value, options2) {
-  const path2 = originalPath.slice();
+  const path3 = originalPath.slice();
   const errors = [];
   const root = parseTree(text, errors);
   let parent = void 0;
   let lastSegment = void 0;
-  while (path2.length > 0) {
-    lastSegment = path2.pop();
-    parent = findNodeAtLocation(root, path2);
+  while (path3.length > 0) {
+    lastSegment = path3.pop();
+    parent = findNodeAtLocation(root, path3);
     if (parent === void 0 && value !== void 0) {
       if (typeof lastSegment === "string") {
         value = { [lastSegment]: value };
@@ -26383,8 +26421,8 @@ function printParseErrorCode(code) {
   }
   return "<unknown ParseErrorCode>";
 }
-function modify(text, path2, value, options2) {
-  return setProperty(text, path2, value, options2);
+function modify(text, path3, value, options2) {
+  return setProperty(text, path3, value, options2);
 }
 function applyEdits(text, edits) {
   let sortedEdits = edits.slice(0).sort((a, b) => {
@@ -28797,6 +28835,9 @@ var init_quickpick = __esm({
       }
       get winid() {
         return this.win?.winid;
+      }
+      get inputBox() {
+        return this.input;
       }
       setCursor(index) {
         this.win?.setCursor(index, true);
@@ -35335,6 +35376,10 @@ function ansiparse(str) {
   }
   return result;
 }
+function stripAnsiColoring(str) {
+  const ansiColorCodeRegex = /\u001b\[[0-9;]*m/g;
+  return str.replace(ansiColorCodeRegex, "");
+}
 var foregroundColors, backgroundColors, styles2;
 var init_ansiparse = __esm({
   "src/util/ansiparse.ts"() {
@@ -38330,6 +38375,12 @@ var init_schema = __esm({
             type: "string"
           }
         },
+        "coc.preferences.formatterExtension": {
+          type: ["null", "string"],
+          default: null,
+          scope: "language-overridable",
+          description: "Extension used for formatting documents. When set to null, the formatter with highest priority is used."
+        },
         "coc.preferences.jumpCommand": {
           anyOf: [
             {
@@ -38519,6 +38570,12 @@ var init_schema = __esm({
           scope: "language-overridable",
           description: "Enable codeLens feature, require neovim with set virtual text feature.",
           default: false
+        },
+        "codeLens.display": {
+          type: "boolean",
+          scope: "language-overridable",
+          default: true,
+          description: "Display codeLens."
         },
         "codeLens.position": {
           type: "string",
@@ -38739,12 +38796,6 @@ var init_schema = __esm({
           description: "Enable diagnostic refresh on insert mode, default false.",
           default: false
         },
-        "diagnostic.separateRelatedInformationAsDiagnostics": {
-          type: "boolean",
-          default: false,
-          scope: "application",
-          description: "Separate related information as diagnostics."
-        },
         "diagnostic.showDeprecated": {
           type: "boolean",
           default: true,
@@ -38838,6 +38889,12 @@ var init_schema = __esm({
           scope: "application",
           description: "Text of warning sign",
           default: "\u26A0"
+        },
+        "diagnostic.showRelatedInformation": {
+          type: "boolean",
+          default: true,
+          scope: "language-overridable",
+          description: "Display related information in the diagnostic floating window."
         },
         "dialog.confirmKey": {
           type: "string",
@@ -40018,7 +40075,13 @@ var init_schema = __esm({
         },
         "workspace.ignoredFolders": {
           type: "array",
-          default: ["$HOME"],
+          default: [
+            "$HOME",
+            "$HOME/.cargo/**",
+            "$HOME/.rustup/**",
+            "$HOME/pkg/mod/**",
+            "$HOMEBREW_PREFIX/**"
+          ],
           scope: "application",
           description: "List of folders that should not be resolved as workspace folder, environment variables and minimatch patterns can be used.",
           items: {
@@ -40482,18 +40545,18 @@ function doRemoveFromValueTree(valueTree, segments) {
   }
 }
 function getConfigurationValue(config, settingPath, defaultValue2) {
-  function accessSetting(config2, path3) {
+  function accessSetting(config2, path4) {
     let current = config2;
-    for (let i = 0; i < path3.length; i++) {
+    for (let i = 0; i < path4.length; i++) {
       if (typeof current !== "object" || current === null) {
         return void 0;
       }
-      current = current[path3[i]];
+      current = current[path4[i]];
     }
     return current;
   }
-  const path2 = settingPath.split(".");
-  const result = accessSetting(config, path2);
+  const path3 = settingPath.split(".");
+  const result = accessSetting(config, path3);
   return typeof result === "undefined" ? defaultValue2 : result;
 }
 function toJSONObject(obj) {
@@ -41651,10 +41714,10 @@ var init_configuration2 = __esm({
         if (hasOwnProperty(schemas, uri)) return schemas[uri];
         return void 0;
       }
-      parseConfigurationModel(filepath) {
+      parseConfigurationModel(filepath, filecontents) {
         if (!filepath || !fs.existsSync(filepath)) return new ConfigurationModel();
         let parser2 = new ConfigurationModelParser(filepath);
-        let content = fs.readFileSync(filepath, "utf8");
+        let content = filecontents || fs.readFileSync(filepath, "utf8");
         let uri = URI.file(filepath).toString();
         parser2.parse(content);
         if (!isFalsyOrEmpty(parser2.errors)) {
@@ -41700,8 +41763,14 @@ var init_configuration2 = __esm({
       addFolderFile(configFilePath, fromCwd = false, resource) {
         let folder = normalizeFilePath(path.resolve(configFilePath, "../.."));
         if (this._configuration.hasFolder(folder) || !fs.existsSync(configFilePath)) return false;
+        let configFile;
+        try {
+          configFile = fs.readFileSync(configFilePath, "utf8");
+        } catch (_err) {
+          return false;
+        }
         this.watchFile(configFilePath, 3 /* WorkspaceFolder */);
-        let model = this.parseConfigurationModel(configFilePath);
+        let model = this.parseConfigurationModel(configFilePath, configFile);
         this._configuration.addFolderConfiguration(folder, model, resource);
         logger8.info(`Add folder configuration from ${fromCwd ? "cwd" : "file"}:`, configFilePath);
         return true;
@@ -47914,7 +47983,7 @@ var init_workspace = __esm({
       }
       hasDocument(uri, version2) {
         let doc = this.documentsManager.getDocument(uri);
-        return doc != null && (version2 != null ? doc.version == version2 : true);
+        return doc && (version2 != null ? doc.version == version2 : true);
       }
       getUri(bufnr, defaultValue2 = "") {
         let doc = this.documentsManager.getDocument(bufnr);
@@ -52084,14 +52153,17 @@ var init_buffer = __esm({
   "src/diagnostic/buffer.ts"() {
     "use strict";
     init_main();
+    init_esm();
     init_events();
     init_util();
     init_array();
     init_position();
     init_protocol();
     init_window();
+    init_node();
     init_workspace();
     init_util4();
+    init_ansiparse();
     signGroup = "CocDiagnostic";
     NAMESPACE = "diagnostic";
     hlGroups = ["CocErrorHighlight", "CocWarningHighlight", "CocInfoHighlight", "CocHintHighlight", "CocDeprecatedHighlight", "CocUnusedHighlight"];
@@ -52165,7 +52237,8 @@ var init_buffer = __esm({
           filetypeMap: config.get("filetypeMap", {}),
           showUnused: config.get("showUnused", true),
           showDeprecated: config.get("showDeprecated", true),
-          format: config.get("format", "[%source%code] [%severity] %message")
+          format: config.get("format", "[%source%code] [%severity] %message"),
+          showRelatedInformation: config.get("showRelatedInformation", true)
         };
         if (this._config.virtualText && !virtualTextSrcId) {
           void this.nvim.createNamespace("coc-diagnostic-virtualText").then((id) => {
@@ -52373,9 +52446,29 @@ var init_buffer = __esm({
           } else {
             filetype = ft;
           }
-          docs.push({ filetype, content: formatDiagnostic(config.format, diagnostic) });
-          if (diagnostic.codeDescription?.href) {
-            docs.push({ filetype: "txt", content: diagnostic.codeDescription.href });
+          let msg = diagnostic.message;
+          let link = diagnostic.codeDescription?.href ?? "";
+          if (config.showRelatedInformation && diagnostic.relatedInformation?.length) {
+            msg = `${diagnostic.message}
+
+Related information:
+`;
+            for (const info of diagnostic.relatedInformation) {
+              const fsPath2 = URI.parse(info.location.uri).fsPath;
+              const basename = path.basename(fsPath2);
+              const line = info.location.range.start.line + 1;
+              const column = info.location.range.start.character + 1;
+              msg = `${msg}
+  * ${basename}#${line},${column}: ${info.message}`;
+            }
+            msg = msg + "\n\n";
+          }
+          docs.push({ filetype, content: formatDiagnostic(config.format, {
+            ...diagnostic,
+            message: msg
+          }) });
+          if (link) {
+            docs.push({ filetype: "txt", content: link });
           }
         });
         await floatFactory.show(docs, this.config.floatConfig);
@@ -52524,10 +52617,11 @@ var init_buffer = __esm({
           let highlight = getNameFromSeverity(diagnostic.severity) + "VirtualText";
           let msg = diagnostic.message.split(/\n/).map((l) => l.trim()).filter((l) => l.length > 0).slice(0, this._config.virtualTextLines).join(this._config.virtualTextLineSeparator);
           let arr = map.get(line) ?? [];
-          arr.unshift([virtualTextPrefix + formatDiagnostic(this._config.virtualTextFormat, {
+          const formattedDiagnostic = formatDiagnostic(this._config.virtualTextFormat, {
             ...diagnostic,
             message: msg
-          }), highlight]);
+          });
+          arr.unshift([virtualTextPrefix + stripAnsiColoring(formattedDiagnostic), highlight]);
           map.set(line, arr);
         }
         for (let [line, blocks] of map.entries()) {
@@ -53115,9 +53209,7 @@ var init_manager = __esm({
         await item.echoMessage(false, position, target);
       }
       async jumpRelated() {
-        let diagnostics = await this.getCurrentDiagnostics();
-        let diagnostic = diagnostics.find((o) => o.relatedInformation != null);
-        let locations = diagnostic ? diagnostic.relatedInformation.map((o) => o.location) : [];
+        let locations = await this.relatedInformation();
         if (locations.length == 1) {
           await workspace_default.jumpTo(locations[0].uri, locations[0].range.start);
         } else if (locations.length > 1) {
@@ -53125,6 +53217,12 @@ var init_manager = __esm({
         } else {
           void window_default.showWarningMessage("No related information found.");
         }
+      }
+      async relatedInformation() {
+        let diagnostics = await this.getCurrentDiagnostics();
+        let diagnostic = diagnostics.find((o) => o.relatedInformation != null);
+        let locations = diagnostic ? diagnostic.relatedInformation.map((o) => o.location) : [];
+        return locations;
       }
       reset() {
         clearTimeout(this.messageTimer);
@@ -53809,45 +53907,68 @@ var init_foldingRangeManager = __esm({
 });
 
 // src/provider/formatManager.ts
-var FormatManager;
+var logger22, FormatManager;
 var init_formatManager = __esm({
   "src/provider/formatManager.ts"() {
     "use strict";
     init_esm_node();
+    init_logger();
+    init_workspace();
     init_manager2();
+    logger22 = createLogger("provider-formatManager");
     FormatManager = class extends Manager {
-      register(selector, provider, priority) {
+      register(extensionName, selector, provider, priority) {
         return this.addProvider({
           id: v4_default(),
           selector,
           priority,
-          provider
+          provider,
+          extensionName
         });
       }
       async provideDocumentFormattingEdits(document2, options2, token) {
         let item = this.getProvider(document2);
         if (!item) return null;
+        logger22.info("Format by:", item.extensionName);
         let { provider } = item;
         return await Promise.resolve(provider.provideDocumentFormattingEdits(document2, options2, token));
+      }
+      getProvider(document2) {
+        const userChoice = workspace_default.getConfiguration("coc.preferences", document2).get("formatterExtension");
+        if (userChoice) {
+          const items = this.getProviders(document2);
+          const userChoiceProvider = items.find((item) => item.extensionName === userChoice);
+          if (userChoiceProvider) {
+            logger22.info("Using user-specified formatter:", userChoice);
+            return userChoiceProvider;
+          }
+          logger22.error("User-specified formatter not found:", userChoice);
+          return null;
+        }
+        return super.getProvider(document2);
       }
     };
   }
 });
 
 // src/provider/formatRangeManager.ts
-var FormatRangeManager;
+var logger23, FormatRangeManager;
 var init_formatRangeManager = __esm({
   "src/provider/formatRangeManager.ts"() {
     "use strict";
     init_esm_node();
+    init_logger();
+    init_workspace();
     init_manager2();
+    logger23 = createLogger("provider-formatRangeManager");
     FormatRangeManager = class extends Manager {
-      register(selector, provider, priority) {
+      register(extensionName, selector, provider, priority) {
         return this.addProvider({
           id: v4_default(),
           selector,
           provider,
-          priority
+          priority,
+          extensionName
         });
       }
       /**
@@ -53858,8 +53979,23 @@ var init_formatRangeManager = __esm({
       async provideDocumentRangeFormattingEdits(document2, range, options2, token) {
         let item = this.getProvider(document2);
         if (!item) return null;
+        logger23.info("Range format by:", item.extensionName);
         let { provider } = item;
         return await Promise.resolve(provider.provideDocumentRangeFormattingEdits(document2, range, options2, token));
+      }
+      getProvider(document2) {
+        const userChoice = workspace_default.getConfiguration("coc.preferences", document2).get("formatterExtension");
+        if (userChoice) {
+          const items = this.getProviders(document2);
+          const userChoiceProvider = items.find((item) => item.extensionName === userChoice);
+          if (userChoiceProvider) {
+            logger23.info("Using user-specified range formatter:", userChoice);
+            return userChoiceProvider;
+          }
+          logger23.error("User-specified range formatter not found:", userChoice);
+          return null;
+        }
+        return super.getProvider(document2);
       }
     };
   }
@@ -53942,11 +54078,11 @@ function isInlayHint(obj) {
 }
 function isValidInlayHint(hint, range) {
   if (hint.label.length === 0 || Array.isArray(hint.label) && hint.label.every((part) => part.value.length === 0)) {
-    logger22.warn("INVALID inlay hint, empty label", hint);
+    logger24.warn("INVALID inlay hint, empty label", hint);
     return false;
   }
   if (!isInlayHint(hint)) {
-    logger22.warn("INVALID inlay hint", hint);
+    logger24.warn("INVALID inlay hint", hint);
     return false;
   }
   if (range && positionInRange(hint.position, range) !== 0) {
@@ -53958,7 +54094,7 @@ function getLabel(hint) {
   if (typeof hint.label === "string") return hint.label;
   return hint.label.map((o) => o.value).join("");
 }
-var logger22, InlayHintManger;
+var logger24, InlayHintManger;
 var init_inlayHintManager = __esm({
   "src/provider/inlayHintManager.ts"() {
     "use strict";
@@ -53967,7 +54103,7 @@ var init_inlayHintManager = __esm({
     init_logger();
     init_position();
     init_manager2();
-    logger22 = createLogger("inlayHintManger");
+    logger24 = createLogger("inlayHintManger");
     InlayHintManger = class extends Manager {
       register(selector, provider) {
         return this.addProvider({
@@ -54052,14 +54188,14 @@ var init_inlineValueManager = __esm({
 });
 
 // src/provider/linkedEditingRangeManager.ts
-var logger23, LinkedEditingRangeManager;
+var logger25, LinkedEditingRangeManager;
 var init_linkedEditingRangeManager = __esm({
   "src/provider/linkedEditingRangeManager.ts"() {
     "use strict";
     init_esm_node();
     init_logger();
     init_manager2();
-    logger23 = createLogger("linkedEditingManager");
+    logger25 = createLogger("linkedEditingManager");
     LinkedEditingRangeManager = class extends Manager {
       register(selector, provider) {
         return this.addProvider({
@@ -55339,7 +55475,7 @@ var require_node3 = __commonJS({
       return (/* @__PURE__ */ new Date()).toISOString() + " ";
     }
     function log(...args) {
-      return process.stderr.write(util.format(...args) + "\n");
+      return process.stderr.write(util.formatWithOptions(exports2.inspectOpts, ...args) + "\n");
     }
     function save(namespaces) {
       if (namespaces) {
@@ -56601,7 +56737,7 @@ function getAgent(endpoint, options2) {
       auth: proxyURL.username ? `${proxyURL.username}:${toText(proxyURL.password)}` : void 0,
       rejectUnauthorized: typeof options2.proxyStrictSSL === "boolean" ? options2.proxyStrictSSL : true
     };
-    logger24.info(`Using proxy ${proxy} from ${options2.proxy ? "configuration" : "system environment"} for ${endpoint.hostname}:`);
+    logger26.info(`Using proxy ${proxy} from ${options2.proxy ? "configuration" : "system environment"} for ${endpoint.hostname}:`);
     return endpoint.protocol === "http:" ? (0, import_http_proxy_agent.default)(opts) : (0, import_https_proxy_agent.default)(opts);
   }
   return null;
@@ -56715,7 +56851,7 @@ function fetch(urlInput, options2 = {}, token) {
   let url = toURL(urlInput);
   let opts = resolveRequestOptions(url, options2);
   return request(url, options2.data, opts, token).catch((err) => {
-    logger24.error(`Fetch error for ${url}:`, opts, err);
+    logger26.error(`Fetch error for ${url}:`, opts, err);
     if (opts.agent && opts.agent.proxy) {
       let { proxy } = opts.agent;
       throw new Error(`Request failed using proxy ${proxy.host}: ${err.message}`);
@@ -56724,7 +56860,7 @@ function fetch(urlInput, options2 = {}, token) {
     }
   });
 }
-var import_decompress_response, import_follow_redirects, import_http_proxy_agent, import_https_proxy_agent, import_querystring, import_url2, logger24, timeout;
+var import_decompress_response, import_follow_redirects, import_http_proxy_agent, import_https_proxy_agent, import_querystring, import_url2, logger26, timeout;
 var init_fetch = __esm({
   "src/model/fetch.ts"() {
     "use strict";
@@ -56741,7 +56877,7 @@ var init_fetch = __esm({
     init_workspace();
     init_string();
     init_util();
-    logger24 = createLogger("model-fetch");
+    logger26 = createLogger("model-fetch");
     timeout = getConditionValue(500, 50);
   }
 });
@@ -58793,10 +58929,10 @@ var require_header = __commonJS({
         }
         const prefixSize = this.ctime || this.atime ? 130 : 155;
         const split = splitPrefix(this.path || "", prefixSize);
-        const path2 = split[0];
+        const path3 = split[0];
         const prefix = split[1];
         this.needPax = split[2];
-        this.needPax = encString(buf, off, 100, path2) || this.needPax;
+        this.needPax = encString(buf, off, 100, path3) || this.needPax;
         this.needPax = encNumber(buf, off + 100, 8, this.mode) || this.needPax;
         this.needPax = encNumber(buf, off + 108, 8, this.uid) || this.needPax;
         this.needPax = encNumber(buf, off + 116, 8, this.gid) || this.needPax;
@@ -58906,7 +59042,7 @@ var require_pax = __commonJS({
   "node_modules/tar/lib/pax.js"(exports2, module2) {
     "use strict";
     var Header = require_header();
-    var path2 = require("path");
+    var path3 = require("path");
     var Pax = class {
       constructor(obj, global2) {
         this.atime = obj.atime || null;
@@ -58941,7 +59077,7 @@ var require_pax = __commonJS({
           // XXX split the path
           // then the path should be PaxHeader + basename, but less than 99,
           // prepend with the dirname
-          path: ("PaxHeader/" + path2.basename(this.path)).slice(0, 99),
+          path: ("PaxHeader/" + path3.basename(this.path)).slice(0, 99),
           mode: this.mode || 420,
           uid: this.uid || null,
           gid: this.gid || null,
@@ -59072,16 +59208,16 @@ var require_winchars = __commonJS({
 var require_strip_absolute_path = __commonJS({
   "node_modules/tar/lib/strip-absolute-path.js"(exports2, module2) {
     var { isAbsolute, parse: parse3 } = require("path").win32;
-    module2.exports = (path2) => {
+    module2.exports = (path3) => {
       let r = "";
-      let parsed = parse3(path2);
-      while (isAbsolute(path2) || parsed.root) {
-        const root = path2.charAt(0) === "/" && path2.slice(0, 4) !== "//?/" ? "/" : parsed.root;
-        path2 = path2.slice(root.length);
+      let parsed = parse3(path3);
+      while (isAbsolute(path3) || parsed.root) {
+        const root = path3.charAt(0) === "/" && path3.slice(0, 4) !== "//?/" ? "/" : parsed.root;
+        path3 = path3.slice(root.length);
         r += root;
-        parsed = parse3(path2);
+        parsed = parse3(path3);
       }
-      return [r, path2];
+      return [r, path3];
     };
   }
 });
@@ -59119,15 +59255,15 @@ var require_write_entry = __commonJS({
     var Pax = require_pax();
     var Header = require_header();
     var fs2 = require("fs");
-    var path2 = require("path");
+    var path3 = require("path");
     var normPath = require_normalize_windows_path();
     var stripSlash = require_strip_trailing_slashes();
-    var prefixPath = (path3, prefix) => {
+    var prefixPath = (path4, prefix) => {
       if (!prefix) {
-        return normPath(path3);
+        return normPath(path4);
       }
-      path3 = normPath(path3).replace(/^\.(\/|$)/, "");
-      return stripSlash(prefix) + "/" + path3;
+      path4 = normPath(path4).replace(/^\.(\/|$)/, "");
+      return stripSlash(prefix) + "/" + path4;
     };
     var maxReadSize = 16 * 1024 * 1024;
     var PROCESS = Symbol("process");
@@ -59198,7 +59334,7 @@ var require_write_entry = __commonJS({
           this.path = winchars.decode(this.path.replace(/\\/g, "/"));
           p = p.replace(/\\/g, "/");
         }
-        this.absolute = normPath(opt.absolute || path2.resolve(this.cwd, p));
+        this.absolute = normPath(opt.absolute || path3.resolve(this.cwd, p));
         if (this.path === "") {
           this.path = "./";
         }
@@ -59253,8 +59389,8 @@ var require_write_entry = __commonJS({
       [MODE](mode) {
         return modeFix(mode, this.type === "Directory", this.portable);
       }
-      [PREFIX](path3) {
-        return prefixPath(path3, this.prefix);
+      [PREFIX](path4) {
+        return prefixPath(path4, this.prefix);
       }
       [HEADER]() {
         if (this.type === "Directory" && this.portable) {
@@ -59317,7 +59453,7 @@ var require_write_entry = __commonJS({
       }
       [HARDLINK](linkpath) {
         this.type = "Link";
-        this.linkpath = normPath(path2.relative(this.cwd, linkpath));
+        this.linkpath = normPath(path3.relative(this.cwd, linkpath));
         this.stat.size = 0;
         this[HEADER]();
         this.end();
@@ -59548,8 +59684,8 @@ var require_write_entry = __commonJS({
         super.write(this.header.block);
         readEntry.pipe(this);
       }
-      [PREFIX](path3) {
-        return prefixPath(path3, this.prefix);
+      [PREFIX](path4) {
+        return prefixPath(path4, this.prefix);
       }
       [MODE](mode) {
         return modeFix(mode, this.type === "Directory", this.portable);
@@ -59964,8 +60100,8 @@ var require_pack = __commonJS({
   "node_modules/tar/lib/pack.js"(exports2, module2) {
     "use strict";
     var PackJob = class {
-      constructor(path3, absolute) {
-        this.path = path3 || "./";
+      constructor(path4, absolute) {
+        this.path = path4 || "./";
         this.absolute = absolute;
         this.entry = null;
         this.stat = null;
@@ -60004,7 +60140,7 @@ var require_pack = __commonJS({
     var WRITE = Symbol("write");
     var ONDRAIN = Symbol("ondrain");
     var fs2 = require("fs");
-    var path2 = require("path");
+    var path3 = require("path");
     var warner = require_warn_mixin();
     var normPath = require_normalize_windows_path();
     var Pack = warner(class Pack extends Minipass {
@@ -60068,31 +60204,31 @@ var require_pack = __commonJS({
       [WRITE](chunk) {
         return super.write(chunk);
       }
-      add(path3) {
-        this.write(path3);
+      add(path4) {
+        this.write(path4);
         return this;
       }
-      end(path3) {
-        if (path3) {
-          this.write(path3);
+      end(path4) {
+        if (path4) {
+          this.write(path4);
         }
         this[ENDED] = true;
         this[PROCESS]();
         return this;
       }
-      write(path3) {
+      write(path4) {
         if (this[ENDED]) {
           throw new Error("write after end");
         }
-        if (path3 instanceof ReadEntry) {
-          this[ADDTARENTRY](path3);
+        if (path4 instanceof ReadEntry) {
+          this[ADDTARENTRY](path4);
         } else {
-          this[ADDFSENTRY](path3);
+          this[ADDFSENTRY](path4);
         }
         return this.flowing;
       }
       [ADDTARENTRY](p) {
-        const absolute = normPath(path2.resolve(this.cwd, p.path));
+        const absolute = normPath(path3.resolve(this.cwd, p.path));
         if (!this.filter(p.path, p)) {
           p.resume();
         } else {
@@ -60105,7 +60241,7 @@ var require_pack = __commonJS({
         this[PROCESS]();
       }
       [ADDFSENTRY](p) {
-        const absolute = normPath(path2.resolve(this.cwd, p));
+        const absolute = normPath(path3.resolve(this.cwd, p));
         this[QUEUE].push(new PackJob(p, absolute));
         this[PROCESS]();
       }
@@ -60899,16 +61035,16 @@ var require_fs_minipass = __commonJS({
     var _defaultFlag = Symbol("_defaultFlag");
     var _errored = Symbol("_errored");
     var ReadStream = class extends MiniPass {
-      constructor(path2, opt) {
+      constructor(path3, opt) {
         opt = opt || {};
         super(opt);
         this.readable = true;
         this.writable = false;
-        if (typeof path2 !== "string")
+        if (typeof path3 !== "string")
           throw new TypeError("path must be a string");
         this[_errored] = false;
         this[_fd] = typeof opt.fd === "number" ? opt.fd : null;
-        this[_path] = path2;
+        this[_path] = path3;
         this[_readSize] = opt.readSize || 16 * 1024 * 1024;
         this[_reading] = false;
         this[_size] = typeof opt.size === "number" ? opt.size : Infinity;
@@ -61045,7 +61181,7 @@ var require_fs_minipass = __commonJS({
       }
     };
     var WriteStream = class extends EE {
-      constructor(path2, opt) {
+      constructor(path3, opt) {
         opt = opt || {};
         super(opt);
         this.readable = false;
@@ -61055,7 +61191,7 @@ var require_fs_minipass = __commonJS({
         this[_ended] = false;
         this[_needDrain] = false;
         this[_queue] = [];
-        this[_path] = path2;
+        this[_path] = path3;
         this[_fd] = typeof opt.fd === "number" ? opt.fd : null;
         this[_mode] = opt.mode === void 0 ? 438 : opt.mode;
         this[_pos] = typeof opt.start === "number" ? opt.start : null;
@@ -61658,7 +61794,7 @@ var require_list = __commonJS({
     var Parser = require_parse2();
     var fs2 = require("fs");
     var fsm = require_fs_minipass();
-    var path2 = require("path");
+    var path3 = require("path");
     var stripSlash = require_strip_trailing_slashes();
     module2.exports = (opt_, files, cb) => {
       if (typeof opt_ === "function") {
@@ -61700,8 +61836,8 @@ var require_list = __commonJS({
       const map = new Map(files.map((f) => [stripSlash(f), true]));
       const filter2 = opt.filter;
       const mapHas = (file, r) => {
-        const root = r || path2.parse(file).root || ".";
-        const ret = file === root ? false : map.has(file) ? map.get(file) : mapHas(path2.dirname(file), root);
+        const root = r || path3.parse(file).root || ".";
+        const ret = file === root ? false : map.has(file) ? map.get(file) : mapHas(path3.dirname(file), root);
         map.set(file, ret);
         return ret;
       };
@@ -61772,7 +61908,7 @@ var require_create = __commonJS({
     var Pack = require_pack();
     var fsm = require_fs_minipass();
     var t = require_list();
-    var path2 = require("path");
+    var path3 = require("path");
     module2.exports = (opt_, files, cb) => {
       if (typeof files === "function") {
         cb = files;
@@ -61819,7 +61955,7 @@ var require_create = __commonJS({
       files.forEach((file) => {
         if (file.charAt(0) === "@") {
           t({
-            file: path2.resolve(p.cwd, file.slice(1)),
+            file: path3.resolve(p.cwd, file.slice(1)),
             sync: true,
             noResume: true,
             onentry: (entry) => p.add(entry)
@@ -61835,7 +61971,7 @@ var require_create = __commonJS({
         const file = files.shift();
         if (file.charAt(0) === "@") {
           return t({
-            file: path2.resolve(p.cwd, file.slice(1)),
+            file: path3.resolve(p.cwd, file.slice(1)),
             noResume: true,
             onentry: (entry) => p.add(entry)
           }).then((_) => addFilesAsync(p, files));
@@ -61867,7 +62003,7 @@ var require_replace = __commonJS({
     var fs2 = require("fs");
     var fsm = require_fs_minipass();
     var t = require_list();
-    var path2 = require("path");
+    var path3 = require("path");
     var Header = require_header();
     module2.exports = (opt_, files, cb) => {
       const opt = hlo(opt_);
@@ -62044,7 +62180,7 @@ var require_replace = __commonJS({
       files.forEach((file) => {
         if (file.charAt(0) === "@") {
           t({
-            file: path2.resolve(p.cwd, file.slice(1)),
+            file: path3.resolve(p.cwd, file.slice(1)),
             sync: true,
             noResume: true,
             onentry: (entry) => p.add(entry)
@@ -62060,7 +62196,7 @@ var require_replace = __commonJS({
         const file = files.shift();
         if (file.charAt(0) === "@") {
           return t({
-            file: path2.resolve(p.cwd, file.slice(1)),
+            file: path3.resolve(p.cwd, file.slice(1)),
             noResume: true,
             onentry: (entry) => p.add(entry)
           }).then((_) => addFilesAsync(p, files));
@@ -62099,7 +62235,7 @@ var require_update = __commonJS({
       if (!opt.mtimeCache) {
         opt.mtimeCache = /* @__PURE__ */ new Map();
       }
-      opt.filter = filter2 ? (path2, stat) => filter2(path2, stat) && !(opt.mtimeCache.get(path2) > stat.mtime) : (path2, stat) => !(opt.mtimeCache.get(path2) > stat.mtime);
+      opt.filter = filter2 ? (path3, stat) => filter2(path3, stat) && !(opt.mtimeCache.get(path3) > stat.mtime) : (path3, stat) => !(opt.mtimeCache.get(path3) > stat.mtime);
     };
   }
 });
@@ -62137,28 +62273,28 @@ var require_path_arg = __commonJS({
   "node_modules/mkdirp/lib/path-arg.js"(exports2, module2) {
     var platform2 = process.env.__TESTING_MKDIRP_PLATFORM__ || process.platform;
     var { resolve, parse: parse3 } = require("path");
-    var pathArg = (path2) => {
-      if (/\0/.test(path2)) {
+    var pathArg = (path3) => {
+      if (/\0/.test(path3)) {
         throw Object.assign(
           new TypeError("path must be a string without null bytes"),
           {
-            path: path2,
+            path: path3,
             code: "ERR_INVALID_ARG_VALUE"
           }
         );
       }
-      path2 = resolve(path2);
+      path3 = resolve(path3);
       if (platform2 === "win32") {
         const badWinChars = /[*|"<>?:]/;
-        const { root } = parse3(path2);
-        if (badWinChars.test(path2.substr(root.length))) {
+        const { root } = parse3(path3);
+        if (badWinChars.test(path3.substr(root.length))) {
           throw Object.assign(new Error("Illegal characters in path."), {
-            path: path2,
+            path: path3,
             code: "EINVAL"
           });
         }
       }
-      return path2;
+      return path3;
     };
     module2.exports = pathArg;
   }
@@ -62168,20 +62304,20 @@ var require_path_arg = __commonJS({
 var require_find_made = __commonJS({
   "node_modules/mkdirp/lib/find-made.js"(exports2, module2) {
     var { dirname } = require("path");
-    var findMade = (opts, parent, path2 = void 0) => {
-      if (path2 === parent)
+    var findMade = (opts, parent, path3 = void 0) => {
+      if (path3 === parent)
         return Promise.resolve();
       return opts.statAsync(parent).then(
-        (st) => st.isDirectory() ? path2 : void 0,
+        (st) => st.isDirectory() ? path3 : void 0,
         // will fail later
         (er) => er.code === "ENOENT" ? findMade(opts, dirname(parent), parent) : void 0
       );
     };
-    var findMadeSync = (opts, parent, path2 = void 0) => {
-      if (path2 === parent)
+    var findMadeSync = (opts, parent, path3 = void 0) => {
+      if (path3 === parent)
         return void 0;
       try {
-        return opts.statSync(parent).isDirectory() ? path2 : void 0;
+        return opts.statSync(parent).isDirectory() ? path3 : void 0;
       } catch (er) {
         return er.code === "ENOENT" ? findMadeSync(opts, dirname(parent), parent) : void 0;
       }
@@ -62194,21 +62330,21 @@ var require_find_made = __commonJS({
 var require_mkdirp_manual = __commonJS({
   "node_modules/mkdirp/lib/mkdirp-manual.js"(exports2, module2) {
     var { dirname } = require("path");
-    var mkdirpManual = (path2, opts, made) => {
+    var mkdirpManual = (path3, opts, made) => {
       opts.recursive = false;
-      const parent = dirname(path2);
-      if (parent === path2) {
-        return opts.mkdirAsync(path2, opts).catch((er) => {
+      const parent = dirname(path3);
+      if (parent === path3) {
+        return opts.mkdirAsync(path3, opts).catch((er) => {
           if (er.code !== "EISDIR")
             throw er;
         });
       }
-      return opts.mkdirAsync(path2, opts).then(() => made || path2, (er) => {
+      return opts.mkdirAsync(path3, opts).then(() => made || path3, (er) => {
         if (er.code === "ENOENT")
-          return mkdirpManual(parent, opts).then((made2) => mkdirpManual(path2, opts, made2));
+          return mkdirpManual(parent, opts).then((made2) => mkdirpManual(path3, opts, made2));
         if (er.code !== "EEXIST" && er.code !== "EROFS")
           throw er;
-        return opts.statAsync(path2).then((st) => {
+        return opts.statAsync(path3).then((st) => {
           if (st.isDirectory())
             return made;
           else
@@ -62218,12 +62354,12 @@ var require_mkdirp_manual = __commonJS({
         });
       });
     };
-    var mkdirpManualSync = (path2, opts, made) => {
-      const parent = dirname(path2);
+    var mkdirpManualSync = (path3, opts, made) => {
+      const parent = dirname(path3);
       opts.recursive = false;
-      if (parent === path2) {
+      if (parent === path3) {
         try {
-          return opts.mkdirSync(path2, opts);
+          return opts.mkdirSync(path3, opts);
         } catch (er) {
           if (er.code !== "EISDIR")
             throw er;
@@ -62232,15 +62368,15 @@ var require_mkdirp_manual = __commonJS({
         }
       }
       try {
-        opts.mkdirSync(path2, opts);
-        return made || path2;
+        opts.mkdirSync(path3, opts);
+        return made || path3;
       } catch (er) {
         if (er.code === "ENOENT")
-          return mkdirpManualSync(path2, opts, mkdirpManualSync(parent, opts, made));
+          return mkdirpManualSync(path3, opts, mkdirpManualSync(parent, opts, made));
         if (er.code !== "EEXIST" && er.code !== "EROFS")
           throw er;
         try {
-          if (!opts.statSync(path2).isDirectory())
+          if (!opts.statSync(path3).isDirectory())
             throw er;
         } catch (_) {
           throw er;
@@ -62257,30 +62393,30 @@ var require_mkdirp_native = __commonJS({
     var { dirname } = require("path");
     var { findMade, findMadeSync } = require_find_made();
     var { mkdirpManual, mkdirpManualSync } = require_mkdirp_manual();
-    var mkdirpNative = (path2, opts) => {
+    var mkdirpNative = (path3, opts) => {
       opts.recursive = true;
-      const parent = dirname(path2);
-      if (parent === path2)
-        return opts.mkdirAsync(path2, opts);
-      return findMade(opts, path2).then((made) => opts.mkdirAsync(path2, opts).then(() => made).catch((er) => {
+      const parent = dirname(path3);
+      if (parent === path3)
+        return opts.mkdirAsync(path3, opts);
+      return findMade(opts, path3).then((made) => opts.mkdirAsync(path3, opts).then(() => made).catch((er) => {
         if (er.code === "ENOENT")
-          return mkdirpManual(path2, opts);
+          return mkdirpManual(path3, opts);
         else
           throw er;
       }));
     };
-    var mkdirpNativeSync = (path2, opts) => {
+    var mkdirpNativeSync = (path3, opts) => {
       opts.recursive = true;
-      const parent = dirname(path2);
-      if (parent === path2)
-        return opts.mkdirSync(path2, opts);
-      const made = findMadeSync(opts, path2);
+      const parent = dirname(path3);
+      if (parent === path3)
+        return opts.mkdirSync(path3, opts);
+      const made = findMadeSync(opts, path3);
       try {
-        opts.mkdirSync(path2, opts);
+        opts.mkdirSync(path3, opts);
         return made;
       } catch (er) {
         if (er.code === "ENOENT")
-          return mkdirpManualSync(path2, opts);
+          return mkdirpManualSync(path3, opts);
         else
           throw er;
       }
@@ -62310,21 +62446,21 @@ var require_mkdirp = __commonJS({
     var { mkdirpNative, mkdirpNativeSync } = require_mkdirp_native();
     var { mkdirpManual, mkdirpManualSync } = require_mkdirp_manual();
     var { useNative, useNativeSync } = require_use_native();
-    var mkdirp = (path2, opts) => {
-      path2 = pathArg(path2);
+    var mkdirp = (path3, opts) => {
+      path3 = pathArg(path3);
       opts = optsArg(opts);
-      return useNative(opts) ? mkdirpNative(path2, opts) : mkdirpManual(path2, opts);
+      return useNative(opts) ? mkdirpNative(path3, opts) : mkdirpManual(path3, opts);
     };
-    var mkdirpSync = (path2, opts) => {
-      path2 = pathArg(path2);
+    var mkdirpSync = (path3, opts) => {
+      path3 = pathArg(path3);
       opts = optsArg(opts);
-      return useNativeSync(opts) ? mkdirpNativeSync(path2, opts) : mkdirpManualSync(path2, opts);
+      return useNativeSync(opts) ? mkdirpNativeSync(path3, opts) : mkdirpManualSync(path3, opts);
     };
     mkdirp.sync = mkdirpSync;
-    mkdirp.native = (path2, opts) => mkdirpNative(pathArg(path2), optsArg(opts));
-    mkdirp.manual = (path2, opts) => mkdirpManual(pathArg(path2), optsArg(opts));
-    mkdirp.nativeSync = (path2, opts) => mkdirpNativeSync(pathArg(path2), optsArg(opts));
-    mkdirp.manualSync = (path2, opts) => mkdirpManualSync(pathArg(path2), optsArg(opts));
+    mkdirp.native = (path3, opts) => mkdirpNative(pathArg(path3), optsArg(opts));
+    mkdirp.manual = (path3, opts) => mkdirpManual(pathArg(path3), optsArg(opts));
+    mkdirp.nativeSync = (path3, opts) => mkdirpNativeSync(pathArg(path3), optsArg(opts));
+    mkdirp.manualSync = (path3, opts) => mkdirpManualSync(pathArg(path3), optsArg(opts));
     module2.exports = mkdirp;
   }
 });
@@ -62334,46 +62470,46 @@ var require_chownr = __commonJS({
   "node_modules/chownr/chownr.js"(exports2, module2) {
     "use strict";
     var fs2 = require("fs");
-    var path2 = require("path");
+    var path3 = require("path");
     var LCHOWN = fs2.lchown ? "lchown" : "chown";
     var LCHOWNSYNC = fs2.lchownSync ? "lchownSync" : "chownSync";
     var needEISDIRHandled = fs2.lchown && !process.version.match(/v1[1-9]+\./) && !process.version.match(/v10\.[6-9]/);
-    var lchownSync = (path3, uid, gid) => {
+    var lchownSync = (path4, uid, gid) => {
       try {
-        return fs2[LCHOWNSYNC](path3, uid, gid);
+        return fs2[LCHOWNSYNC](path4, uid, gid);
       } catch (er) {
         if (er.code !== "ENOENT")
           throw er;
       }
     };
-    var chownSync = (path3, uid, gid) => {
+    var chownSync = (path4, uid, gid) => {
       try {
-        return fs2.chownSync(path3, uid, gid);
+        return fs2.chownSync(path4, uid, gid);
       } catch (er) {
         if (er.code !== "ENOENT")
           throw er;
       }
     };
-    var handleEISDIR = needEISDIRHandled ? (path3, uid, gid, cb) => (er) => {
+    var handleEISDIR = needEISDIRHandled ? (path4, uid, gid, cb) => (er) => {
       if (!er || er.code !== "EISDIR")
         cb(er);
       else
-        fs2.chown(path3, uid, gid, cb);
+        fs2.chown(path4, uid, gid, cb);
     } : (_, __, ___, cb) => cb;
-    var handleEISDirSync = needEISDIRHandled ? (path3, uid, gid) => {
+    var handleEISDirSync = needEISDIRHandled ? (path4, uid, gid) => {
       try {
-        return lchownSync(path3, uid, gid);
+        return lchownSync(path4, uid, gid);
       } catch (er) {
         if (er.code !== "EISDIR")
           throw er;
-        chownSync(path3, uid, gid);
+        chownSync(path4, uid, gid);
       }
-    } : (path3, uid, gid) => lchownSync(path3, uid, gid);
+    } : (path4, uid, gid) => lchownSync(path4, uid, gid);
     var nodeVersion = process.version;
-    var readdir = (path3, options2, cb) => fs2.readdir(path3, options2, cb);
-    var readdirSync = (path3, options2) => fs2.readdirSync(path3, options2);
+    var readdir = (path4, options2, cb) => fs2.readdir(path4, options2, cb);
+    var readdirSync = (path4, options2) => fs2.readdirSync(path4, options2);
     if (/^v4\./.test(nodeVersion))
-      readdir = (path3, options2, cb) => fs2.readdir(path3, cb);
+      readdir = (path4, options2, cb) => fs2.readdir(path4, cb);
     var chown = (cpath, uid, gid, cb) => {
       fs2[LCHOWN](cpath, uid, gid, handleEISDIR(cpath, uid, gid, (er) => {
         cb(er && er.code !== "ENOENT" ? er : null);
@@ -62381,21 +62517,21 @@ var require_chownr = __commonJS({
     };
     var chownrKid = (p, child, uid, gid, cb) => {
       if (typeof child === "string")
-        return fs2.lstat(path2.resolve(p, child), (er, stats) => {
+        return fs2.lstat(path3.resolve(p, child), (er, stats) => {
           if (er)
             return cb(er.code !== "ENOENT" ? er : null);
           stats.name = child;
           chownrKid(p, stats, uid, gid, cb);
         });
       if (child.isDirectory()) {
-        chownr(path2.resolve(p, child.name), uid, gid, (er) => {
+        chownr(path3.resolve(p, child.name), uid, gid, (er) => {
           if (er)
             return cb(er);
-          const cpath = path2.resolve(p, child.name);
+          const cpath = path3.resolve(p, child.name);
           chown(cpath, uid, gid, cb);
         });
       } else {
-        const cpath = path2.resolve(p, child.name);
+        const cpath = path3.resolve(p, child.name);
         chown(cpath, uid, gid, cb);
       }
     };
@@ -62425,7 +62561,7 @@ var require_chownr = __commonJS({
     var chownrKidSync = (p, child, uid, gid) => {
       if (typeof child === "string") {
         try {
-          const stats = fs2.lstatSync(path2.resolve(p, child));
+          const stats = fs2.lstatSync(path3.resolve(p, child));
           stats.name = child;
           child = stats;
         } catch (er) {
@@ -62436,8 +62572,8 @@ var require_chownr = __commonJS({
         }
       }
       if (child.isDirectory())
-        chownrSync(path2.resolve(p, child.name), uid, gid);
-      handleEISDirSync(path2.resolve(p, child.name), uid, gid);
+        chownrSync(path3.resolve(p, child.name), uid, gid);
+      handleEISDirSync(path3.resolve(p, child.name), uid, gid);
     };
     var chownrSync = (p, uid, gid) => {
       let children;
@@ -62466,13 +62602,13 @@ var require_mkdir = __commonJS({
     "use strict";
     var mkdirp = require_mkdirp();
     var fs2 = require("fs");
-    var path2 = require("path");
+    var path3 = require("path");
     var chownr = require_chownr();
     var normPath = require_normalize_windows_path();
     var SymlinkError = class extends Error {
-      constructor(symlink, path3) {
+      constructor(symlink, path4) {
         super("Cannot extract through symbolic link");
-        this.path = path3;
+        this.path = path4;
         this.symlink = symlink;
       }
       get name() {
@@ -62480,9 +62616,9 @@ var require_mkdir = __commonJS({
       }
     };
     var CwdError = class extends Error {
-      constructor(path3, code) {
-        super(code + ": Cannot cd into '" + path3 + "'");
-        this.path = path3;
+      constructor(path4, code) {
+        super(code + ": Cannot cd into '" + path4 + "'");
+        this.path = path4;
         this.code = code;
       }
       get name() {
@@ -62534,7 +62670,7 @@ var require_mkdir = __commonJS({
       if (preserve) {
         return mkdirp(dir, { mode }).then((made) => done(null, made), done);
       }
-      const sub = normPath(path2.relative(cwd2, dir));
+      const sub = normPath(path3.relative(cwd2, dir));
       const parts = sub.split("/");
       mkdir_(cwd2, parts, mode, cache, unlink, cwd2, null, done);
     };
@@ -62543,7 +62679,7 @@ var require_mkdir = __commonJS({
         return cb(null, created);
       }
       const p = parts.shift();
-      const part = normPath(path2.resolve(base + "/" + p));
+      const part = normPath(path3.resolve(base + "/" + p));
       if (cGet(cache, part)) {
         return mkdir_(part, parts, mode, cache, unlink, cwd2, created, cb);
       }
@@ -62619,11 +62755,11 @@ var require_mkdir = __commonJS({
       if (preserve) {
         return done(mkdirp.sync(dir, mode));
       }
-      const sub = normPath(path2.relative(cwd2, dir));
+      const sub = normPath(path3.relative(cwd2, dir));
       const parts = sub.split("/");
       let created = null;
       for (let p = parts.shift(), part = cwd2; p && (part += "/" + p); p = parts.shift()) {
-        part = normPath(path2.resolve(part));
+        part = normPath(path3.resolve(part));
         if (cGet(cache, part)) {
           continue;
         }
@@ -62678,12 +62814,12 @@ var require_path_reservations = __commonJS({
     module2.exports = () => {
       const queues = /* @__PURE__ */ new Map();
       const reservations = /* @__PURE__ */ new Map();
-      const getDirs = (path2) => {
-        const dirs = path2.split("/").slice(0, -1).reduce((set, path3) => {
+      const getDirs = (path3) => {
+        const dirs = path3.split("/").slice(0, -1).reduce((set, path4) => {
           if (set.length) {
-            path3 = join(set[set.length - 1], path3);
+            path4 = join(set[set.length - 1], path4);
           }
-          set.push(path3 || "/");
+          set.push(path4 || "/");
           return set;
         }, []);
         return dirs;
@@ -62695,8 +62831,8 @@ var require_path_reservations = __commonJS({
           throw new Error("function does not have any path reservations");
         }
         return {
-          paths: res.paths.map((path2) => queues.get(path2)),
-          dirs: [...res.dirs].map((path2) => queues.get(path2))
+          paths: res.paths.map((path3) => queues.get(path3)),
+          dirs: [...res.dirs].map((path3) => queues.get(path3))
         };
       };
       const check = (fn) => {
@@ -62717,11 +62853,11 @@ var require_path_reservations = __commonJS({
         }
         const { paths, dirs } = reservations.get(fn);
         const next = /* @__PURE__ */ new Set();
-        paths.forEach((path2) => {
-          const q = queues.get(path2);
+        paths.forEach((path3) => {
+          const q = queues.get(path3);
           assert2.equal(q[0], fn);
           if (q.length === 1) {
-            queues.delete(path2);
+            queues.delete(path3);
           } else {
             q.shift();
             if (typeof q[0] === "function") {
@@ -62752,13 +62888,13 @@ var require_path_reservations = __commonJS({
           return stripSlashes(join(normalize(p))).toLowerCase();
         });
         const dirs = new Set(
-          paths.map((path2) => getDirs(path2)).reduce((a, b) => a.concat(b))
+          paths.map((path3) => getDirs(path3)).reduce((a, b) => a.concat(b))
         );
         reservations.set(fn, { dirs, paths });
-        paths.forEach((path2) => {
-          const q = queues.get(path2);
+        paths.forEach((path3) => {
+          const q = queues.get(path3);
           if (!q) {
-            queues.set(path2, [fn]);
+            queues.set(path3, [fn]);
           } else {
             q.push(fn);
           }
@@ -62802,7 +62938,7 @@ var require_unpack = __commonJS({
     var Parser = require_parse2();
     var fs2 = require("fs");
     var fsm = require_fs_minipass();
-    var path2 = require("path");
+    var path3 = require("path");
     var mkdir = require_mkdir();
     var wc = require_winchars();
     var pathReservations = require_path_reservations();
@@ -62840,34 +62976,34 @@ var require_unpack = __commonJS({
     var platform2 = process.env.TESTING_TAR_FAKE_PLATFORM || process.platform;
     var isWindows2 = platform2 === "win32";
     var DEFAULT_MAX_DEPTH = 1024;
-    var unlinkFile = (path3, cb) => {
+    var unlinkFile = (path4, cb) => {
       if (!isWindows2) {
-        return fs2.unlink(path3, cb);
+        return fs2.unlink(path4, cb);
       }
-      const name2 = path3 + ".DELETE." + crypto4.randomBytes(16).toString("hex");
-      fs2.rename(path3, name2, (er) => {
+      const name2 = path4 + ".DELETE." + crypto4.randomBytes(16).toString("hex");
+      fs2.rename(path4, name2, (er) => {
         if (er) {
           return cb(er);
         }
         fs2.unlink(name2, cb);
       });
     };
-    var unlinkFileSync = (path3) => {
+    var unlinkFileSync = (path4) => {
       if (!isWindows2) {
-        return fs2.unlinkSync(path3);
+        return fs2.unlinkSync(path4);
       }
-      const name2 = path3 + ".DELETE." + crypto4.randomBytes(16).toString("hex");
-      fs2.renameSync(path3, name2);
+      const name2 = path4 + ".DELETE." + crypto4.randomBytes(16).toString("hex");
+      fs2.renameSync(path4, name2);
       fs2.unlinkSync(name2);
     };
     var uint32 = (a, b, c) => a === a >>> 0 ? a : b === b >>> 0 ? b : c;
-    var cacheKeyNormalize = (path3) => stripSlash(normPath(normalize(path3))).toLowerCase();
+    var cacheKeyNormalize = (path4) => stripSlash(normPath(normalize(path4))).toLowerCase();
     var pruneCache = (cache, abs) => {
       abs = cacheKeyNormalize(abs);
-      for (const path3 of cache.keys()) {
-        const pnorm = cacheKeyNormalize(path3);
+      for (const path4 of cache.keys()) {
+        const pnorm = cacheKeyNormalize(path4);
         if (pnorm === abs || pnorm.indexOf(abs + "/") === 0) {
-          cache.delete(path3);
+          cache.delete(path4);
         }
       }
     };
@@ -62926,7 +63062,7 @@ var require_unpack = __commonJS({
         this.noMtime = !!opt.noMtime;
         this.preservePaths = !!opt.preservePaths;
         this.unlink = !!opt.unlink;
-        this.cwd = normPath(path2.resolve(opt.cwd || process.cwd()));
+        this.cwd = normPath(path3.resolve(opt.cwd || process.cwd()));
         this.strip = +opt.strip || 0;
         this.processUmask = opt.noChmod ? 0 : process.umask();
         this.umask = typeof opt.umask === "number" ? opt.umask : this.processUmask;
@@ -62994,10 +63130,10 @@ var require_unpack = __commonJS({
             });
           }
         }
-        if (path2.isAbsolute(entry.path)) {
-          entry.absolute = normPath(path2.resolve(entry.path));
+        if (path3.isAbsolute(entry.path)) {
+          entry.absolute = normPath(path3.resolve(entry.path));
         } else {
-          entry.absolute = normPath(path2.resolve(this.cwd, entry.path));
+          entry.absolute = normPath(path3.resolve(this.cwd, entry.path));
         }
         if (!this.preservePaths && entry.absolute.indexOf(this.cwd + "/") !== 0 && entry.absolute !== this.cwd) {
           this.warn("TAR_ENTRY_ERROR", "path escaped extraction target", {
@@ -63012,9 +63148,9 @@ var require_unpack = __commonJS({
           return false;
         }
         if (this.win32) {
-          const { root: aRoot } = path2.win32.parse(entry.absolute);
+          const { root: aRoot } = path3.win32.parse(entry.absolute);
           entry.absolute = aRoot + wc.encode(entry.absolute.slice(aRoot.length));
-          const { root: pRoot } = path2.win32.parse(entry.path);
+          const { root: pRoot } = path3.win32.parse(entry.path);
           entry.path = pRoot + wc.encode(entry.path.slice(pRoot.length));
         }
         return true;
@@ -63181,7 +63317,7 @@ var require_unpack = __commonJS({
         this[LINK](entry, entry.linkpath, "symlink", done);
       }
       [HARDLINK](entry, done) {
-        const linkpath = normPath(path2.resolve(this.cwd, entry.linkpath));
+        const linkpath = normPath(path3.resolve(this.cwd, entry.linkpath));
         this[LINK](entry, linkpath, "link", done);
       }
       [PEND]() {
@@ -63236,7 +63372,7 @@ var require_unpack = __commonJS({
         };
         const start = () => {
           if (entry.absolute !== this.cwd) {
-            const parent = normPath(path2.dirname(entry.absolute));
+            const parent = normPath(path3.dirname(entry.absolute));
             if (parent !== this.cwd) {
               return this[MKDIR](parent, this.dmode, (er) => {
                 if (er) {
@@ -63339,7 +63475,7 @@ var require_unpack = __commonJS({
           this[CHECKED_CWD] = true;
         }
         if (entry.absolute !== this.cwd) {
-          const parent = normPath(path2.dirname(entry.absolute));
+          const parent = normPath(path3.dirname(entry.absolute));
           if (parent !== this.cwd) {
             const mkParent = this[MKDIR](parent, this.dmode);
             if (mkParent) {
@@ -63495,7 +63631,7 @@ var require_extract = __commonJS({
     var Unpack = require_unpack();
     var fs2 = require("fs");
     var fsm = require_fs_minipass();
-    var path2 = require("path");
+    var path3 = require("path");
     var stripSlash = require_strip_trailing_slashes();
     module2.exports = (opt_, files, cb) => {
       if (typeof opt_ === "function") {
@@ -63527,8 +63663,8 @@ var require_extract = __commonJS({
       const map = new Map(files.map((f) => [stripSlash(f), true]));
       const filter2 = opt.filter;
       const mapHas = (file, r) => {
-        const root = r || path2.parse(file).root || ".";
-        const ret = file === root ? false : map.has(file) ? map.get(file) : mapHas(path2.dirname(file), root);
+        const root = r || path3.parse(file).root || ".";
+        const ret = file === root ? false : map.has(file) ? map.get(file) : mapHas(path3.dirname(file), root);
         map.set(file, ret);
         return ret;
       };
@@ -63738,7 +63874,7 @@ var require_traverse = __commonJS({
       }(this.value);
     };
     function walk2(root, cb, immutable) {
-      var path2 = [];
+      var path3 = [];
       var parents = [];
       var alive = true;
       return function walker(node_) {
@@ -63747,11 +63883,11 @@ var require_traverse = __commonJS({
         var state = {
           node,
           node_,
-          path: [].concat(path2),
+          path: [].concat(path3),
           parent: parents.slice(-1)[0],
-          key: path2.slice(-1)[0],
-          isRoot: path2.length === 0,
-          level: path2.length,
+          key: path3.slice(-1)[0],
+          isRoot: path3.length === 0,
+          level: path3.length,
           circular: null,
           update: function(x) {
             if (!state.isRoot) {
@@ -63806,7 +63942,7 @@ var require_traverse = __commonJS({
           parents.push(state);
           var keys = Object.keys(state.node);
           keys.forEach(function(key, i2) {
-            path2.push(key);
+            path3.push(key);
             if (modifiers.pre) modifiers.pre.call(state, state.node[key], key);
             var child = walker(state.node[key]);
             if (immutable && Object.hasOwnProperty.call(state.node, key)) {
@@ -63815,7 +63951,7 @@ var require_traverse = __commonJS({
             child.isLast = i2 == keys.length - 1;
             child.isFirst = i2 == 0;
             if (modifiers.post) modifiers.post.call(state, child);
-            path2.pop();
+            path3.pop();
           });
           parents.pop();
         }
@@ -64836,11 +64972,11 @@ var require_unzip_stream = __commonJS({
           return requiredLength;
         case states.CENTRAL_DIRECTORY_FILE_HEADER_SUFFIX:
           var isUtf8 = (this.parsedEntity.flags & 2048) !== 0;
-          var path2 = this._decodeString(chunk.slice(0, this.parsedEntity.fileNameLength), isUtf8);
+          var path3 = this._decodeString(chunk.slice(0, this.parsedEntity.fileNameLength), isUtf8);
           var extraDataBuffer = chunk.slice(this.parsedEntity.fileNameLength, this.parsedEntity.fileNameLength + this.parsedEntity.extraFieldLength);
           var extra = this._readExtraFields(extraDataBuffer);
           if (extra && extra.parsed && extra.parsed.path && !isUtf8) {
-            path2 = extra.parsed.path;
+            path3 = extra.parsed.path;
           }
           this.parsedEntity.extra = extra.parsed;
           var isUnix = (this.parsedEntity.versionMadeBy & 65280) >> 8 === 3;
@@ -64852,7 +64988,7 @@ var require_unzip_stream = __commonJS({
           }
           if (this.options.debug) {
             const debugObj = Object.assign({}, this.parsedEntity, {
-              path: path2,
+              path: path3,
               flags: "0x" + this.parsedEntity.flags.toString(16),
               unixAttrs: unixAttrs && "0" + unixAttrs.toString(8),
               isSymlink,
@@ -65288,7 +65424,7 @@ var require_parser_stream = __commonJS({
 // node_modules/unzip-stream/node_modules/mkdirp/index.js
 var require_mkdirp2 = __commonJS({
   "node_modules/unzip-stream/node_modules/mkdirp/index.js"(exports2, module2) {
-    var path2 = require("path");
+    var path3 = require("path");
     var fs2 = require("fs");
     var _0777 = parseInt("0777", 8);
     module2.exports = mkdirP.mkdirp = mkdirP.mkdirP = mkdirP;
@@ -65308,7 +65444,7 @@ var require_mkdirp2 = __commonJS({
       var cb = f || /* istanbul ignore next */
       function() {
       };
-      p = path2.resolve(p);
+      p = path3.resolve(p);
       xfs.mkdir(p, mode, function(er) {
         if (!er) {
           made = made || p;
@@ -65316,8 +65452,8 @@ var require_mkdirp2 = __commonJS({
         }
         switch (er.code) {
           case "ENOENT":
-            if (path2.dirname(p) === p) return cb(er);
-            mkdirP(path2.dirname(p), opts, function(er2, made2) {
+            if (path3.dirname(p) === p) return cb(er);
+            mkdirP(path3.dirname(p), opts, function(er2, made2) {
               if (er2) cb(er2, made2);
               else mkdirP(p, opts, cb, made2);
             });
@@ -65341,14 +65477,14 @@ var require_mkdirp2 = __commonJS({
         mode = _0777;
       }
       if (!made) made = null;
-      p = path2.resolve(p);
+      p = path3.resolve(p);
       try {
         xfs.mkdirSync(p, mode);
         made = made || p;
       } catch (err0) {
         switch (err0.code) {
           case "ENOENT":
-            made = sync(path2.dirname(p), opts, made);
+            made = sync(path3.dirname(p), opts, made);
             sync(p, opts, made);
             break;
           default:
@@ -65371,7 +65507,7 @@ var require_mkdirp2 = __commonJS({
 var require_extract2 = __commonJS({
   "node_modules/unzip-stream/lib/extract.js"(exports2, module2) {
     var fs2 = require("fs");
-    var path2 = require("path");
+    var path3 = require("path");
     var util = require("util");
     var mkdirp = require_mkdirp2();
     var Transform2 = require("stream").Transform;
@@ -65413,8 +65549,8 @@ var require_extract2 = __commonJS({
     };
     Extract.prototype._processEntry = function(entry) {
       var self = this;
-      var destPath = path2.join(this.opts.path, entry.path);
-      var directory = entry.isDirectory ? destPath : path2.dirname(destPath);
+      var destPath = path3.join(this.opts.path, entry.path);
+      var directory = entry.isDirectory ? destPath : path3.dirname(destPath);
       this.unfinishedEntries++;
       var writeFileFn = function() {
         var pipedStream = fs2.createWriteStream(destPath);
@@ -65533,13 +65669,13 @@ function download(urlInput, options2, token) {
           if (hash) hash.update(chunk);
           if (hasTotal) {
             let percent = (cur / total * 100).toFixed(1);
-            typeof onProgress === "function" ? onProgress(percent) : logger25.info(`Download ${url} progress ${percent}%`);
+            typeof onProgress === "function" ? onProgress(percent) : logger27.info(`Download ${url} progress ${percent}%`);
           }
         });
         res.on("end", () => {
           clearTimeout(timer);
           timer = void 0;
-          logger25.info("Download completed:", url);
+          logger27.info("Download completed:", url);
         });
         let stream;
         if (extract === "untar") {
@@ -65559,7 +65695,7 @@ function download(urlInput, options2, token) {
               return;
             }
           }
-          logger25.info(`Downloaded ${url} => ${dest}`);
+          logger27.info(`Downloaded ${url} => ${dest}`);
           setTimeout(() => {
             resolve(dest);
           }, 100);
@@ -65592,7 +65728,7 @@ function download(urlInput, options2, token) {
     req.end();
   });
 }
-var logger25;
+var logger27;
 var init_download = __esm({
   "src/model/download.ts"() {
     "use strict";
@@ -65600,7 +65736,7 @@ var init_download = __esm({
     init_logger();
     init_node();
     init_fetch();
-    logger25 = createLogger("model-download");
+    logger27 = createLogger("model-download");
   }
 });
 
@@ -65621,7 +65757,7 @@ function registryUrl(home = os.homedir()) {
       }
       if (uri) res = new import_url3.URL(uri);
     } catch (e) {
-      logger26.debug("Error on parse .npmrc:", e);
+      logger28.debug("Error on parse .npmrc:", e);
     }
   }
   return res ?? new import_url3.URL("https://registry.npmjs.org");
@@ -65650,7 +65786,7 @@ function isSymbolicLink(folder) {
 function getDependencies(obj) {
   return Object.keys(obj.dependencies ?? {}).filter((id) => !local_dependencies.includes(id));
 }
-var import_events29, import_url3, logger26, local_dependencies, Installer;
+var import_events29, import_url3, logger28, local_dependencies, Installer;
 var init_installer = __esm({
   "src/extension/installer.ts"() {
     "use strict";
@@ -65664,7 +65800,7 @@ var init_installer = __esm({
     init_node();
     init_string();
     init_workspace();
-    logger26 = createLogger("extension-installer");
+    logger28 = createLogger("extension-installer");
     local_dependencies = ["coc.nvim", "esbuild", "webpack", "@types/node"];
     Installer = class extends import_events29.EventEmitter {
       constructor(root, npm, def) {
@@ -65735,7 +65871,7 @@ var init_installer = __esm({
       async install() {
         this.log(`Using npm from: ${this.npm}`);
         let info = await this.getInfo();
-        logger26.info(`Fetched info of ${this.def}`, info);
+        logger28.info(`Fetched info of ${this.def}`, info);
         let { name: name2, version: version2 } = info;
         let required = toText(info["engines.coc"]).replace(/^\^/, ">=");
         if (required && !semver.satisfies(workspace_default.version, required)) {
@@ -65923,7 +66059,7 @@ var init_memos = __esm({
 });
 
 // src/list/commandTask.ts
-var import_events30, spawn, logger27, CommandTask;
+var import_events30, spawn, logger29, CommandTask;
 var init_commandTask = __esm({
   "src/list/commandTask.ts"() {
     "use strict";
@@ -65933,7 +66069,7 @@ var init_commandTask = __esm({
     init_node();
     init_workspace();
     spawn = child_process.spawn;
-    logger27 = createLogger("list-commandTask");
+    logger29 = createLogger("list-commandTask");
     CommandTask = class extends import_events30.EventEmitter {
       constructor(opt) {
         super();
@@ -65953,7 +66089,7 @@ var init_commandTask = __esm({
           this.emit("error", e.message);
         });
         proc.stderr.on("data", (chunk) => {
-          logger27.error(`[${cmd} Error]`, chunk.toString("utf8"));
+          logger29.error(`[${cmd} Error]`, chunk.toString("utf8"));
         });
         const rl = readline.createInterface(proc.stdout);
         rl.on("line", (line) => {
@@ -66357,7 +66493,7 @@ var init_fuzzy = __esm({
 });
 
 // src/list/db.ts
-var logger28, DB_PATH, DataBase, db_default;
+var logger30, DB_PATH, DataBase, db_default;
 var init_db2 = __esm({
   "src/list/db.ts"() {
     "use strict";
@@ -66365,7 +66501,7 @@ var init_db2 = __esm({
     init_logger();
     init_string();
     init_constants();
-    logger28 = createLogger("list-db");
+    logger30 = createLogger("list-db");
     DB_PATH = path.join(dataHome, "list_history.dat");
     DataBase = class {
       constructor() {
@@ -66376,7 +66512,7 @@ var init_db2 = __esm({
         try {
           this.load();
         } catch (e) {
-          logger28.error(`Error on load db`, e);
+          logger30.error(`Error on load db`, e);
         }
       }
       get currItems() {
@@ -66482,7 +66618,7 @@ var init_db2 = __esm({
 });
 
 // src/list/history.ts
-var logger29, InputHistory;
+var logger31, InputHistory;
 var init_history = __esm({
   "src/list/history.ts"() {
     "use strict";
@@ -66492,7 +66628,7 @@ var init_history = __esm({
     init_fuzzy();
     init_db2();
     init_string();
-    logger29 = createLogger("list-history");
+    logger31 = createLogger("list-history");
     InputHistory = class {
       constructor(prompt, name2, db, cwd2) {
         this.prompt = prompt;
@@ -66535,7 +66671,7 @@ var init_history = __esm({
           });
           db.save();
         } catch (e) {
-          logger29.error(`Error on migrate history:`, e);
+          logger31.error(`Error on migrate history:`, e);
         }
       }
       get curr() {
@@ -67753,7 +67889,7 @@ function parseInput(input) {
   }
   return res.map((s) => s.replace(/\\\s/g, " ").trim()).filter((s) => s.length > 0);
 }
-var logger30, controlCode, WHITE_SPACE_CHARS, SEARCH_HL_GROUP, Worker;
+var logger32, controlCode, WHITE_SPACE_CHARS, SEARCH_HL_GROUP, Worker;
 var init_worker = __esm({
   "src/list/worker.ts"() {
     "use strict";
@@ -67769,7 +67905,7 @@ var init_worker = __esm({
     init_string();
     init_workspace();
     init_configuration3();
-    logger30 = createLogger("list-worker");
+    logger32 = createLogger("list-worker");
     controlCode = "\x1B";
     WHITE_SPACE_CHARS = [32, 9];
     SEARCH_HL_GROUP = "CocListSearch";
@@ -67891,7 +68027,7 @@ var init_worker = __esm({
             clearInterval(interval2);
             workspace_default.nvim.call("coc#prompt#stop_prompt", ["list"], true);
             workspace_default.nvim.echoError(`Task error: ${error.toString()}`);
-            logger30.error("List task error:", error);
+            logger32.error("List task error:", error);
           });
           task.on("end", onEnd);
         }
@@ -70340,13 +70476,13 @@ var init_configuration4 = __esm({
         return mergeConfigProperties(toJSONObject(config.get("settings", {})));
       }
       static extractSettingsInformation(keys, workspaceFolder) {
-        function ensurePath(config, path2) {
+        function ensurePath(config, path3) {
           let current = config;
-          for (let i = 0; i < path2.length - 1; i++) {
-            let obj = current[path2[i]];
+          for (let i = 0; i < path3.length - 1; i++) {
+            let obj = current[path3[i]];
             if (!obj) {
               obj = /* @__PURE__ */ Object.create(null);
-              current[path2[i]] = obj;
+              current[path3[i]] = obj;
             }
             current = obj;
           }
@@ -70362,8 +70498,8 @@ var init_configuration4 = __esm({
           } else {
             config = workspace_default.getConfiguration(key, workspaceFolder);
           }
-          let path2 = keys[i].split(".");
-          ensurePath(result, path2)[path2[path2.length - 1]] = config;
+          let path3 = keys[i].split(".");
+          ensurePath(result, path3)[path3[path3.length - 1]] = config;
         }
         return result;
       }
@@ -71310,13 +71446,13 @@ var init_fileOperations = __esm({
         const fileMatches = await Promise.all(
           event.files.map(async (item) => {
             const uri = prop(item);
-            const path2 = uri.fsPath.replace(/\\/g, "/");
+            const path3 = uri.fsPath.replace(/\\/g, "/");
             for (const filters of this._filters.values()) {
               for (const filter2 of filters) {
                 if (filter2.scheme !== void 0 && filter2.scheme !== uri.scheme) {
                   continue;
                 }
-                if (filter2.matcher.match(path2)) {
+                if (filter2.matcher.match(path3)) {
                   if (filter2.kind === void 0) {
                     return true;
                   }
@@ -71330,7 +71466,7 @@ var init_fileOperations = __esm({
                   }
                 } else if (filter2.kind === import_node3.FileOperationPatternKind.folder) {
                   const fileType = await getFileType(uri.fsPath);
-                  if (fileType === 2 /* Directory */ && filter2.matcher.match(`${path2}/`)) {
+                  if (fileType === 2 /* Directory */ && filter2.matcher.match(`${path3}/`)) {
                     return true;
                   }
                 }
@@ -71765,7 +71901,8 @@ var init_formatting2 = __esm({
           }
         };
         return [
-          languages_default.registerDocumentFormatProvider(options2.documentSelector, provider, this._client.clientOptions.formatterPriority),
+          // We need to pass the originaly registered extension name to keep track of it.
+          languages_default.registerDocumentFormatProvider(options2.documentSelector, provider, this._client.clientOptions.formatterPriority, this._client.registeredExtensionName),
           provider
         ];
       }
@@ -71806,7 +71943,11 @@ var init_formatting2 = __esm({
             return middleware.provideDocumentRangeFormattingEdits ? middleware.provideDocumentRangeFormattingEdits(document2, range, options3, token, provideDocumentRangeFormattingEdits) : provideDocumentRangeFormattingEdits(document2, range, options3, token);
           }
         };
-        return [languages_default.registerDocumentRangeFormatProvider(options2.documentSelector, provider), provider];
+        return [
+          // We need to pass the originaly registered extension name to keep track of it.
+          languages_default.registerDocumentRangeFormatProvider(options2.documentSelector, provider, void 0, this._client.registeredExtensionName),
+          provider
+        ];
       }
     };
     DocumentOnTypeFormattingFeature = class extends TextDocumentLanguageFeature {
@@ -73073,7 +73214,7 @@ function toMethod(type) {
   return string(type) ? type : type.method;
 }
 function currentTimeStamp() {
-  return getTimestamp(/* @__PURE__ */ new Date());
+  return (/* @__PURE__ */ new Date()).toLocaleTimeString();
 }
 function getTraceMessage(data) {
   if (data.isLSPMessage && data.type) {
@@ -73116,7 +73257,6 @@ function parseTraceData(data) {
 var init_utils = __esm({
   "src/language-client/utils/index.ts"() {
     "use strict";
-    init_logger();
     init_is();
     init_node();
     init_protocol();
@@ -73171,24 +73311,24 @@ var init_errorHandler = __esm({
 });
 
 // src/language-client/utils/logger.ts
-var logger31, ConsoleLogger, NullLogger;
+var logger33, ConsoleLogger, NullLogger;
 var init_logger2 = __esm({
   "src/language-client/utils/logger.ts"() {
     "use strict";
     init_logger();
-    logger31 = createLogger("language-client");
+    logger33 = createLogger("language-client");
     ConsoleLogger = class {
       error(message) {
-        logger31.error(message);
+        logger33.error(message);
       }
       warn(message) {
-        logger31.warn(message);
+        logger33.warn(message);
       }
       info(message) {
-        logger31.info(message);
+        logger33.info(message);
       }
       log(message) {
-        logger31.log(message);
+        logger33.log(message);
       }
     };
     NullLogger = class {
@@ -73449,8 +73589,8 @@ var init_workspaceSymbol = __esm({
 
 // src/language-client/client.ts
 function createConnection(input, output, errorHandler, closeHandler, options2) {
-  let logger57 = new ConsoleLogger();
-  let connection = (0, import_node3.createProtocolConnection)(input, output, logger57, options2);
+  let logger59 = new ConsoleLogger();
+  let connection = (0, import_node3.createProtocolConnection)(input, output, logger59, options2);
   connection.onError((data) => {
     errorHandler(data[0], data[1], data[2]);
   });
@@ -73486,7 +73626,7 @@ function createConnection(input, output, errorHandler, closeHandler, options2) {
   };
   return result;
 }
-var logger32, redOpen, redClose, RevealOutputChannelOn, State, ClientState, MessageTransports, BaseLanguageClient, ProposedFeatures;
+var logger34, redOpen, redClose, RevealOutputChannelOn, State, ClientState, MessageTransports, BaseLanguageClient, ProposedFeatures;
 var init_client = __esm({
   "src/language-client/client.ts"() {
     "use strict";
@@ -73545,7 +73685,7 @@ var init_client = __esm({
     init_uuid();
     init_workspaceFolders();
     init_workspaceSymbol();
-    logger32 = createLogger("language-client-client");
+    logger34 = createLogger("language-client-client");
     redOpen = "\x1B[31m";
     redClose = "\x1B[39m";
     RevealOutputChannelOn = /* @__PURE__ */ ((RevealOutputChannelOn2) => {
@@ -73647,22 +73787,17 @@ var init_client = __esm({
         for (let key of ["disableCompletion", "disableWorkspaceFolders", "disableDiagnostics"]) {
           if (typeof clientOptions[key] === "boolean") {
             let stack = "\n" + Error().stack.split("\n").slice(2, 4).join("\n");
-            logger32.warn(`${key} in the client options is deprecated. use disabledFeatures instead.`, stack);
+            logger34.warn(`${key} in the client options is deprecated. use disabledFeatures instead.`, stack);
             if (clientOptions[key] === true) {
               let s = key.slice(7);
               disabledFeatures.push(s[0].toLowerCase() + s.slice(1));
             }
           }
         }
-        let separateDiagnostics = clientOptions.separateDiagnostics;
-        if (clientOptions.separateDiagnostics === void 0) {
-          separateDiagnostics = workspace_default.getConfiguration("diagnostic", clientOptions.workspaceFolder).get("separateRelatedInformationAsDiagnostics");
-        }
         return {
           disabledFeatures,
           disableMarkdown,
           disableSnippetCompletion,
-          separateDiagnostics,
           diagnosticPullOptions: pullOption,
           rootPatterns: clientOptions.rootPatterns ?? [],
           requireRootPattern: clientOptions.requireRootPattern,
@@ -74274,7 +74409,7 @@ var init_client = __esm({
           } else {
             void window_default.showErrorMessage(toText(error.message));
             this.error("Server initialization failed.", error);
-            logger32.error(`Server ${this.id} initialization failed.`, error);
+            logger34.error(`Server ${this.id} initialization failed.`, error);
             cb(false);
           }
           throw error;
@@ -74395,7 +74530,7 @@ var init_client = __esm({
       }
       handleConnectionClosed() {
         if (this.$state === 5 /* Stopped */) {
-          logger32.debug(`client ${this._id} normal closed`);
+          logger34.debug(`client ${this._id} normal closed`);
           return;
         }
         try {
@@ -74642,32 +74777,7 @@ var init_client = __esm({
       }
       setDiagnostics(uri, diagnostics) {
         if (!this._diagnostics) return;
-        const separate = this.clientOptions.separateDiagnostics;
-        if (separate && diagnostics.length > 0) {
-          const entries = /* @__PURE__ */ new Map();
-          entries.set(uri, diagnostics);
-          for (const diagnostic of diagnostics) {
-            if (diagnostic.relatedInformation?.length) {
-              let message = `${diagnostic.message}
-
-Related diagnostics:
-`;
-              for (const info of diagnostic.relatedInformation) {
-                const basename = path.basename(URI.parse(info.location.uri).fsPath);
-                const ln = info.location.range.start.line;
-                message = `${message}
-${basename}(line ${ln + 1}): ${info.message}`;
-                const diags = entries.get(info.location.uri) || [];
-                diags.push(Diagnostic.create(info.location.range, info.message, DiagnosticSeverity.Hint, diagnostic.code, diagnostic.source));
-                entries.set(info.location.uri, diags);
-              }
-              diagnostic.message = message;
-            }
-            this._diagnostics.set(Array.from(entries));
-          }
-        } else {
-          this._diagnostics.set(uri, diagnostics);
-        }
+        this._diagnostics.set(uri, diagnostics);
       }
       handleApplyWorkspaceEdit(params) {
         let workspaceEdit = params.edit;
@@ -74786,7 +74896,7 @@ function startedInDebugMode(args) {
   }
   return false;
 }
-var logger33, debugStartWith, debugEquals, STOP_TIMEOUT, Executable, TransportKind, Transport, NodeModule, StreamInfo, ChildProcessInfo, LanguageClient, SettingMonitor;
+var logger35, debugStartWith, debugEquals, STOP_TIMEOUT, Executable, TransportKind, Transport, NodeModule, StreamInfo, ChildProcessInfo, LanguageClient, SettingMonitor;
 var init_language_client = __esm({
   "src/language-client/index.ts"() {
     "use strict";
@@ -74799,7 +74909,7 @@ var init_language_client = __esm({
     init_workspace();
     init_client();
     init_client();
-    logger33 = createLogger("language-client-index");
+    logger35 = createLogger("language-client-index");
     debugStartWith = ["--debug=", "--debug-brk=", "--inspect=", "--inspect-brk="];
     debugEquals = ["--debug", "--debug-brk", "--inspect", "--inspect-brk"];
     STOP_TIMEOUT = getConditionValue(2e3, 100);
@@ -75003,7 +75113,7 @@ var init_language_client = __esm({
                 let sp = child_process.fork(node.module, args || [], options2);
                 assertStdio(sp);
                 this._serverProcess = sp;
-                logger33.info(`Language server "${this.id}" started with ${sp.pid}`);
+                logger35.info(`Language server "${this.id}" started with ${sp.pid}`);
                 sp.stderr.on("data", logMessage);
                 if (transport === 1 /* ipc */) {
                   sp.stdout.on("data", logMessage);
@@ -75015,7 +75125,7 @@ var init_language_client = __esm({
                 return (0, import_node3.createClientPipeTransport)(pipeName).then((transport2) => {
                   let sp = child_process.fork(node.module, args || [], options2);
                   assertStdio(sp);
-                  logger33.info(`Language server "${this.id}" started with ${sp.pid}`);
+                  logger35.info(`Language server "${this.id}" started with ${sp.pid}`);
                   this._serverProcess = sp;
                   sp.stderr.on("data", logMessage);
                   sp.stdout.on("data", logMessage);
@@ -75028,7 +75138,7 @@ var init_language_client = __esm({
                   let sp = child_process.fork(node.module, args || [], options2);
                   assertStdio(sp);
                   this._serverProcess = sp;
-                  logger33.info(`Language server "${this.id}" started with ${sp.pid}`);
+                  logger35.info(`Language server "${this.id}" started with ${sp.pid}`);
                   sp.stderr.on("data", logMessage);
                   sp.stdout.on("data", logMessage);
                   void transport2.onConnected().then((protocol2) => {
@@ -75051,7 +75161,7 @@ var init_language_client = __esm({
             if (!serverProcess || !serverProcess.pid) {
               return Promise.reject(new Error(`Launching server "${this.id}" using command ${command.command} failed.`));
             }
-            logger33.info(`Language server "${this.id}" started with ${serverProcess.pid}`);
+            logger35.info(`Language server "${this.id}" started with ${serverProcess.pid}`);
             serverProcess.on("exit", (code) => {
               if (code != 0) this.error(`${command.command} exited with code: ${code}`);
             });
@@ -75149,7 +75259,7 @@ function getLanguageServerOptions(id, name2, config, folder) {
     serverOptions = () => new Promise((resolve, reject) => {
       let client = new net.Socket();
       let host = config.host ?? "127.0.0.1";
-      logger34.info(`languageserver "${id}" connecting to ${host}:${port}`);
+      logger36.info(`languageserver "${id}" connecting to ${host}:${port}`);
       client.connect(port, host, () => {
         resolve({
           reader: client,
@@ -75164,7 +75274,7 @@ function getLanguageServerOptions(id, name2, config, folder) {
   let disabledFeatures = Array.from(config.disabledFeatures || []);
   for (let key of ["disableWorkspaceFolders", "disableCompletion", "disableDiagnostics"]) {
     if (config[key] === true) {
-      logger34.warn(`Language server config "${key}" is deprecated, use "disabledFeatures" instead.`);
+      logger36.warn(`Language server config "${key}" is deprecated, use "disabledFeatures" instead.`);
       let s = key.slice(7);
       disabledFeatures.push(s[0].toLowerCase() + s.slice(1));
     }
@@ -75215,7 +75325,7 @@ function isValidServerConfig(key, config) {
     errors.push(`"additionalSchemes" field of languageserver ${key} should be array of string`);
   }
   if (errors.length) {
-    logger34.error(`Invalid language server configuration for ${key}`, errors.join("\n"));
+    logger36.error(`Invalid language server configuration for ${key}`, errors.join("\n"));
     return false;
   }
   return true;
@@ -75307,7 +75417,7 @@ function getStateName(state) {
       return "unknown";
   }
 }
-var logger34, ServiceStat, ServiceManager, services_default;
+var logger36, ServiceStat, ServiceManager, services_default;
 var init_services = __esm({
   "src/services.ts"() {
     "use strict";
@@ -75322,7 +75432,8 @@ var init_services = __esm({
     init_protocol();
     init_window();
     init_workspace();
-    logger34 = createLogger("services");
+    init_extensionRegistry();
+    logger36 = createLogger("services");
     ServiceStat = /* @__PURE__ */ ((ServiceStat2) => {
       ServiceStat2[ServiceStat2["Initial"] = 0] = "Initial";
       ServiceStat2[ServiceStat2["Starting"] = 1] = "Starting";
@@ -75374,7 +75485,7 @@ var init_services = __esm({
         this.registered.set(id, service);
         this.tryStartService(service);
         service.onServiceReady(() => {
-          logger34.info(`service ${id} started`);
+          logger36.info(`service ${id} started`);
         }, null, this.disposables);
         return import_node3.Disposable.create(() => {
           if (!this.registered.has(id)) return;
@@ -75493,6 +75604,7 @@ var init_services = __esm({
         workspace_default.nvim.call("coc#do_notify", [id, method, result], true);
       }
       registerLanguageClient(name2, config, folder) {
+        const registeredExtensionName = parseExtensionName(Error().stack);
         let id = typeof name2 === "string" ? `languageserver.${name2}` : name2.id;
         let disposables = [];
         let onDidServiceReady = new import_node3.Emitter();
@@ -75500,6 +75612,7 @@ var init_services = __esm({
         if (this.registered.has(id)) return import_node3.Disposable.create(() => {
         });
         if (client && typeof client.dispose === "function") disposables.push(client);
+        if (client) client.registeredExtensionName = registeredExtensionName;
         let created = false;
         let service = {
           id,
@@ -75515,6 +75628,7 @@ var init_services = __esm({
                 let opts = getLanguageServerOptions(id, name2, config2, folder);
                 if (!opts || config2.enable === false) return;
                 client = new LanguageClient(id, name2, opts[1], opts[0]);
+                client.registeredExtensionName = registeredExtensionName;
                 service.selector = opts[0].documentSelector;
                 service.client = client;
                 disposables.push(client);
@@ -75530,7 +75644,7 @@ var init_services = __esm({
                 service.state = convertState(newState);
                 let oldStr = stateString(oldState);
                 let newStr = stateString(newState);
-                logger34.info(`LanguageClient ${client.name} state change: ${oldStr} => ${newStr}`);
+                logger36.info(`LanguageClient ${client.name} state change: ${oldStr} => ${newStr}`);
               }, null, disposables);
             }
             try {
@@ -75538,13 +75652,13 @@ var init_services = __esm({
                 service.state = convertState(client.state);
               } else {
                 service.state = 1 /* Starting */;
-                logger34.debug(`starting service: ${id}`);
+                logger36.debug(`starting service: ${id}`);
                 await client.start();
                 onDidServiceReady.fire(void 0);
               }
             } catch (e) {
               void window_default.showErrorMessage(`Server ${id} failed to start: ${e}`);
-              logger34.error(`Server ${id} failed to start:`, e);
+              logger36.error(`Server ${id} failed to start:`, e);
               service.state = 2 /* StartFailed */;
             }
           },
@@ -75870,7 +75984,7 @@ function createConfigurationNode(name2, interactive, id) {
   if (id) node.extensionInfo = { id };
   return node;
 }
-var logger35, mouseKeys, winleaveDalay, ListManager, manager_default2;
+var logger37, mouseKeys, winleaveDalay, ListManager, manager_default2;
 var init_manager3 = __esm({
   "src/list/manager.ts"() {
     "use strict";
@@ -75905,7 +76019,7 @@ var init_manager3 = __esm({
     init_services2();
     init_sources();
     init_symbols();
-    logger35 = createLogger("list-manager");
+    logger37 = createLogger("list-manager");
     mouseKeys = ["<LeftMouse>", "<LeftDrag>", "<LeftRelease>", "<2-LeftMouse>"];
     winleaveDalay = isVim ? 50 : 0;
     ListManager = class {
@@ -75983,7 +76097,7 @@ var init_manager3 = __esm({
           if (isCancellationError(e)) return;
           void window_default.showErrorMessage(`Error on "CocList ${name2}": ${toErrorText(e)}`);
           this.nvim.redrawVim();
-          logger35.error(`Error on load ${name2} list:`, e);
+          logger37.error(`Error on load ${name2} list:`, e);
         }
       }
       getSessionByWinid(winid) {
@@ -76890,7 +77004,7 @@ var init_variableResolve = __esm({
 });
 
 // src/snippets/session.ts
-var logger36, NAME_SPACE2, SnippetSession;
+var logger38, NAME_SPACE2, SnippetSession;
 var init_session2 = __esm({
   "src/snippets/session.ts"() {
     "use strict";
@@ -76906,7 +77020,7 @@ var init_session2 = __esm({
     init_parser3();
     init_snippet();
     init_variableResolve();
-    logger36 = createLogger("snippets-session");
+    logger38 = createLogger("snippets-session");
     NAME_SPACE2 = "snippets";
     SnippetSession = class {
       constructor(nvim, document2, config) {
@@ -76995,7 +77109,7 @@ var init_session2 = __esm({
         this.nvim.call("coc#snippet#disable", [], true);
         if (this.config.highlight) this.nvim.call("coc#highlight#clear_highlight", [this.bufnr, NAME_SPACE2, 0, -1], true);
         this._onCancelEvent.fire(void 0);
-        logger36.debug(`session ${this.bufnr} cancelled`);
+        logger38.debug(`session ${this.bufnr} cancelled`);
       }
       get isActive() {
         return this._isActive;
@@ -77041,7 +77155,7 @@ var init_session2 = __esm({
           this.highlights(placeholder);
           if (placeholder.index == 0) {
             if (finalCount == 1) {
-              logger36.info("Jump to final placeholder, cancelling snippet session");
+              logger38.info("Jump to final placeholder, cancelling snippet session");
               this.deactivate();
             } else {
               nvim.call("coc#snippet#disable", [], true);
@@ -77075,7 +77189,7 @@ var init_session2 = __esm({
         if (!this.isActive) return;
         let position = await window_default.getCursorPosition();
         if (this.snippet && positionInRange(position, this.snippet.range) != 0) {
-          logger36.info("Cursor insert out of range, cancelling snippet session");
+          logger38.info("Cursor insert out of range, cancelling snippet session");
           this.deactivate();
         }
       }
@@ -77105,7 +77219,7 @@ var init_session2 = __esm({
         if (change && !rangeInRange(change.range, range)) change = void 0;
         let end = getEndPosition(range.end, textDocument, d);
         if (!end) {
-          logger36.info("Content change after snippet, cancel snippet session");
+          logger38.info("Content change after snippet, cancel snippet session");
           this.deactivate();
           return;
         }
@@ -77116,10 +77230,10 @@ var init_session2 = __esm({
             let pos = d.positionAt(content.length - text.length);
             this.snippet.resetStartPosition(pos);
             this.textDocument = d;
-            logger36.info("Content change before snippet, reset snippet position");
+            logger38.info("Content change before snippet, reset snippet position");
             return;
           }
-          logger36.info("Before and snippet body changed, cancel snippet session");
+          logger38.info("Before and snippet body changed, cancel snippet session");
           this.deactivate();
           return;
         }
@@ -77160,11 +77274,11 @@ var init_session2 = __esm({
           let pos = getEnd(range.start, inserted.slice(0, -text.length));
           this.snippet.resetStartPosition(pos);
           this.textDocument = d;
-          logger36.info("Content change before snippet, reset snippet position");
+          logger38.info("Content change before snippet, reset snippet position");
           return;
         }
         if (!placeholder) {
-          logger36.info("Unable to find changed placeholder, cancel snippet session");
+          logger38.info("Unable to find changed placeholder, cancel snippet session");
           this.deactivate();
           return;
         }
@@ -77192,7 +77306,7 @@ var init_session2 = __esm({
         } else {
           this.highlights(placeholder);
         }
-        logger36.debug("update cost:", Date.now() - start, res.delta);
+        logger38.debug("update cost:", Date.now() - start, res.delta);
         this.textDocument = this.document.textDocument;
         if (this.config.nextOnDelete) {
           if (curr && curr.value.length > 0 && placeholder.marker.toString() === "") {
@@ -77993,7 +78107,7 @@ function getProtoWithCompile(mod) {
   if (hasOwnProperty(mod.prototype.__proto__, "_compile")) return mod.prototype.__proto__;
   throw new Error("_compile not found");
 }
-function createSandbox(filename, logger57, name2, noExport = false) {
+function createSandbox(filename, logger59, name2, noExport = false) {
   const module2 = new Module(filename);
   module2.paths = Module._nodeModulePaths(filename);
   const sandbox = vm.createContext({
@@ -78002,19 +78116,19 @@ function createSandbox(filename, logger57, name2, noExport = false) {
     URL: globalThis.URL,
     console: {
       debug: (...args) => {
-        logger57.debug.apply(logger57, args);
+        logger59.debug.apply(logger59, args);
       },
       log: (...args) => {
-        logger57.info.apply(logger57, args);
+        logger59.info.apply(logger59, args);
       },
       error: (...args) => {
-        logger57.error.apply(logger57, args);
+        logger59.error.apply(logger59, args);
       },
       info: (...args) => {
-        logger57.info.apply(logger57, args);
+        logger59.info.apply(logger59, args);
       },
       warn: (...args) => {
-        logger57.warn.apply(logger57, args);
+        logger59.warn.apply(logger59, args);
       }
     }
   }, { name: name2 });
@@ -78054,8 +78168,8 @@ function createExtension(id, filename, isEmpty2) {
     },
     deactivate: null
   };
-  const logger57 = getLogger(!global.__isMain && true, id);
-  const sandbox = createSandbox(filename, logger57, id);
+  const logger59 = getLogger(!global.__isMain && true, id);
+  const sandbox = createSandbox(filename, logger59, id);
   delete Module._cache[require.resolve(filename)];
   const defaultImport = sandbox.require(filename);
   const activate = defaultImport && defaultImport.activate || defaultImport;
@@ -78111,23 +78225,23 @@ function createTiming(name2, timeout2) {
       clearTimeout(timer);
       if (timeout2) {
         timer = setTimeout(() => {
-          logger37.error(`${name2} timeout after ${timeout2}ms`);
+          logger39.error(`${name2} timeout after ${timeout2}ms`);
         }, timeout2);
         timer.unref();
       }
     },
     stop() {
       clearTimeout(timer);
-      logger37.trace(`${name2}${_label ? ` ${_label}` : ""} cost:`, Date.now() - start);
+      logger39.trace(`${name2}${_label ? ` ${_label}` : ""} cost:`, Date.now() - start);
     }
   };
 }
-var logger37;
+var logger39;
 var init_timing = __esm({
   "src/util/timing.ts"() {
     "use strict";
     init_logger();
-    logger37 = createLogger("timing");
+    logger39 = createLogger("timing");
   }
 });
 
@@ -78203,7 +78317,7 @@ function checkExtensionRoot(root) {
     }
     let stat = fs.statSync(root);
     if (!stat.isDirectory()) {
-      logger38.info(`Trying to delete ${root}`);
+      logger40.info(`Trying to delete ${root}`);
       fs.unlinkSync(root);
       fs.mkdirSync(root, { recursive: true });
     }
@@ -78228,11 +78342,11 @@ function loadJson2(filepath) {
     let data = JSON.parse(text);
     return toObject(data);
   } catch (e) {
-    logger38.error(`Error on parse json file ${filepath}`, e);
+    logger40.error(`Error on parse json file ${filepath}`, e);
     return {};
   }
 }
-var logger38, ONE_DAY, ExtensionStat;
+var logger40, ONE_DAY, ExtensionStat;
 var init_stat = __esm({
   "src/extension/stat.ts"() {
     "use strict";
@@ -78242,7 +78356,7 @@ var init_stat = __esm({
     init_is();
     init_node();
     init_object();
-    logger38 = createLogger("extension-stat");
+    logger40 = createLogger("extension-stat");
     ONE_DAY = 24 * 60 * 60 * 1e3;
     ExtensionStat = class {
       constructor(folder) {
@@ -78254,7 +78368,7 @@ var init_stat = __esm({
         try {
           this.migrate();
         } catch (e) {
-          logger38.error(`Error on update package.json at ${folder}`, e);
+          logger40.error(`Error on update package.json at ${folder}`, e);
         }
       }
       migrate() {
@@ -78476,7 +78590,7 @@ function toWorkspaceContainsPatterns(activationEvents) {
   }
   return patterns;
 }
-var logger39, extensionRegistry5, memos, configurationRegistry2, ExtensionManager;
+var logger41, extensionRegistry5, memos, configurationRegistry2, ExtensionManager;
 var init_manager5 = __esm({
   "src/extension/manager.ts"() {
     "use strict";
@@ -78503,7 +78617,7 @@ var init_manager5 = __esm({
     init_window();
     init_workspace();
     init_stat();
-    logger39 = createLogger("extensions-manager");
+    logger41 = createLogger("extensions-manager");
     extensionRegistry5 = Registry.as(Extensions.ExtensionContribution);
     memos = new Memos(path.resolve(dataHome, "memos.json"));
     memos.merge(path.resolve(dataHome, "../memos.json"));
@@ -78784,7 +78898,7 @@ var init_manager5 = __esm({
           let checked = await this.checkAutoActivate(extension.packageJSON);
           if (checked) await Promise.resolve(extension.activate());
         } catch (e) {
-          logger39.error(`Error on activate ${id}`, e);
+          logger41.error(`Error on activate ${id}`, e);
         }
       }
       async loadExtensionFile(filepath, noActive = false) {
@@ -78810,7 +78924,7 @@ var init_manager5 = __esm({
             let extensionType = stat.isLocal ? 1 /* Local */ : 0 /* Global */;
             void this.registerExtension(stat.root, stat.packageJSON, extensionType);
           } catch (e) {
-            logger39.error(`Error on regist extension from ${stat.root}: `, e);
+            logger41.error(`Error on regist extension from ${stat.root}: `, e);
           }
         }
       }
@@ -78849,7 +78963,7 @@ var init_manager5 = __esm({
                 timing.stop();
                 resolve(res);
               } catch (e) {
-                logger39.error(`Error on active extension ${id}:`, e);
+                logger41.error(`Error on active extension ${id}:`, e);
                 reject(e);
               }
             });
@@ -78889,7 +79003,7 @@ var init_manager5 = __esm({
                 await Promise.resolve(ext.deactivate());
                 ext = void 0;
               } catch (e) {
-                logger39.error(`Error on ${id} deactivate: `, e);
+                logger41.error(`Error on ${id} deactivate: `, e);
               }
             }
           }
@@ -79220,7 +79334,7 @@ var init_ui3 = __esm({
 function toUrl(val) {
   return isUrl(val) ? val.replace(/\.git(#master|#main)?$/, "") : "";
 }
-var logger40, EXTENSIONS_FOLDER, Extensions4, extension_default;
+var logger42, EXTENSIONS_FOLDER, Extensions4, extension_default;
 var init_extension = __esm({
   "src/extension/index.ts"() {
     "use strict";
@@ -79239,7 +79353,7 @@ var init_extension = __esm({
     init_manager5();
     init_stat();
     init_ui3();
-    logger40 = createLogger("extensions-index");
+    logger42 = createLogger("extensions-index");
     EXTENSIONS_FOLDER = path.join(dataHome, "extensions");
     Extensions4 = class {
       constructor() {
@@ -79251,7 +79365,7 @@ var init_extension = __esm({
           id: "extensions.forceUpdateAll",
           execute: async () => {
             let arr = await this.manager.cleanExtensions();
-            logger40.info(`Force update extensions: ${arr}`);
+            logger42.info(`Force update extensions: ${arr}`);
             await this.installExtensions(arr);
           }
         }, false, "remove all global extensions and install them");
@@ -79388,7 +79502,7 @@ var init_extension = __esm({
             installBuffer.addMessage(key, err.message);
             installBuffer.finishProgress(key, false);
             void window_default.showErrorMessage(`Error on install ${key}: ${err}`);
-            logger40.error(`Error on install ${key}`, err);
+            logger42.error(`Error on install ${key}`, err);
           }
         };
         await concurrent(list2, fn);
@@ -79427,7 +79541,7 @@ var init_extension = __esm({
             installBuffer.addMessage(id, err.message);
             installBuffer.finishProgress(id, false);
             void window_default.showErrorMessage(`Error on update ${id}: ${err}`);
-            logger40.error(`Error on update ${id}`, err);
+            logger42.error(`Error on update ${id}`, err);
           }
         };
         await concurrent(stats, fn, silent ? 1 : 3);
@@ -79450,7 +79564,7 @@ var init_extension = __esm({
             let json = await loadGlobalJsonAsync(root, VERSION);
             res.push({ root, isLocal: false, packageJSON: json });
           } catch (err) {
-            logger40.error(`Error on load package.json of ${key}`, err);
+            logger42.error(`Error on load package.json of ${key}`, err);
           }
         }
         return res;
@@ -79481,7 +79595,7 @@ var init_extension = __esm({
             packageJSON: obj
           });
         });
-        logger40.debug("globalExtensionStats:", infos.length);
+        logger42.debug("globalExtensionStats:", infos.length);
         return infos;
       }
       runtimeExtensionStats(runtimepath) {
@@ -79833,7 +79947,7 @@ function fixTextEdit(character, edit2) {
   }
   return edit2;
 }
-var logger41, LanguageSource;
+var logger43, LanguageSource;
 var init_source_language = __esm({
   "src/completion/source-language.ts"() {
     "use strict";
@@ -79852,7 +79966,7 @@ var init_source_language = __esm({
     init_workspace();
     init_types2();
     init_util3();
-    logger41 = createLogger("source-language");
+    logger43 = createLogger("source-language");
     LanguageSource = class {
       constructor(name2, shortcut, provider, documentSelector, triggerCharacters, allCommitCharacters, priority) {
         this.name = name2;
@@ -79951,7 +80065,7 @@ var init_source_language = __esm({
           if (commands_default.has(item.command.command)) {
             void commands_default.execute(item.command);
           } else {
-            logger41.warn(`Command "${item.command.command}" not registered to coc.nvim`);
+            logger43.warn(`Command "${item.command.command}" not registered to coc.nvim`);
           }
         }
       }
@@ -80363,14 +80477,14 @@ __export(sources_exports, {
   logError: () => logError
 });
 function logError(err) {
-  logger42.error("Error on source create", err);
+  logger44.error("Error on source create", err);
 }
 function getSourceType(sourceType) {
   if (sourceType === 0 /* Native */) return "native";
   if (sourceType === 1 /* Remote */) return "remote";
   return "service";
 }
-var logger42, WordsSource, Sources, sources_default;
+var logger44, WordsSource, Sources, sources_default;
 var init_sources2 = __esm({
   "src/completion/sources.ts"() {
     "use strict";
@@ -80392,7 +80506,7 @@ var init_sources2 = __esm({
     init_source_vim();
     init_types2();
     init_util3();
-    logger42 = createLogger("sources");
+    logger44 = createLogger("sources");
     WordsSource = class {
       constructor() {
         this.name = "$words";
@@ -80464,7 +80578,7 @@ var init_sources2 = __esm({
           toArray(allCommitCharacters),
           priority
         );
-        logger42.trace("created service source", name2);
+        logger44.trace("created service source", name2);
         this.sourceMap.set(name2, source);
         return {
           dispose: () => {
@@ -80566,8 +80680,8 @@ var init_sources2 = __esm({
       }
       createRemoteSources() {
         let paths = workspace_default.env.runtimepath.split(",");
-        for (let path2 of paths) {
-          this.createVimSources(path2).catch(logError);
+        for (let path3 of paths) {
+          this.createVimSources(path3).catch(logError);
         }
       }
       async createVimSources(pluginPath) {
@@ -80651,7 +80765,7 @@ var init_sources2 = __esm({
       addSource(source) {
         let { name: name2 } = source;
         if (this.names.includes(name2)) {
-          logger42.warn(`Recreate source ${name2}`);
+          logger44.warn(`Recreate source ${name2}`);
         }
         this.sourceMap.set(name2, source);
         return import_node3.Disposable.create(() => {
@@ -80707,7 +80821,7 @@ var init_sources2 = __esm({
       }
       createSource(config) {
         if (typeof config.name !== "string" || typeof config.doComplete !== "function") {
-          logger42.error(`Bad config for createSource:`, config);
+          logger44.error(`Bad config for createSource:`, config);
           throw new TypeError(`name and doComplete required for createSource`);
         }
         let source = new Source(Object.assign({ sourceType: 2 /* Service */ }, config));
@@ -80756,6 +80870,7 @@ var init_languages = __esm({
     init_typeHierarchyManager();
     init_workspaceSymbolsManager();
     init_util();
+    init_extensionRegistry();
     init_is();
     init_protocol();
     init_string();
@@ -80915,11 +81030,17 @@ var init_languages = __esm({
         }
         return this.workspaceSymbolsManager.register(provider);
       }
-      registerDocumentFormatProvider(selector, provider, priority = 0) {
-        return this.formatManager.register(selector, provider, priority);
+      // NOTE: The last `extensionName` parameter is not exposed in the index.d.ts since it is only for the internal use
+      // within coc.nvim. It does not meant to be explicitly specified by extension authors.
+      registerDocumentFormatProvider(selector, provider, priority = 0, extensionName) {
+        extensionName = extensionName ?? parseExtensionName(Error().stack);
+        return this.formatManager.register(extensionName, selector, provider, priority);
       }
-      registerDocumentRangeFormatProvider(selector, provider, priority = 0) {
-        return this.formatRangeManager.register(selector, provider, priority);
+      // NOTE: The last `extensionName` parameter is not exposed in the index.d.ts since it is only for the internal use
+      // within coc.nvim. It does not meant to be explicitly specified by extension authors.
+      registerDocumentRangeFormatProvider(selector, provider, priority = 0, extensionName) {
+        extensionName = extensionName ?? parseExtensionName(Error().stack);
+        return this.formatRangeManager.register(extensionName, selector, provider, priority);
       }
       registerCallHierarchyProvider(selector, provider) {
         return this.callHierarchyManager.register(selector, provider);
@@ -81270,7 +81391,7 @@ function sortItems(emptyInput, defaultSortMethod, a, b) {
       return a.filterText.length - b.filterText.length;
   }
 }
-var logger43, MAX_DISTANCE, MIN_TIMEOUT, MAX_TIMEOUT, MAX_TRIGGER_WAIT, WORD_SOURCES, Complete;
+var logger45, MAX_DISTANCE, MIN_TIMEOUT, MAX_TIMEOUT, MAX_TRIGGER_WAIT, WORD_SOURCES, Complete;
 var init_complete = __esm({
   "src/completion/complete.ts"() {
     "use strict";
@@ -81287,7 +81408,7 @@ var init_complete = __esm({
     init_types2();
     init_util3();
     init_wordDistance();
-    logger43 = createLogger("completion-complete");
+    logger45 = createLogger("completion-complete");
     MAX_DISTANCE = 2 << 20;
     MIN_TIMEOUT = 50;
     MAX_TIMEOUT = 15e3;
@@ -81374,18 +81495,18 @@ var init_complete = __esm({
         this.option.synname = res[0];
         let variables = res[1];
         if (variables.disable) {
-          logger43.warn("suggest cancelled by b:coc_suggest_disable");
+          logger45.warn("suggest cancelled by b:coc_suggest_disable");
           return true;
         }
         if (!isFalsyOrEmpty(variables.disabled_sources)) {
           this.sources = this.sources.filter((s) => !variables.disabled_sources.includes(s.name));
           if (this.sources.length === 0) {
-            logger43.warn("suggest cancelled by b:coc_disabled_sources");
+            logger45.warn("suggest cancelled by b:coc_disabled_sources");
             return true;
           }
         }
         if (!isFalsyOrEmpty(variables.blacklist) && variables.blacklist.includes(this.option.input)) {
-          logger43.warn("suggest cancelled by b:coc_suggest_blacklist");
+          logger45.warn("suggest cancelled by b:coc_suggest_blacklist");
           return true;
         }
         void WordDistance.create(this.config.localityBonus, this.option, token).then((instance2) => {
@@ -81411,7 +81532,7 @@ var init_complete = __esm({
             let names = Array.from(remains);
             disposable.dispose();
             tokenSource.cancel();
-            logger43.warn(`Completion timeout after ${this.timeout}ms`, names);
+            logger45.warn(`Completion timeout after ${this.timeout}ms`, names);
             this.nvim.setVar(`coc_timeout_sources`, names, true);
             resolve();
           }, this.timeout);
@@ -81452,7 +81573,7 @@ var init_complete = __esm({
                 return;
               }
               let len = result ? result.items.length : 0;
-              logger43.debug(`Source "${sourceName}" finished with ${len} items ms cost:`, Date.now() - start);
+              logger45.debug(`Source "${sourceName}" finished with ${len} items ms cost:`, Date.now() - start);
               if (len > 0) {
                 if (number(result.startcol)) {
                   let line = opt.linenr - 1;
@@ -81464,7 +81585,7 @@ var init_complete = __esm({
                 const items = result.items.reduce((items2, item) => {
                   let completeItem = converter.convertToDurationItem(item);
                   if (!completeItem) {
-                    logger43.error(`Unexpected completion item from ${sourceName}:`, item);
+                    logger45.error(`Unexpected completion item from ${sourceName}:`, item);
                     return items2;
                   }
                   map.set(completeItem, item);
@@ -81483,7 +81604,7 @@ var init_complete = __esm({
             });
           });
         } catch (err) {
-          logger43.error("Complete error:", source.name, err);
+          logger45.error("Complete error:", source.name, err);
         }
         return added;
       }
@@ -81627,7 +81748,7 @@ var init_complete = __esm({
 });
 
 // src/completion/floating.ts
-var logger44, RESOLVE_TIMEOUT, Floating;
+var logger46, RESOLVE_TIMEOUT, Floating;
 var init_floating = __esm({
   "src/completion/floating.ts"() {
     "use strict";
@@ -81639,7 +81760,7 @@ var init_floating = __esm({
     init_protocol();
     init_workspace();
     init_util3();
-    logger44 = createLogger("completion-floating");
+    logger46 = createLogger("completion-floating");
     RESOLVE_TIMEOUT = getConditionValue(500, 50);
     Floating = class {
       constructor(config) {
@@ -81654,7 +81775,7 @@ var init_floating = __esm({
             });
           } catch (e) {
             if (isCancellationError(e)) return;
-            logger44.error(`Error on resolve complete item from ${source.name}:`, item, e);
+            logger46.error(`Error on resolve complete item from ${source.name}:`, item, e);
             return;
           }
         }
@@ -82033,7 +82154,7 @@ var init_pum = __esm({
 });
 
 // src/completion/index.ts
-var logger45, TRIGGER_TIMEOUT, CURSORMOVE_DEBOUNCE, Completion, completion_default;
+var logger47, TRIGGER_TIMEOUT, CURSORMOVE_DEBOUNCE, Completion, completion_default;
 var init_completion2 = __esm({
   "src/completion/index.ts"() {
     "use strict";
@@ -82057,7 +82178,7 @@ var init_completion2 = __esm({
     init_sources2();
     init_types2();
     init_util3();
-    logger45 = createLogger("completion");
+    logger47 = createLogger("completion");
     TRIGGER_TIMEOUT = getConditionValue(200, 20);
     CURSORMOVE_DEBOUNCE = getConditionValue(10, 0);
     Completion = class {
@@ -82226,7 +82347,7 @@ var init_completion2 = __esm({
         this._debounced.clear();
         let doc = workspace_default.getAttachedDocument(option.bufnr);
         option.filetype = doc.filetype;
-        logger45.debug("trigger completion with", option);
+        logger47.debug("trigger completion with", option);
         this.stop(true);
         this.pretext = byteSlice(option.line, 0, option.colnr - 1);
         sourceList = sourceList ?? sources_default.getSources(option);
@@ -82294,7 +82415,7 @@ var init_completion2 = __esm({
           let resolvedItem = this.selectedItem;
           let result = this.complete.resolveItem(resolvedItem);
           if (result && sources_default.shouldCommit(result.source, result.item, last)) {
-            logger45.debug("commit by commit character.");
+            logger47.debug("commit by commit character.");
             let startcol = byteIndex(this.option.line, resolvedItem.character) + 1;
             this.stop(true);
             this.nvim.call("coc#pum#replace", [startcol, resolvedItem.word + info.insertChar], true);
@@ -82332,7 +82453,7 @@ var init_completion2 = __esm({
         if (!sources && !this.shouldTrigger(doc, pre)) return false;
         const option = this.getCompleteOption(doc, info);
         if (sources == null && option.input.length < minTriggerInputLength) {
-          logger45.trace(`Suggest not triggered with input "${option.input}", minimal trigger input length: ${minTriggerInputLength}`);
+          logger47.trace(`Suggest not triggered with input "${option.input}", minimal trigger input length: ${minTriggerInputLength}`);
           return false;
         }
         if (checkIgnoreRegexps(this.config.ignoreRegexps, option.input)) return false;
@@ -82627,7 +82748,7 @@ function surrondChanges(changes, len) {
   if (end !== len) return false;
   return true;
 }
-var logger46, CursorSession;
+var logger48, CursorSession;
 var init_session3 = __esm({
   "src/cursors/session.ts"() {
     "use strict";
@@ -82643,7 +82764,7 @@ var init_session3 = __esm({
     init_workspace();
     init_textRange();
     init_util5();
-    logger46 = createLogger("cursors-session");
+    logger48 = createLogger("cursors-session");
     CursorSession = class {
       constructor(nvim, doc, config) {
         this.nvim = nvim;
@@ -82750,20 +82871,20 @@ var init_session3 = __esm({
           affected = affected.slice(0, 1);
         }
         if (affected.length == 0) {
-          logger46.debug("no affected ranges");
+          logger48.debug("no affected ranges");
           this.ranges.forEach((r) => {
             r.adjustFromEdit({ range, newText: text });
           });
           this.doHighlights();
         } else if (affected.length == 1 && rangeInRange(range, affected[0].range)) {
-          logger46.debug("affected single range");
+          logger48.debug("affected single range");
           if (text.includes("\n")) {
             this.cancel();
             return;
           }
           await this.applySingleEdit(affected[0], { range, newText: text });
         } else if (!text.length || !this.validChange(range, text)) {
-          logger46.debug("filter affected ranges.");
+          logger48.debug("filter affected ranges.");
           let ranges = this.ranges.filter((r) => !affected.includes(r));
           if (ranges.length > 0) {
             this.ranges = ranges;
@@ -82775,7 +82896,7 @@ var init_session3 = __esm({
             this.cancel();
           }
         } else {
-          logger46.debug("Check undo & redo");
+          logger48.debug("Check undo & redo");
           let first = this.ranges[0];
           let last = this.ranges[this.ranges.length - 1];
           let originalLines = e.originalLines.slice(first.line, last.line + 1);
@@ -82823,7 +82944,7 @@ var init_session3 = __esm({
        */
       cancel() {
         if (!this.activated) return;
-        logger46.debug("cursors cancel");
+        logger48.debug("cursors cancel");
         let buffer = this.doc.buffer;
         this.activated = false;
         this.ranges = [];
@@ -83527,7 +83648,7 @@ var init_codeActions = __esm({
 
 // src/handler/util.ts
 function handleError(e) {
-  logger47.error(`Error on handler: `, toErrorText(e));
+  logger49.error(`Error on handler: `, toErrorText(e));
 }
 function toDocumentation(doc) {
   return {
@@ -83535,14 +83656,14 @@ function toDocumentation(doc) {
     filetype: isMarkdown(doc) ? "markdown" : "txt"
   };
 }
-var logger47;
+var logger49;
 var init_util6 = __esm({
   "src/handler/util.ts"() {
     "use strict";
     init_logger();
     init_is();
     init_string();
-    logger47 = createLogger("handler-util");
+    logger49 = createLogger("handler-util");
   }
 });
 
@@ -83565,7 +83686,7 @@ function getCommands(line, codeLenses) {
   }
   return commands;
 }
-var logger48, srcId, debounceTime7, CODELENS_HL, NORMAL_HL, CodeLensBuffer;
+var logger50, srcId, debounceTime7, CODELENS_HL, NORMAL_HL, CodeLensBuffer;
 var init_buffer3 = __esm({
   "src/handler/codelens/buffer.ts"() {
     "use strict";
@@ -83580,7 +83701,7 @@ var init_buffer3 = __esm({
     init_window();
     init_workspace();
     init_util6();
-    logger48 = createLogger("codelens-buffer");
+    logger50 = createLogger("codelens-buffer");
     debounceTime7 = getConditionValue(200, 20);
     CODELENS_HL = "CocCodeLens";
     NORMAL_HL = "Normal";
@@ -83588,7 +83709,6 @@ var init_buffer3 = __esm({
       constructor(nvim, document2) {
         this.nvim = nvim;
         this.document = document2;
-        this.display = true;
         this.resolveCodeLens = debounce(() => {
           this._resolveCodeLenses().catch(handleError);
         }, debounceTime7);
@@ -83606,17 +83726,19 @@ var init_buffer3 = __esm({
         let config = workspace_default.getConfiguration("codeLens", this.document);
         this._config = {
           enabled: config.get("enable", false),
+          display: config.get("display", true),
           position: config.get("position", "top"),
           separator: config.get("separator", ""),
           subseparator: config.get("subseparator", " ")
         };
       }
       async toggleDisplay() {
-        if (this.display) {
-          this.display = false;
+        if (!this.hasProvider || !this.config.enabled) return;
+        if (this.config.display) {
+          this.config.display = false;
           this.clear();
         } else {
-          this.display = true;
+          this.config.display = true;
           this.resolveCodeLens.clear();
           await this._resolveCodeLenses();
         }
@@ -83710,7 +83832,7 @@ var init_buffer3 = __esm({
        */
       setVirtualText(codeLenses) {
         let { document: document2 } = this;
-        if (!srcId || !document2 || !codeLenses.length || !this.display) return;
+        if (!srcId || !document2 || !codeLenses.length || !this.config.display) return;
         let top = this.config.position === "top";
         let list2 = /* @__PURE__ */ new Map();
         for (let codeLens of codeLenses) {
@@ -84286,7 +84408,7 @@ var init_fold = __esm({
 });
 
 // src/handler/format.ts
-var logger49, FormatHandler;
+var logger51, FormatHandler;
 var init_format2 = __esm({
   "src/handler/format.ts"() {
     "use strict";
@@ -84302,7 +84424,7 @@ var init_format2 = __esm({
     init_string();
     init_window();
     init_workspace();
-    logger49 = createLogger("handler-format");
+    logger51 = createLogger("handler-format");
     FormatHandler = class {
       constructor(nvim, handler) {
         this.nvim = nvim;
@@ -84316,7 +84438,7 @@ var init_format2 = __esm({
           if (this.shouldFormatOnSave(event.document)) {
             let willSaveWaitUntil = async () => {
               if (!languages_default.hasFormatProvider(event.document)) {
-                logger49.warn(`Format provider not found for ${event.document.uri}`);
+                logger51.warn(`Format provider not found for ${event.document.uri}`);
                 return void 0;
               }
               let options2 = await workspace_default.getFormatOptions(event.document.uri);
@@ -84325,7 +84447,7 @@ var init_format2 = __esm({
               let tokenSource = new import_node3.CancellationTokenSource();
               const tp = new Promise((c) => {
                 timer = setTimeout(() => {
-                  logger49.warn(`Attempt to format ${event.document.uri} on save timed out after ${formatOnSaveTimeout}ms`);
+                  logger51.warn(`Attempt to format ${event.document.uri} on save timed out after ${formatOnSaveTimeout}ms`);
                   tokenSource.cancel();
                   c(void 0);
                 }, formatOnSaveTimeout);
@@ -84381,7 +84503,7 @@ var init_format2 = __esm({
         if (!ch || isAlphabet(ch.charCodeAt(0)) || !this.preferences.formatOnType) return false;
         if (manager_default3.getSession(doc.bufnr) != null || !this.shouldFormatOnType(doc.filetype)) return false;
         if (!languages_default.hasProvider("formatOnType" /* FormatOnType */, doc.textDocument)) {
-          logger49.warn(`Format on type provider not found for buffer: ${doc.uri}`);
+          logger51.warn(`Format on type provider not found for buffer: ${doc.uri}`);
           return false;
         }
         if (!languages_default.canFormatOnType(ch, doc.textDocument)) return false;
@@ -85099,7 +85221,7 @@ var init_buffer4 = __esm({
         if (events_default.insertMode && !this.config.refreshOnInsertMode || !this.enabled) return;
         this.tokenSource = new import_node3.CancellationTokenSource();
         let token = this.tokenSource.token;
-        let res = await this.nvim.call("coc#window#visible_range", [this.doc.bufnr]);
+        let res = await this.nvim.call("coc#window#visible_range");
         if (!Array.isArray(res) || res[1] <= 0 || token.isCancellationRequested) return;
         if (!srcId2) srcId2 = await this.nvim.createNamespace("coc-inlayHint");
         if (token.isCancellationRequested || this.regions.has(res[0], res[1])) return;
@@ -85136,7 +85258,11 @@ var init_buffer4 = __esm({
           if (this.config.position == "eol" /* Eol */) {
             col = 0;
           }
-          buffer.setVirtualText(srcId2, position.line, chunks, { col, hl_mode: "replace" });
+          let opts = { col, hl_mode: "replace" };
+          if (!nvim.isVim && item.kind == InlayHintKind.Parameter) {
+            opts.right_gravity = false;
+          }
+          buffer.setVirtualText(srcId2, position.line, chunks, opts);
         }
         nvim.resumeNotification(true, true);
         this._onDidRefresh.fire();
@@ -85210,7 +85336,7 @@ var init_inlayHint2 = __esm({
           execute: (bufnr) => {
             return this.toggle(bufnr ?? workspace_default.bufnr);
           }
-        }, false, "toggle codeLens display of current buffer");
+        }, false, "toggle inlayHint display of current buffer");
         handler.addDisposable(import_node3.Disposable.create(() => {
           disposeAll(this.disposables);
         }));
@@ -85867,7 +85993,7 @@ function fixChangeParams(e) {
   }
   return { contentChanges: changes, bufnr, textDocument, original, originalLines };
 }
-var logger50, SEPARATOR, RefactorBuffer;
+var logger52, SEPARATOR, RefactorBuffer;
 var init_buffer5 = __esm({
   "src/handler/refactor/buffer.ts"() {
     "use strict";
@@ -85888,7 +86014,7 @@ var init_buffer5 = __esm({
     init_window();
     init_workspace();
     init_changes();
-    logger50 = createLogger("handler-refactorBuffer");
+    logger52 = createLogger("handler-refactorBuffer");
     SEPARATOR = "\u3000";
     RefactorBuffer = class {
       constructor(bufnr, srcId4, nvim, config, opts) {
@@ -86229,7 +86355,7 @@ var init_buffer5 = __esm({
           await window_default.cursors.addRanges(hlRanges);
         } catch (e) {
           this.changing = false;
-          logger50.error(`Error on add file item:`, e);
+          logger52.error(`Error on add file item:`, e);
         }
         release();
       }
@@ -86411,7 +86537,7 @@ function getPathFromArgs(args) {
   if (args[len - 2].startsWith("-")) return void 0;
   return args[len - 1];
 }
-var import_child_process2, import_events50, logger51, defaultArgs, controlCode2, Task2, Search;
+var import_child_process2, import_events50, logger53, defaultArgs, controlCode2, Task2, Search;
 var init_search = __esm({
   "src/handler/refactor/search.ts"() {
     "use strict";
@@ -86424,7 +86550,7 @@ var init_search = __esm({
     init_mutex();
     init_node();
     init_window();
-    logger51 = createLogger("handler-search");
+    logger53 = createLogger("handler-search");
     defaultArgs = ["--color", "ansi", "--colors", "path:fg:black", "--colors", "line:fg:green", "--colors", "match:fg:red", "--no-messages", "--heading", "-n"];
     controlCode2 = "\x1B";
     Task2 = class extends import_events50.EventEmitter {
@@ -86525,7 +86651,7 @@ var init_search = __esm({
           try {
             await refactorBuf.addFileItems(items);
           } catch (e) {
-            logger51.error(e);
+            logger53.error(e);
           }
           release();
         };
@@ -86974,7 +87100,7 @@ function toHighlightPart(token) {
   highlightGroupMap.set(token, part);
   return part;
 }
-var logger52, yieldEveryMilliseconds, HLGROUP_PREFIX, NAMESPACE4, debounceInterval2, requestDelay2, highlightGroupMap, SemanticTokensBuffer;
+var logger54, yieldEveryMilliseconds, HLGROUP_PREFIX, NAMESPACE4, debounceInterval2, requestDelay2, highlightGroupMap, SemanticTokensBuffer;
 var init_buffer6 = __esm({
   "src/handler/semanticTokens/buffer.ts"() {
     "use strict";
@@ -86991,7 +87117,7 @@ var init_buffer6 = __esm({
     init_string();
     init_window();
     init_workspace();
-    logger52 = createLogger("semanticTokens-buffer");
+    logger54 = createLogger("semanticTokens-buffer");
     yieldEveryMilliseconds = getConditionValue(15, 5);
     HLGROUP_PREFIX = "CocSem";
     NAMESPACE4 = "semanticTokens";
@@ -87228,7 +87354,7 @@ var init_buffer6 = __esm({
             if (e instanceof CancellationError) {
               this.highlight(requestDelay2);
             } else {
-              logger52.error("Error on request semanticTokens: ", e);
+              logger54.error("Error on request semanticTokens: ", e);
             }
           }
           return void 0;
@@ -87307,7 +87433,7 @@ var init_buffer6 = __esm({
        */
       async requestRangeHighlights(token) {
         let { nvim, doc } = this;
-        let region = await nvim.call("coc#window#visible_range", [this.bufnr]);
+        let region = await nvim.call("coc#window#visible_range");
         if (!region || token.isCancellationRequested) return null;
         let endLine = Math.min(region[0] + workspace_default.env.lines * 2, region[1] + workspace_default.env.lines, doc.lineCount);
         let range = Range.create(region[0] - 1, 0, endLine, 0);
@@ -87841,7 +87967,7 @@ var init_signature = __esm({
 });
 
 // src/handler/symbols/buffer.ts
-var logger53, DEBEBOUNCE_INTERVAL, SymbolsBuffer;
+var logger55, DEBEBOUNCE_INTERVAL, SymbolsBuffer;
 var init_buffer7 = __esm({
   "src/handler/symbols/buffer.ts"() {
     "use strict";
@@ -87851,7 +87977,7 @@ var init_buffer7 = __esm({
     init_node();
     init_protocol();
     init_util6();
-    logger53 = createLogger("symbols-buffer");
+    logger55 = createLogger("symbols-buffer");
     DEBEBOUNCE_INTERVAL = getConditionValue(500, 10);
     SymbolsBuffer = class {
       constructor(doc, autoUpdateBufnrs) {
@@ -89006,6 +89132,12 @@ var init_workspace2 = __esm({
         if (!isDirectory(folder)) throw directoryNotExists(folder);
         workspace_default.workspaceFolderControl.addWorkspaceFolder(folder, true);
       }
+      removeWorkspaceFolder(folder) {
+        if (!string(folder)) throw TypeError(`folder should be string`);
+        folder = workspace_default.expand(folder);
+        if (!isDirectory(folder)) throw directoryNotExists(folder);
+        workspace_default.workspaceFolderControl.removeWorkspaceFolder(folder);
+      }
       async bufferCheck() {
         let doc = await workspace_default.document;
         if (!doc.attached) {
@@ -89072,7 +89204,7 @@ var init_workspace2 = __esm({
       }
       async showInfo() {
         let lines = [];
-        let version2 = workspace_default.version + (true ? "-56632971 2024-07-04 19:25:14 +0800" : "");
+        let version2 = workspace_default.version + (true ? "-9c25f2f7 2024-08-31 14:53:59 +0800" : "");
         lines.push("## versions");
         lines.push("");
         let out = await this.nvim.call("execute", ["version"]);
@@ -89101,7 +89233,7 @@ var init_workspace2 = __esm({
 });
 
 // src/handler/index.ts
-var logger54, requestTimeout, Handler;
+var logger56, requestTimeout, Handler;
 var init_handler = __esm({
   "src/handler/index.ts"() {
     "use strict";
@@ -89138,7 +89270,7 @@ var init_handler = __esm({
     init_symbols2();
     init_typeHierarchy2();
     init_workspace2();
-    logger54 = createLogger("Handler");
+    logger56 = createLogger("Handler");
     requestTimeout = getConditionValue(500, 10);
     Handler = class {
       constructor(nvim) {
@@ -89294,7 +89426,7 @@ var init_handler = __esm({
         try {
           res = await Promise.resolve(fn(token));
         } catch (e) {
-          logger54.error(`Error on request ${name2}`, e);
+          logger56.error(`Error on request ${name2}`, e);
           this.nvim.errWriteLine(`Error on ${name2}: ${e}`);
         }
         if (this.requestTokenSource) {
@@ -89344,7 +89476,7 @@ var init_handler = __esm({
 });
 
 // src/plugin.ts
-var logger55, Plugin;
+var logger57, Plugin;
 var init_plugin = __esm({
   "src/plugin.ts"() {
     "use strict";
@@ -89364,7 +89496,7 @@ var init_plugin = __esm({
     init_util();
     init_window();
     init_workspace();
-    logger55 = createLogger("plugin");
+    logger57 = createLogger("plugin");
     Plugin = class {
       constructor(nvim) {
         this.nvim = nvim;
@@ -89396,6 +89528,7 @@ var init_plugin = __esm({
         this.addAction("rootPatterns", (bufnr) => this.handler.workspace.getRootPatterns(bufnr));
         this.addAction("ensureDocument", () => this.handler.workspace.ensureDocument());
         this.addAction("addWorkspaceFolder", (folder) => this.handler.workspace.addWorkspaceFolder(folder));
+        this.addAction("removeWorkspaceFolder", (folder) => this.handler.workspace.removeWorkspaceFolder(folder));
         this.addAction("getConfig", (key) => this.handler.workspace.getConfiguration(key));
         this.addAction("doAutocmd", (id, ...args) => this.handler.workspace.doAutocmd(id, args));
         this.addAction("openLog", () => this.handler.workspace.openLog());
@@ -89448,6 +89581,7 @@ var init_plugin = __esm({
         this.addAction("diagnosticPrevious", (severity) => manager_default.jumpPrevious(severity));
         this.addAction("diagnosticPreview", () => manager_default.preview());
         this.addAction("diagnosticList", () => manager_default.getDiagnosticList());
+        this.addAction("diagnosticRelatedInformation", () => manager_default.relatedInformation());
         this.addAction("findLocations", (id, method, params, openCommand) => this.handler.locations.findLocations(id, method, params, openCommand));
         this.addAction("getTagList", () => this.handler.locations.getTagList());
         this.addAction("definitions", () => this.handler.locations.definitions());
@@ -89553,7 +89687,7 @@ var init_plugin = __esm({
         nvim.setVar("coc_service_initialized", 1, true);
         nvim.call("coc#util#do_autocmd", ["CocNvimInit"], true);
         nvim.resumeNotification(false, true);
-        logger55.info(`coc.nvim initialized with node: ${process.version} after`, Date.now() - getConditionValue(global.__starttime, Date.now()));
+        logger57.info(`coc.nvim initialized with node: ${process.version} after`, Date.now() - getConditionValue(global.__starttime, Date.now()));
         this.ready = true;
         await events_default.fire("ready", []);
       }
@@ -89597,14 +89731,14 @@ __export(attach_exports, {
 function pathReplace(patterns) {
   if (objectLiteral(patterns)) {
     const old_uri = URI.file;
-    URI.file = (path2) => {
-      path2 = path2.replace(/\\/g, "/");
-      Object.keys(patterns).forEach((k) => path2 = path2.replace(new RegExp("^" + k), patterns[k]));
-      return old_uri(path2);
+    URI.file = (path3) => {
+      path3 = path3.replace(/\\/g, "/");
+      Object.keys(patterns).forEach((k) => path3 = path3.replace(new RegExp("^" + k), patterns[k]));
+      return old_uri(path3);
     };
   }
 }
-var import_neovim, logger56, ACTIONS_NO_WAIT, semVer, pendingNotifications, attach_default;
+var import_neovim, logger58, ACTIONS_NO_WAIT, semVer, pendingNotifications, attach_default;
 var init_attach = __esm({
   "src/attach.ts"() {
     "use strict";
@@ -89618,7 +89752,7 @@ var init_attach = __esm({
     init_node();
     init_string();
     init_timing();
-    logger56 = createLogger("attach");
+    logger58 = createLogger("attach");
     ACTIONS_NO_WAIT = ["installExtensions", "updateExtensions"];
     semVer = semver.parse(VERSION);
     pendingNotifications = [];
@@ -89632,7 +89766,7 @@ var init_attach = __esm({
         for (let [method, args] of pendingNotifications) {
           plugin.cocAction(method, ...args).catch((e) => {
             console.error(`Error on notification "${method}": ${e}`);
-            logger56.error(`Error on notification ${method}`, e);
+            logger58.error(`Error on notification ${method}`, e);
           });
         }
         pendingNotifications = [];
@@ -89645,7 +89779,7 @@ var init_attach = __esm({
             break;
           }
           case "Log": {
-            logger56.debug("Vim log", ...args);
+            logger58.debug("Vim log", ...args);
             break;
           }
           case "TaskExit":
@@ -89661,18 +89795,18 @@ var init_attach = __esm({
           case "CompleteStop":
           case "PumInsert":
           case "PumNavigate":
-            logger56.trace("Event: ", method, ...args);
+            logger58.trace("Event: ", method, ...args);
             await events_default.fire(method, args);
             break;
           case "CocAutocmd":
-            logger56.trace("Notification autocmd:", ...args);
+            logger58.trace("Notification autocmd:", ...args);
             await events_default.fire(args[0], args.slice(1));
             break;
           case "redraw":
             break;
           default: {
             try {
-              logger56.info("receive notification:", method, args);
+              logger58.info("receive notification:", method, args);
               if (!plugin.isReady) {
                 pendingNotifications.push([method, args]);
                 return;
@@ -89680,7 +89814,7 @@ var init_attach = __esm({
               await plugin.cocAction(method, ...args);
             } catch (e) {
               console.error(`Error on notification "${method}": ${toErrorText(e)}`);
-              logger56.error(`Error on notification ${method}`, e);
+              logger58.error(`Error on notification ${method}`, e);
             }
           }
         }
@@ -89691,19 +89825,19 @@ var init_attach = __esm({
         try {
           events_default.requesting = true;
           if (method == "CompleteStop") {
-            logger56.trace("Event: ", method, ...args);
+            logger58.trace("Event: ", method, ...args);
             await events_default.fire(method, args);
             resp.send(void 0);
           } else if (method == "CocAutocmd") {
-            logger56.trace("Request autocmd:", ...args);
+            logger58.trace("Request autocmd:", ...args);
             await events_default.fire(args[0], args.slice(1));
             resp.send(void 0);
           } else {
             if (!plugin.isReady && !ACTIONS_NO_WAIT.includes(method)) {
-              logger56.warn(`Plugin not ready on request "${method}"`, args);
+              logger58.warn(`Plugin not ready on request "${method}"`, args);
               resp.send("Plugin not ready", true);
             } else {
-              logger56.info("Request action:", method, args);
+              logger58.info("Request action:", method, args);
               let res = await plugin.cocAction(method, ...args);
               resp.send(res);
             }
@@ -89712,7 +89846,7 @@ var init_attach = __esm({
         } catch (e) {
           events_default.requesting = false;
           resp.send(toErrorText(e), true);
-          logger56.error(`Request error:`, method, args, e);
+          logger58.error(`Request error:`, method, args, e);
         }
         timing.stop();
       });
@@ -89725,15 +89859,15 @@ var init_attach = __esm({
 if (global.__isMain) {
   Object.defineProperty(console, "log", {
     value() {
-      if (logger57) logger57.info(...arguments);
+      if (logger59) logger59.info(...arguments);
     }
   });
   const { createLogger: createLogger2 } = (init_logger(), __toCommonJS(logger_exports));
-  const logger57 = createLogger2("server");
+  const logger59 = createLogger2("server");
   process.on("uncaughtException", function(err) {
     let msg = "Uncaught exception: " + err.message;
     console.error(msg);
-    logger57.error("uncaughtException", err.stack);
+    logger59.error("uncaughtException", err.stack);
   });
   process.on("unhandledRejection", function(reason, p) {
     if (reason instanceof Error) {
@@ -89750,15 +89884,15 @@ if (global.__isMain) {
     } else {
       console.error("UnhandledRejection: " + reason);
     }
-    logger57.error("unhandledRejection ", p, reason);
+    logger59.error("unhandledRejection ", p, reason);
   });
   const attach2 = (init_attach(), __toCommonJS(attach_exports)).default;
   attach2({ reader: process.stdin, writer: process.stdout });
 } else {
   const exports2 = require_src3();
-  const logger57 = (init_logger(), __toCommonJS(logger_exports)).logger;
+  const logger59 = (init_logger(), __toCommonJS(logger_exports)).logger;
   const attach2 = (init_attach(), __toCommonJS(attach_exports)).default;
-  module.exports = { attach: attach2, exports: exports2, logger: logger57, loadExtension: (filepath, active) => {
+  module.exports = { attach: attach2, exports: exports2, logger: logger59, loadExtension: (filepath, active) => {
     return exports2.extensions.manager.load(filepath, active);
   } };
 }

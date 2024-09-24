@@ -9,15 +9,8 @@
 	"pyright.inlayHints.parameterTypes": false,
 	"explorer.icon.enableNerdfont": true,
 	"explorer.file.reveal.auto": true,
-	"coc.preferences.formatOnSaveFiletypes": ["css", "markdown", "html", "php"]
-	"languageserver": {
-		"phpactor": {
-			"command": "phpactor",
-			"args": ["language-server"],
-			"trace.server": "verbose",
-			"filetypes": ["php"]
-		}
-	}
+	"coc.preferences.formatOnSaveFiletypes": ["css", "markdown", "html", "php"],
+	"perl.p::ls.enable": true
 }
 
 

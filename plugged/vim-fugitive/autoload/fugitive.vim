@@ -3060,7 +3060,7 @@ function! fugitive#BufReadStatus(cmdbang) abort
     let b:fugitive_loading = stat
     doautocmd <nomodeline> BufReadPre
 
-    setlocal readonly nomodifiable noswapfile nomodifiable buftype=nowrite
+    setlocal readonly nomodifiable noswapfile nomodeline buftype=nowrite
     call s:MapStatus()
 
     call s:StatusRender(stat)
@@ -4986,19 +4986,19 @@ function! s:StageDiff(diff) abort
     return 'Git --paginate diff --no-ext-diff'
   elseif len(info.paths) > 1
     execute 'Gedit' . prefix s:fnameescape(':0:' . info.paths[0])
-    return a:diff . '! @:'.s:fnameescape(info.paths[1])
+    return 'keepalt ' . a:diff . '! @:'.s:fnameescape(info.paths[1])
   elseif info.section ==# 'Staged' && info.sigil ==# '-'
     execute 'Gedit' prefix s:fnameescape(':0:'.info.paths[0])
-    return a:diff . '! :0:%'
+    return 'keepalt ' . a:diff . '! :0:%'
   elseif info.section ==# 'Staged'
     execute 'Gedit' prefix s:fnameescape(':0:'.info.paths[0])
-    return a:diff . '! @:%'
+    return 'keepalt ' . a:diff . '! @:%'
   elseif info.sigil ==# '-'
     execute 'Gedit' prefix s:fnameescape(':0:'.info.paths[0])
-    return a:diff . '! :(top)%'
+    return 'keepalt ' . a:diff . '! :(top)%'
   else
     execute 'Gedit' prefix s:fnameescape(':(top)'.info.paths[0])
-    return a:diff . '!'
+    return 'keepalt ' . a:diff . '!'
   endif
 endfunction
 
@@ -7441,6 +7441,8 @@ function! s:BrowserOpen(url, mods, echo_copy) abort
       return 'echo '.string(url).'|' . mods . 'call netrw#BrowseX('.string(url).', 0)'
     elseif exists('*netrw#NetrwBrowseX')
       return 'echo '.string(url).'|' . mods . 'call netrw#NetrwBrowseX('.string(url).', 0)'
+    elseif has('nvim-0.10')
+      return mods . 'echo luaeval("({vim.ui.open(_A)})[2] or _A", ' . string(url) . ')'
     else
       return 'echoerr ' . string('Netrw not found. Define your own :Browse to use :GBrowse')
     endif
@@ -7993,10 +7995,10 @@ function! fugitive#MapJumps(...) abort
       endif
 
       call s:Map('n', 'D', ":echoerr 'fugitive: D has been removed in favor of dd'<CR>", '<silent><unique>')
-      call s:Map('n', 'dd', ":<C-U>call fugitive#DiffClose()<Bar>Gdiffsplit!<CR>", '<silent>')
-      call s:Map('n', 'dh', ":<C-U>call fugitive#DiffClose()<Bar>Ghdiffsplit!<CR>", '<silent>')
-      call s:Map('n', 'ds', ":<C-U>call fugitive#DiffClose()<Bar>Ghdiffsplit!<CR>", '<silent>')
-      call s:Map('n', 'dv', ":<C-U>call fugitive#DiffClose()<Bar>Gvdiffsplit!<CR>", '<silent>')
+      call s:Map('n', 'dd', ":<C-U>call fugitive#DiffClose()<Bar>keepalt Gdiffsplit!<CR>", '<silent>')
+      call s:Map('n', 'dh', ":<C-U>call fugitive#DiffClose()<Bar>keepalt Ghdiffsplit!<CR>", '<silent>')
+      call s:Map('n', 'ds', ":<C-U>call fugitive#DiffClose()<Bar>keepalt Ghdiffsplit!<CR>", '<silent>')
+      call s:Map('n', 'dv', ":<C-U>call fugitive#DiffClose()<Bar>keepalt Gvdiffsplit!<CR>", '<silent>')
       call s:Map('n', 'd?', ":<C-U>help fugitive_d<CR>", '<silent>')
 
     else

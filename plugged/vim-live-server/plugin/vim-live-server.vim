@@ -48,14 +48,14 @@ augroup END
 
 " Live-Server
 function! StartLiveServer()
-    let cmd = "live-server &"
+    let cmd = "live-server --open=" . shellescape(bufname('%')) . "&"
     call system(cmd)
     echo "Live server started in the background."
 endfunction
 
 function! StartLiveServerOnPort(port)
     let port_num = a:port + 0  " Convert a:port to a number
-    let cmd = "live-server --port=" . port_num . "&"
+    let cmd = "live-server --port=" . port_num . "--open=" . shellescape(bufname('%')) . "&"
     call system(cmd)
     echo "Live Server started in the background on port " . port_num . "."
 endfunction

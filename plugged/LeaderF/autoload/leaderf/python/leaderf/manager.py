@@ -210,6 +210,9 @@ class Manager(object):
     def _acceptSelection(self, *args, **kwargs):
         pass
 
+    def autoJump(self, content):
+        return False
+
     def _getDigest(self, line, mode):
         """
         this function can be overridden
@@ -519,6 +522,7 @@ class Manager(object):
 
     def _createPreviewWindow(self, config, source, line_num, jump_cmd):
         self._preview_config = config
+        self._orig_source = source
 
         if lfEval("has('nvim')") == '1':
             if isinstance(source, int):
@@ -529,7 +533,7 @@ class Manager(object):
                     if self._isBinaryFile(source):
                         lfCmd("""let content = map(range(128), '"^@"')""")
                     else:
-                        lfCmd("let content = readfile('%s', '', 4096)" % escQuote(source))
+                        lfCmd("let content = readfile('%s', '', 20480)" % escQuote(source))
                 except vim.error as e:
                     lfPrintError(e)
                     return
@@ -549,7 +553,8 @@ class Manager(object):
                 if file_type is None:
                     lfCmd("silent! doautocmd filetypedetect BufNewFile %s" % source)
                 else:
-                    lfCmd("setf %s" % getExtension(source))
+                    lfCmd("noautocmd set ft=%s" % getExtension(source))
+                    lfCmd("set syntax=%s" % getExtension(source))
             lfCmd("noautocmd call win_gotoid(%s)" % cur_winid)
 
             self._setWinOptions(self._preview_winid)
@@ -572,7 +577,7 @@ class Manager(object):
                     if self._isBinaryFile(filename):
                         lfCmd("""let content = map(range(128), '"^@"')""")
                     else:
-                        lfCmd("let content = readfile('%s', '', 4096)" % escQuote(filename))
+                        lfCmd("let content = readfile('%s', '', 20480)" % escQuote(filename))
                 except vim.error as e:
                     lfPrintError(e)
                     return
@@ -610,7 +615,7 @@ class Manager(object):
                     if self._isBinaryFile(filename):
                         lfCmd("""let content = map(range(128), '"^@"')""")
                     else:
-                        lfCmd("let content = readfile('%s', '', 4096)" % escQuote(filename))
+                        lfCmd("let content = readfile('%s', '', 20480)" % escQuote(filename))
                 except vim.error as e:
                     lfPrintError(e)
                     return
@@ -932,7 +937,7 @@ class Manager(object):
                         if self._isBinaryFile(source):
                             lfCmd("""let content = map(range(128), '"^@"')""")
                         else:
-                            lfCmd("let content = readfile('%s', '', 4096)" % escQuote(source))
+                            lfCmd("let content = readfile('%s', '', 20480)" % escQuote(source))
                     except vim.error as e:
                         lfPrintError(e)
                         return
@@ -949,7 +954,8 @@ class Manager(object):
                             lfCmd("call win_execute(%d, 'silent! doautocmd filetypedetect BufNewFile %s')"
                                   % (self._preview_winid, escQuote(source)))
                         else:
-                            lfCmd("call win_execute(%d, 'setf %s')" % (self._preview_winid, cur_filetype))
+                            lfCmd("call win_execute(%d, 'noautocmd set ft=%s')" % (self._preview_winid, cur_filetype))
+                            lfCmd("call win_execute(%d, 'set syntax=%s')" % (self._preview_winid, cur_filetype))
                         self._preview_filetype = lfEval("getbufvar(winbufnr(%d), '&ft')" % self._preview_winid)
             elif lfEval("exists('*popup_setbuf')") == "1":
                 if isinstance(source, int):
@@ -961,7 +967,7 @@ class Manager(object):
                         if self._isBinaryFile(filename):
                             lfCmd("""let content = map(range(128), '"^@"')""")
                         else:
-                            lfCmd("let content = readfile('%s', '', 4096)" % escQuote(filename))
+                            lfCmd("let content = readfile('%s', '', 20480)" % escQuote(filename))
                     except vim.error as e:
                         lfPrintError(e)
                         return
@@ -975,7 +981,7 @@ class Manager(object):
                         self._preview_filetype = lfEval("getbufvar(winbufnr(%d), '&ft')" % self._preview_winid)
             else:
                 if isinstance(source, int):
-                    lfCmd("noautocmd call popup_settext(%d, getbufline(%d, 1, 4096))" % (self._preview_winid, source))
+                    lfCmd("noautocmd call popup_settext(%d, getbufline(%d, 1, 20480))" % (self._preview_winid, source))
                     filename = vim.buffers[source].name
                 else:
                     filename = source
@@ -983,7 +989,7 @@ class Manager(object):
                         if self._isBinaryFile(filename):
                             lfCmd("""let content = map(range(128), '"^@"')""")
                         else:
-                            lfCmd("let content = readfile('%s', '', 4096)" % escQuote(filename))
+                            lfCmd("let content = readfile('%s', '', 20480)" % escQuote(filename))
                     except vim.error as e:
                         lfPrintError(e)
                         return
@@ -1201,8 +1207,6 @@ class Manager(object):
 
             self._updateOptions(preview_pos, show_borders, options)
             self._createPreviewWindow(options, source, line_num, jump_cmd)
-
-        self._orig_source = source
 
         return True
 
@@ -2750,10 +2754,7 @@ class Manager(object):
         else:
             content = self._getExplorer().getContent(*args, **kwargs)
             self._getInstance().setCwd(lfGetCwd())
-            if self._getExplorer().getStlCategory() in ["Gtags"] and "--auto-jump" in self._arguments \
-                    and isinstance(content, list) and len(content) == 1:
-                mode = self._arguments["--auto-jump"][0] if len(self._arguments["--auto-jump"]) else ""
-                self._accept(content[0], mode)
+            if self.autoJump(content) == True:
                 return
 
             self._index = 0
@@ -2764,6 +2765,9 @@ class Manager(object):
             self._cli.setPattern(pattern)
             self._result_content = []
             self._cb_content = []
+
+        if content is None:
+            return
 
         if not content:
             lfCmd("echohl Error | redraw | echo ' No content!' | echohl NONE")

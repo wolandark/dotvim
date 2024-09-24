@@ -382,6 +382,7 @@ const (
 	reqRedrawPreviewLabel
 	reqClose
 	reqPrintQuery
+	reqPreviewReady
 	reqPreviewEnqueue
 	reqPreviewDisplay
 	reqPreviewRefresh
@@ -728,7 +729,7 @@ func NewTerminal(opts *Options, eventBox *util.EventBox, executor *util.Executor
 		}
 	}
 	if fullscreen {
-		if !tui.IsLightRendererSupported() {
+		if tui.HasFullscreenRenderer() {
 			renderer = tui.NewFullscreenRenderer(opts.Theme, opts.Black, opts.Mouse)
 		} else {
 			renderer, err = tui.NewLightRenderer(ttyin, opts.Theme, opts.Black, opts.Mouse, opts.Tabstop, opts.ClearOnExit,
@@ -826,7 +827,6 @@ func NewTerminal(opts *Options, eventBox *util.EventBox, executor *util.Executor
 		headerLines:        opts.HeaderLines,
 		header:             []string{},
 		header0:            opts.Header,
-		ellipsis:           opts.Ellipsis,
 		ansi:               opts.Ansi,
 		tabstop:            opts.Tabstop,
 		hasStartActions:    false,
@@ -854,7 +854,6 @@ func NewTerminal(opts *Options, eventBox *util.EventBox, executor *util.Executor
 		mutex:              sync.Mutex{},
 		uiMutex:            sync.Mutex{},
 		suppress:           true,
-		sigstop:            false,
 		slab:               util.MakeSlab(slab16Size, slab32Size),
 		theme:              opts.Theme,
 		startChan:          make(chan fitpad, 1),
@@ -883,6 +882,15 @@ func NewTerminal(opts *Options, eventBox *util.EventBox, executor *util.Executor
 		}
 		t.separator, t.separatorLen = t.ansiLabelPrinter(bar, &tui.ColSeparator, true)
 	}
+
+	if opts.Ellipsis != nil {
+		t.ellipsis = *opts.Ellipsis
+	} else if t.unicode {
+		t.ellipsis = "··"
+	} else {
+		t.ellipsis = ".."
+	}
+
 	if t.unicode {
 		t.wrapSign = "↳ "
 		t.borderWidth = uniseg.StringWidth("│")
@@ -1067,7 +1075,7 @@ func (t *Terminal) parsePrompt(prompt string) (func(), int) {
 	//             // unless the part has a non-default ANSI state
 	loc := whiteSuffix.FindStringIndex(trimmed)
 	if loc != nil {
-		blankState := ansiOffset{[2]int32{int32(loc[0]), int32(loc[1])}, ansiState{-1, -1, tui.AttrClear, -1}}
+		blankState := ansiOffset{[2]int32{int32(loc[0]), int32(loc[1])}, ansiState{-1, -1, tui.AttrClear, -1, nil}}
 		if item.colors != nil {
 			lastColor := (*item.colors)[len(*item.colors)-1]
 			if lastColor.offset[1] < int32(loc[1]) {
@@ -2275,6 +2283,7 @@ func (t *Terminal) printHighlighted(result Result, colBase tui.ColorPair, colMat
 
 	finalLineNum := lineNum
 	topCutoff := false
+	skipLines := 0
 	wrapped := false
 	if t.multiLine || t.wrap {
 		// Cut off the upper lines in the 'default' layout
@@ -2287,7 +2296,7 @@ func (t *Terminal) printHighlighted(result Result, colBase tui.ColorPair, colMat
 				wrapped = true
 			}
 
-			lines = lines[len(lines)-maxLines:]
+			skipLines = len(lines) - maxLines
 			topCutoff = true
 		}
 	}
@@ -2323,6 +2332,10 @@ func (t *Terminal) printHighlighted(result Result, colBase tui.ColorPair, colMat
 			}
 		}
 		from += len(line)
+		if lineOffset < skipLines {
+			continue
+		}
+		actualLineOffset := lineOffset - skipLines
 
 		var maxe int
 		for _, offset := range offsets {
@@ -2333,7 +2346,7 @@ func (t *Terminal) printHighlighted(result Result, colBase tui.ColorPair, colMat
 
 		actualLineNum := lineNum
 		if t.layout == layoutDefault {
-			actualLineNum = (lineNum - lineOffset) + (numItemLines - lineOffset) - 1
+			actualLineNum = (lineNum - actualLineOffset) + (numItemLines - actualLineOffset) - 1
 		}
 		t.move(actualLineNum, 0, forceRedraw)
 
@@ -2348,13 +2361,13 @@ func (t *Terminal) printHighlighted(result Result, colBase tui.ColorPair, colMat
 					marker = markerTop
 				}
 			} else {
-				if lineOffset == 0 { // First line
+				if actualLineOffset == 0 { // First line
 					if topCutoff {
 						marker = markerMiddle
 					} else {
 						marker = markerTop
 					}
-				} else if lineOffset == numItemLines-1 { // Last line
+				} else if actualLineOffset == numItemLines-1 { // Last line
 					if topCutoff || !overflow {
 						marker = markerBottom
 					} else {
@@ -2454,15 +2467,24 @@ func (t *Terminal) printColoredString(window tui.Window, text []rune, offsets []
 	var substr string
 	var prefixWidth int
 	maxOffset := int32(len(text))
+	var url *url
 	for _, offset := range offsets {
 		b := util.Constrain32(offset.offset[0], index, maxOffset)
 		e := util.Constrain32(offset.offset[1], index, maxOffset)
+		if url != nil && offset.url == nil {
+			url = nil
+			window.LinkEnd()
+		}
 
 		substr, prefixWidth = t.processTabs(text[index:b], prefixWidth)
 		window.CPrint(colBase, substr)
 
 		if b < e {
 			substr, prefixWidth = t.processTabs(text[b:e], prefixWidth)
+			if url == nil && offset.url != nil {
+				url = offset.url
+				window.LinkBegin(url.uri, url.params)
+			}
 			window.CPrint(offset.color, substr)
 		}
 
@@ -2470,6 +2492,9 @@ func (t *Terminal) printColoredString(window tui.Window, text []rune, offsets []
 		if index >= maxOffset {
 			break
 		}
+	}
+	if url != nil {
+		window.LinkEnd()
 	}
 	if index < maxOffset {
 		substr, _ = t.processTabs(text[index:], prefixWidth)
@@ -2482,7 +2507,7 @@ func (t *Terminal) renderPreviewSpinner() {
 	spin := t.previewer.spinner
 	if len(spin) > 0 || t.previewer.scrollable {
 		maxWidth := t.pwindow.Width()
-		if !t.previewer.scrollable {
+		if !t.previewer.scrollable || !t.previewOpts.info {
 			if maxWidth > 0 {
 				t.pwindow.Move(0, maxWidth-1)
 				t.pwindow.CPrint(tui.ColPreviewSpinner, spin)
@@ -2662,11 +2687,20 @@ Loop:
 
 			var fillRet tui.FillReturn
 			prefixWidth := 0
+			var url *url
 			_, _, ansi = extractColor(line, ansi, func(str string, ansi *ansiState) bool {
 				trimmed := []rune(str)
 				isTrimmed := false
 				if !t.previewOpts.wrap {
 					trimmed, isTrimmed = t.trimRight(trimmed, maxWidth-t.pwindow.X())
+				}
+				if url == nil && ansi != nil && ansi.url != nil {
+					url = ansi.url
+					t.pwindow.LinkBegin(url.uri, url.params)
+				}
+				if url != nil && (ansi == nil || ansi.url == nil) {
+					url = nil
+					t.pwindow.LinkEnd()
 				}
 				str, width := t.processTabs(trimmed, prefixWidth)
 				if width > prefixWidth {
@@ -2681,6 +2715,9 @@ Loop:
 				return !isTrimmed &&
 					(fillRet == tui.FillContinue || t.previewOpts.wrap && fillRet == tui.FillNextLine)
 			})
+			if url != nil {
+				t.pwindow.LinkEnd()
+			}
 			t.previewer.scrollable = t.previewer.scrollable || t.pwindow.Y() == height-1 && t.pwindow.X() == t.pwindow.Width()
 			if fillRet == tui.FillNextLine {
 				continue
@@ -2692,10 +2729,14 @@ Loop:
 				break
 			}
 			if lbg >= 0 {
-				t.pwindow.CFill(-1, lbg, tui.AttrRegular,
+				fillRet = t.pwindow.CFill(-1, lbg, tui.AttrRegular,
 					strings.Repeat(" ", t.pwindow.Width()-t.pwindow.X())+"\n")
 			} else {
-				t.pwindow.Fill("\n")
+				fillRet = t.pwindow.Fill("\n")
+			}
+			if fillRet == tui.FillSuspend {
+				t.previewed.filled = true
+				break
 			}
 		}
 		lineNo++
@@ -2939,6 +2980,10 @@ type replacePlaceholderParams struct {
 	lastAction actionType
 	prompt     string
 	executor   *util.Executor
+}
+
+func (t *Terminal) replacePlaceholderInInitialCommand(template string) (string, []string) {
+	return t.replacePlaceholder(template, false, string(t.input), []*Item{nil, nil})
 }
 
 func (t *Terminal) replacePlaceholder(template string, forcePlus bool, input string, list []*Item) (string, []string) {
@@ -3391,19 +3436,6 @@ func (t *Terminal) Loop() error {
 			}
 		}()
 
-		contChan := make(chan os.Signal, 1)
-		notifyOnCont(contChan)
-		go func() {
-			for {
-				select {
-				case <-ctx.Done():
-					return
-				case <-contChan:
-					t.reqBox.Set(reqReinit, nil)
-				}
-			}
-		}()
-
 		if !t.tui.ShouldEmitResizeEvent() {
 			resizeChan := make(chan os.Signal, 1)
 			notifyOnResize(resizeChan) // Non-portable
@@ -3460,6 +3492,7 @@ func (t *Terminal) Loop() error {
 		go func() {
 			var version int64
 			stop := false
+			t.previewBox.WaitFor(reqPreviewReady)
 			for {
 				var items []*Item
 				var commandTemplate string
@@ -3487,6 +3520,9 @@ func (t *Terminal) Loop() error {
 				})
 				if stop {
 					break
+				}
+				if items == nil {
+					continue
 				}
 				version++
 				// We don't display preview window if no match
@@ -3729,12 +3765,15 @@ func (t *Terminal) Loop() error {
 						t.printHeader()
 					case reqActivate:
 						t.suppress = false
+						if t.hasPreviewer() {
+							t.previewBox.Set(reqPreviewReady, nil)
+						}
 					case reqRedrawBorderLabel:
 						t.printLabel(t.border, t.borderLabel, t.borderLabelOpts, t.borderLabelLen, t.borderShape, true)
 					case reqRedrawPreviewLabel:
 						t.printLabel(t.pborder, t.previewLabel, t.previewLabelOpts, t.previewLabelLen, t.previewOpts.border, true)
 					case reqReinit:
-						t.tui.Resume(t.fullscreen, t.sigstop)
+						t.tui.Resume(t.fullscreen, true)
 						t.fullRedraw()
 					case reqResize, reqFullRedraw:
 						if req == reqResize {
@@ -4474,11 +4513,11 @@ func (t *Terminal) Loop() error {
 			case actSigStop:
 				p, err := os.FindProcess(os.Getpid())
 				if err == nil {
-					t.sigstop = true
 					t.tui.Clear()
 					t.tui.Pause(t.fullscreen)
 					notifyStop(p)
 					t.mutex.Unlock()
+					t.reqBox.Set(reqReinit, nil)
 					return false
 				}
 			case actMouse:
@@ -4841,11 +4880,18 @@ func (t *Terminal) constrain() {
 			linesSum := 0
 
 			add := func(i int) bool {
-				lines, _ := t.numItemLines(t.merger.Get(i).item, numItems-linesSum)
+				lines, overflow := t.numItemLines(t.merger.Get(i).item, numItems-linesSum)
 				linesSum += lines
 				if linesSum >= numItems {
-					if numItemsFound == 0 {
-						numItemsFound = 1
+					/*
+						# Should show all 3 items
+						printf "file1\0file2\0file3\0" | fzf --height=5 --read0 --bind load:last --reverse
+
+						# Should not truncate the last item
+						printf "file\n1\0file\n2\0file\n3\0" | fzf --height=5 --read0 --bind load:last --reverse
+					*/
+					if numItemsFound == 0 || !overflow {
+						numItemsFound++
 					}
 					return false
 				}

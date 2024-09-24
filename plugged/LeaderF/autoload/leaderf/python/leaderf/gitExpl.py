@@ -79,12 +79,6 @@ class GitExplorer(Explorer):
             exe.killProcess()
         self._executor = []
 
-    def getPatternRegex(self):
-        return self._pattern_regex
-
-    def getContextSeparator(self):
-        return self._context_separator
-
 
 class GitDiffExplorer(GitExplorer):
     def __init__(self):
@@ -624,7 +618,7 @@ class GitCommandView(object):
         lfCmd("call win_execute({}, 'setlocal nospell')".format(winid))
         lfCmd("call win_execute({}, 'setlocal nomodifiable')".format(winid))
         if lfEval("getbufvar(winbufnr(%d), '&ft')" % winid) != self._cmd.getFileType():
-            lfCmd("call win_execute({}, '{}')".format(winid, self._cmd.getFileTypeCommand()))
+            lfCmd("silent! call win_execute({}, '{}')".format(winid, self._cmd.getFileTypeCommand()))
 
     def initBuffer(self):
         pass
@@ -1082,6 +1076,7 @@ class LfOrderedDict(OrderedDict):
 
     def first_key_value(self):
         return next(iter(self.items()))
+
 
 class FolderStatus(Enum):
     CLOSED = 0
@@ -2070,6 +2065,7 @@ class PreviewPanel(Panel):
             return self._view.getContent()
 
         return []
+
 
 class DiffViewPanel(Panel):
     def __init__(self, bufhidden_callback=None, commit_id=""):
@@ -4284,9 +4280,6 @@ class GitBlameExplManager(GitExplManager):
             return
 
         commit_id = vim.current.line.lstrip('^').split(None, 1)[0]
-        if commit_id.startswith('0000000'):
-            lfPrintError("Not Committed Yet!")
-            return
 
         line_num, file_name = vim.current.line.rsplit('\t', 1)[1].split(None, 1)
         line_num = int(line_num)
@@ -4298,7 +4291,11 @@ class GitBlameExplManager(GitExplManager):
                 lfCmd("call nvim_win_close(b:lf_preview_winid, 1)")
 
         project_root = lfEval("b:lf_blame_project_root")
-        cmd = GitShowCommand(self._arguments, commit_id, file_name)
+        if commit_id.startswith('0000000'):
+            cmd = GitCustomizeCommand(self._arguments, "git diff @ -- {}".format(file_name),
+                                      None, "git", "setlocal filetype=git")
+        else:
+            cmd = GitShowCommand(self._arguments, commit_id, file_name)
         outputs = ParallelExecutor.run(cmd.getCommand(), directory=project_root)
         self._preview_panel.create(cmd, self.generateConfig(project_root), outputs[0])
         preview_winid = self._preview_panel.getPreviewWinId()

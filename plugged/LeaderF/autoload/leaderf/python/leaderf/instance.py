@@ -323,7 +323,10 @@ class LfInstance(object):
         lfCmd("setlocal nofoldenable")
         lfCmd("setlocal foldmethod=manual")
         lfCmd("setlocal shiftwidth=4")
-        lfCmd("setlocal cursorline")
+        if lfEval("has('nvim')") == '1':
+            lfCmd("call nvim_win_set_option(win_getid(), 'cursorline', v:true)")
+        else:
+            lfCmd("setlocal cursorline")
         if lfEval("exists('+cursorlineopt')") == '1':
             lfCmd("setlocal cursorlineopt=both")
         lfCmd("silent! setlocal signcolumn=no")   # make vim flicker
@@ -653,6 +656,7 @@ class LfInstance(object):
             lfCmd("noautocmd silent let winid = nvim_open_win(%d, 0, %s)" % (buf_number, str(input_win_config)))
             winid = int(lfEval("winid"))
             self._nvim_set_options(buf_number, winid)
+            lfCmd("silent! call nvim_win_set_option(%d, 'statuscolumn', '')" % winid)
             lfCmd("call nvim_win_set_option(%d, 'winhighlight', 'Normal:Lf_hl_popup_inputText')" % winid)
 
             def getWindow(number):
@@ -689,6 +693,7 @@ class LfInstance(object):
                 lfCmd("noautocmd silent let winid = nvim_open_win(%d, 0, %s)" % (buf_number, str(stl_win_config)))
                 winid = int(lfEval("winid"))
                 self._nvim_set_options(buf_number, winid)
+                lfCmd("silent! call nvim_win_set_option(%d, 'statuscolumn', '')" % winid)
                 lfCmd("call nvim_win_set_option(%d, 'winhighlight', 'Normal:Lf_hl_popup_blank')" % winid)
                 self._popup_instance.statusline_win = FloatWindow(winid,
                                                                   getWindow(int(lfEval("win_id2win(%d)" % winid))),

@@ -281,7 +281,9 @@ class GtagsExplorer(Explorer):
 
         if auto_jump:
             first_two = list(itertools.islice(content, 2))
-            if len(first_two) == 1:
+            if len(first_two) == 0:
+                return []
+            elif len(first_two) == 1:
                 return first_two
             else:
                 return content.join_left(first_two)
@@ -955,6 +957,14 @@ class GtagsExplManager(Manager):
     def setArguments(self, arguments):
         self._arguments = arguments
         self._match_path = "--match-path" in arguments
+
+    def autoJump(self, content):
+        if "--auto-jump" in self._arguments and isinstance(content, list) and len(content) == 1:
+            mode = self._arguments["--auto-jump"][0] if len(self._arguments["--auto-jump"]) else ""
+            self._accept(content[0], mode)
+            return True
+
+        return False
 
     def _getDigest(self, line, mode):
         """

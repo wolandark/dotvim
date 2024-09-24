@@ -20,21 +20,15 @@ let mapleader = " "
 
 "===[ Plugins ]==="
 call plug#begin()
-
-" Plug 'SirVer/ultisnips'
-" Plug 'mhinz/vim-startify'
-" Plug 'https://github.com/justinmk/vim-sneak.git'
-" Plug 'sheerun/vim-polyglot'
-" Plug 'lifepillar/vim-cheat40'
 Plug 'ryanoasis/vim-devicons'
 Plug 'wolandark/vim-live-server', {'for':['html', 'javascript', 'css']}
 Plug 'jwalton512/vim-blade', {'for':['php','blade']}
-Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase','for':['html', 'css', 'javascript', 'php', 'blade', 'markdown', 'vimwiki', 'c', 'vim']}
+Plug 'rrethy/vim-hexokinase' ", { 'do': 'make hexokinase','for':['html', 'css', 'javascript', 'php', 'blade', 'markdown', 'vimwiki', 'c', 'vim', 'tmux']}
 Plug 'DougBeney/pickachu', {'for':['css','html']}
 Plug 'voldikss/vim-floaterm'
-Plug 'https://github.com/rhysd/git-messenger.vim.git', {'for':['html','css','javascript','php','blade','markdown', 'vimwiki','c','vim']}
-Plug 'airblade/vim-gitgutter', {'for':['html','css','javascript','php','blade','markdown', 'vimwiki','c','vim']}
-Plug 'tpope/vim-fugitive', {'for':['html','css','javascript','php','blade','markdown', 'vimwiki','c','vim']}
+Plug 'https://github.com/rhysd/git-messenger.vim.git', {'for':['html','css','javascript','php','blade','markdown', 'vimwiki','c','vim', 'go']}
+Plug 'airblade/vim-gitgutter', {'for':['html','css','javascript','php','blade','markdown', 'vimwiki','c','vim', 'go']}
+Plug 'tpope/vim-fugitive', {'for':['html','css','javascript','php','blade','markdown', 'vimwiki','c','vim', 'go']}
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'https://github.com/rhysd/clever-f.vim.git'
 Plug 'https://github.com/monkoose/vim9-stargate.git'
@@ -46,6 +40,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'honza/vim-snippets', {'for':['html','css','javascript','php','blade','markdown', 'vimwiki','c']}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/gv.vim'
 Plug 'junegunn/vim-peekaboo'
 Plug 'https://github.com/godlygeek/tabular.git', {'for':['markdown', 'vimwiki']}
 Plug 'https://github.com/markonm/traces.vim.git'
@@ -53,7 +48,7 @@ Plug 'vimwiki/vimwiki'
 Plug 'https://github.com/preservim/tagbar.git', {'for':['html','css','javascript','php','blade','markdown', 'vimwiki','c']}
 Plug 'vim-php/phpctags', {'for':'php'}
 Plug 'https://github.com/907th/vim-auto-save.git'
-Plug 'neoclide/coc.nvim' ", {'branch': 'release', 'for':['html','css','javascript','php','blade','sh','c','markdown','vim']}
+Plug 'neoclide/coc.nvim' , {'branch': 'release'} ", 'for':['html','css','javascript','php','blade','sh','c','markdown','vim']}
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install', 'for':'markdown' }
 Plug 'mileszs/ack.vim'
 Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
@@ -64,8 +59,13 @@ Plug 'fcpg/vim-farout'
 Plug 'https://github.com/habamax/vim-shout.git'
 Plug 'mbbill/undotree'
 Plug 'junegunn/vim-after-object'
+" Plug 'ubaldot/vim-highlight-yanked'
+Plug 'https://github.com/sedm0784/vim-you-autocorrect.git', {'for':['text', 'markdown', 'vimwiki']}
+" Plug 'TaDaa/vimade'
+Plug 'ron89/thesaurus_query.vim', {'for':['text', 'markdown', 'vimwiki']}
+Plug 'ptzz/lf.vim'
+Plug 'vifm/vifm.vim'
 " Plug 'https://github.com/habamax/vim-ii.git'
-Plug 'ubaldot/vim-highlight-yanked'
 " Plug 'chriskempson/base16-vim'
 " Plug 'https://github.com/Valloric/MatchTagAlways.git', {'for':['markdown','html']}
 " Plug 'tpope/vim-commentary'
@@ -74,21 +74,23 @@ Plug 'ubaldot/vim-highlight-yanked'
 " Plug 'https://github.com/Rican7/php-doc-modded.git', {'for':'php'}
 " Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production', 'for':['html', 'css', 'javascript'] }
 " Plug 'fcpg/vim-fahrenheit'
-Plug 'https://github.com/sedm0784/vim-you-autocorrect.git', {'for':['text', 'markdown', 'vimwiki']}
-Plug 'TaDaa/vimade'
-Plug 'ron89/thesaurus_query.vim', {'for':['text', 'markdown', 'vimwiki']}
-Plug 'ptzz/lf.vim'
-Plug 'vifm/vifm.vim'
+" Plug 'SirVer/ultisnips'
+" Plug 'mhinz/vim-startify'
+" Plug 'https://github.com/justinmk/vim-sneak.git'
+" Plug 'sheerun/vim-polyglot'
+" Plug 'lifepillar/vim-cheat40'
 call plug#end()
 
+" Thesaurus
 let g:tq_enabled_backends=["mthesaur_txt"]
 
-let g:vimade = {}
-let g:vimade.fadelevel = 0.6
-let g:vimade.enablesigns = 1
+" Vimade
+" let g:vimade = {}
+" let g:vimade.fadelevel = 0.9
+" let g:vimade.enablesigns = 1
 
-au! FocusLost * VimadeFadeActive
-au! FocusGained * VimadeUnfadeActive
+" au! FocusLost * VimadeFadeActive
+" au! FocusGained * VimadeUnfadeActive
 
 "===[ Theme ]==="
 set background=dark
@@ -158,6 +160,13 @@ augroup php
 	au BufNewFile *.php 0r ~/.vim/skeleton/skeleton.php
 augroup end
 
+augroup perl
+	au BufNewFile *.pl 0r ~/.vim/skeleton/skeleton.perl
+augroup end
+
+augroup bash
+	au BufNewFile *.sh 0r ~/.vim/skeleton/skeleton.sh
+augroup end
 "===[ Replace Easier ]==="
 function! ReplaceParams(param1, param2)
 	execute '%s/' . a:param1 . '/' . a:param2 . '/g'
@@ -166,25 +175,25 @@ endfunction
 command! -nargs=* S call ReplaceParams(<f-args>)
 
 "=== [ sneak ]==="
-nmap \S <Plug>Sneak_S
-let g:sneak#label = 1
+" nmap \S <Plug>Sneak_S
+" let g:sneak#label = 1
 
 "===[ Lightline Statusbar ]==="
 " Syntax Item In Ststus
-function! SyntaxItem()
+" function! SyntaxItem()
 	" let res = synIDattr(synID(line("."),col("."),1),"name")
 	" return res
-	return "S:" . synIDattr(synID(line("."),col("."),1),"name")
-endfunction
+	" return "S:" . synIDattr(synID(line("."),col("."),1),"name")
+" endfunction
 
-function! HLG()
-	return "H:" . synIDattr(synIDtrans(synID(line("."), col("."), 1)), "name")
-endfunction
+" function! HLG()
+	" return "H:" . synIDattr(synIDtrans(synID(line("."), col("."), 1)), "name")
+" endfunction
 
 " column number
-function ColumnNumber() 
-	return "C:" . col(".")
-endfunction
+" function ColumnNumber() 
+	" return "C:" . col(".")
+" endfunction
 
 "===[ Word Count ]==="
 let g:word_count = 0
@@ -255,10 +264,10 @@ let g:dict_popup_gui_bgcolor = '#f9f9f9'
 
 "===[ packadd ]==="
 packadd comment
-packadd justify
 packadd matchit
-packadd goyo
-packadd limelight
+" packadd justify
+" packadd goyo
+" packadd limelight
 " packadd vim-ddgpb
 " packadd dict
 
@@ -271,6 +280,7 @@ set updatetime=50
 
 nnoremap Q mmgqG`mzt
 nnoremap Y y$
+nnoremap YA :%y<CR>
 
 function SetUpForWriting()
 	packadd goyo
@@ -285,24 +295,19 @@ endfunction
 
 command! Writer call SetUpForWriting()
 
-" let g:piper_voice = '/home/woland/tmp/piper/piper-voices/en/en_US/libritts/high/en_US-libritts-high.onnx'
-let g:piper_voice = '/home/woland/tmp/piper/piper-voices/en/en_US/joe/medium/en_US-joe-medium.onnx'
 let g:piper_bin = '/home/woland/tmp/piper/piper-bin/piper/piper'
+let g:piper_voice = '/home/woland/tmp/piper/piper-voices/en/en_US/joe/medium/en_US-joe-medium.onnx'
+" let g:piper_voice = '/home/woland/tmp/piper/piper-voices/en/en_US/libritts/high/en_US-libritts-high.onnx'
 
+command! OffLimelight :Limelight!
 
+" nmap ZZ :w<CR>:bwipeout<CR>
+nnoremap ZZ :w<CR>:bd<CR>
+map <C-f> :Files<CR>
 
+function DeletePHPComments() abort
+	:g/^\s\+\S\//d
+endfunction
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+" let g:lightline#bufferline#clickable=1
+" let g:lightline.component_raw = {'buffers': 1}

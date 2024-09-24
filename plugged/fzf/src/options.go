@@ -12,7 +12,7 @@ import (
 	"github.com/junegunn/fzf/src/algo"
 	"github.com/junegunn/fzf/src/tui"
 
-	"github.com/mattn/go-shellwords"
+	"github.com/junegunn/go-shellwords"
 	"github.com/rivo/uniseg"
 )
 
@@ -103,7 +103,7 @@ Usage: fzf [options]
     --header=STR            String to print as header
     --header-lines=N        The first N lines of the input are treated as header
     --header-first          Print header before the prompt line
-    --ellipsis=STR          Ellipsis to show when line is truncated (default: '..')
+    --ellipsis=STR          Ellipsis to show when line is truncated (default: '··')
 
   Display
     --ansi                  Enable processing of ANSI color codes
@@ -120,8 +120,8 @@ Usage: fzf [options]
     --preview=COMMAND       Command to preview highlighted line ({})
     --preview-window=OPT    Preview window layout (default: right:50%)
                             [up|down|left|right][,SIZE[%]]
-                            [,[no]wrap][,[no]cycle][,[no]follow][,[no]hidden]
-                            [,border-BORDER_OPT]
+                            [,[no]wrap][,[no]cycle][,[no]follow][,[no]info]
+                            [,[no]hidden][,border-BORDER_OPT]
                             [,+SCROLL[OFFSETS][/DENOM]][,~HEADER_LINES]
                             [,default][,<SIZE_THRESHOLD(ALTERNATIVE_LAYOUT)]
     --preview-label=LABEL
@@ -271,6 +271,7 @@ type previewOpts struct {
 	wrap        bool
 	cycle       bool
 	follow      bool
+	info        bool
 	border      tui.BorderShape
 	headerLines int
 	threshold   int
@@ -386,7 +387,7 @@ func (a previewOpts) sameLayout(b previewOpts) bool {
 }
 
 func (a previewOpts) sameContentLayout(b previewOpts) bool {
-	return a.wrap == b.wrap && a.headerLines == b.headerLines
+	return a.wrap == b.wrap && a.headerLines == b.headerLines && a.info == b.info
 }
 
 func firstLine(s string) string {
@@ -472,7 +473,7 @@ type Options struct {
 	Header       []string
 	HeaderLines  int
 	HeaderFirst  bool
-	Ellipsis     string
+	Ellipsis     *string
 	Scrollbar    *string
 	Margin       [4]sizeSpec
 	Padding      [4]sizeSpec
@@ -508,7 +509,7 @@ func filterNonEmpty(input []string) []string {
 }
 
 func defaultPreviewOpts(command string) previewOpts {
-	return previewOpts{command, posRight, sizeSpec{50, true}, "", false, false, false, false, tui.DefaultBorderShape, 0, 0, nil}
+	return previewOpts{command, posRight, sizeSpec{50, true}, "", false, false, false, false, true, tui.DefaultBorderShape, 0, 0, nil}
 }
 
 func defaultOptions() *Options {
@@ -578,7 +579,7 @@ func defaultOptions() *Options {
 		Header:       make([]string, 0),
 		HeaderLines:  0,
 		HeaderFirst:  false,
-		Ellipsis:     "..",
+		Ellipsis:     nil,
 		Scrollbar:    nil,
 		Margin:       defaultMargin(),
 		Padding:      defaultMargin(),
@@ -1789,6 +1790,10 @@ func parsePreviewWindowImpl(opts *previewOpts, input string) error {
 			opts.follow = true
 		case "nofollow":
 			opts.follow = false
+		case "info":
+			opts.info = true
+		case "noinfo":
+			opts.info = false
 		default:
 			if headerRegex.MatchString(token) {
 				if opts.headerLines, err = atoi(token[1:]); err != nil {
@@ -2339,9 +2344,12 @@ func parseOptions(index *int, opts *Options, allArgs []string) error {
 		case "--no-header-first":
 			opts.HeaderFirst = false
 		case "--ellipsis":
-			if opts.Ellipsis, err = nextString(allArgs, &i, "ellipsis string required"); err != nil {
+			str, err := nextString(allArgs, &i, "ellipsis string required")
+			if err != nil {
 				return err
 			}
+			str = firstLine(str)
+			opts.Ellipsis = &str
 		case "--preview":
 			if opts.Preview.command, err = nextString(allArgs, &i, "preview command required"); err != nil {
 				return err
@@ -2623,7 +2631,8 @@ func parseOptions(index *int, opts *Options, allArgs []string) error {
 					return err
 				}
 			} else if match, value := optString(arg, "--ellipsis="); match {
-				opts.Ellipsis = value
+				str := firstLine(value)
+				opts.Ellipsis = &str
 			} else if match, value := optString(arg, "--preview="); match {
 				opts.Preview.command = value
 			} else if match, value := optString(arg, "--preview-window="); match {
@@ -2915,6 +2924,12 @@ func postProcessOptions(opts *Options) error {
 	return processScheme(opts)
 }
 
+func parseShellWords(str string) ([]string, error) {
+	parser := shellwords.NewParser()
+	parser.ParseComment = true
+	return parser.Parse(str)
+}
+
 // ParseOptions parses command-line options
 func ParseOptions(useDefaults bool, args []string) (*Options, error) {
 	opts := defaultOptions()
@@ -2928,7 +2943,7 @@ func ParseOptions(useDefaults bool, args []string) (*Options, error) {
 				return nil, errors.New("$FZF_DEFAULT_OPTS_FILE: " + err.Error())
 			}
 
-			words, parseErr := shellwords.Parse(string(bytes))
+			words, parseErr := parseShellWords(string(bytes))
 			if parseErr != nil {
 				return nil, errors.New(path + ": " + parseErr.Error())
 			}
@@ -2940,7 +2955,7 @@ func ParseOptions(useDefaults bool, args []string) (*Options, error) {
 		}
 
 		// 2. Options from $FZF_DEFAULT_OPTS string
-		words, parseErr := shellwords.Parse(os.Getenv("FZF_DEFAULT_OPTS"))
+		words, parseErr := parseShellWords(os.Getenv("FZF_DEFAULT_OPTS"))
 		if parseErr != nil {
 			return nil, errors.New("$FZF_DEFAULT_OPTS: " + parseErr.Error())
 		}
@@ -2964,17 +2979,18 @@ func ParseOptions(useDefaults bool, args []string) (*Options, error) {
 	return opts, nil
 }
 
-func (opts *Options) reloadOnStart() bool {
-	// Not compatible with --filter
-	if opts.Filter != nil {
-		return false
-	}
+func (opts *Options) extractReloadOnStart() string {
+	cmd := ""
 	if actions, prs := opts.Keymap[tui.Start.AsEvent()]; prs {
+		filtered := []*action{}
 		for _, action := range actions {
 			if action.t == actReload || action.t == actReloadSync {
-				return true
+				cmd = action.a
+			} else {
+				filtered = append(filtered, action)
 			}
 		}
+		opts.Keymap[tui.Start.AsEvent()] = filtered
 	}
-	return false
+	return cmd
 }

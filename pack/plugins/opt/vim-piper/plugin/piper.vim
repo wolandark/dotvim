@@ -1,3 +1,4 @@
+"
 " _____________________________________________________
 "/\                                                    \
 "\_|        _                       _                  |
@@ -18,7 +19,7 @@
 " piper repository: https://github.com/rhasspy/piper
 " plugin home: https://github.com/wolandark/vim-piper
 "
-"
+
 "┌─────────┐
 "│Load Once│
 "└─────────┘
@@ -47,7 +48,7 @@ function! PassVisualSelection()
 	let lines = getline(start[1], end[1])
 	let lines[-1] = lines[-1][ : end[2] - (&selection == 'inclusive' ? 1 : 2)]
 	let lines[0] = lines[0][start[2] - 1 : ]
-	let g:selection = join(lines)
+	let g:selection = join(lines, ' ')
 	return g:selection
 endfunction
 
@@ -56,7 +57,9 @@ endfunction
 "└───────────────────────────┘
 function! SpeakWord()
 	let word_under_cursor = expand('<cword>')
-	call system('echo "'. word_under_cursor .'" | '. g:piper_bin .' --model '. g:piper_voice .' --output-raw | aplay -r 22050 -f S16_LE -t raw -')
+	let command = 'echo '. word_under_cursor .' | '. g:piper_bin .' --model '. g:piper_voice .' --output-raw | aplay -r 22050 -f S16_LE -t raw -'
+	call system(command)
+	set lazyredraw
 	redraw!
 endfunction
 
@@ -64,11 +67,13 @@ endfunction
 "│Speak Current Line│
 "└──────────────────┘
 function! SpeakCurrentLine()
-	" Yank the current line to the 'a' register
 	normal! "ayy
-	" Execute the Piper command using the contents of the 'a' register
-	call system('echo "' . @a . '" | '. g:piper_bin .' --model '. g:piper_voice .' --output-raw | aplay -r 22050 -f S16_LE -t raw -')
-	" Redraw the screen to clean up
+	" split by newlines, and join into a single line (Seemingly unnecessary but is worth the trouble)
+	let line_text = join(split(@a, "\n"), " ")
+	let escaped_line = shellescape(line_text)
+	let command = 'echo '. escaped_line .' | '. g:piper_bin .' --model '. g:piper_voice .' --output-raw | aplay -r 22050 -f S16_LE -t raw -'
+	call system(command)
+	set lazyredraw
 	redraw!
 endfunction
 
@@ -76,13 +81,13 @@ endfunction
 "│Speak Current Paragraph│
 "└───────────────────────┘
 function! SpeakCurrentParagraph()
-	" Yank the current paragraph to the 'a' register
 	normal! vap"ay
-	" Get the contents of register 'a', split by newlines, and join into a single line
+	" split by newlines, and join into a single line
 	let paragraph_text = join(split(@a, "\n"), " ")
-	" Execute the Piper command using the contents of the paragraph
-	call system('echo ' . shellescape(paragraph_text) . ' | '. g:piper_bin .' --model '. g:piper_voice .' --output-raw | aplay -r 22050 -f S16_LE -t raw -')
-	" Redraw the screen to clean up
+	let escaped_paragraph = shellescape(paragraph_text)
+    let command = 'echo ' . escaped_paragraph . ' | ' . g:piper_bin . ' --model ' . g:piper_voice . ' --output-raw | aplay -r 22050 -f S16_LE -t raw -'
+	call system(command)
+	set lazyredraw
 	redraw!
 endfunction
 
@@ -92,9 +97,10 @@ endfunction
 function! SpeakVisualSelection()
 	let g:selection = ''
 	call PassVisualSelection()
-	" Execute the Piper command using the contents of the 'a' register
-	call system('echo "' . g:selection . '" | '. g:piper_bin .' --model '. g:piper_voice .' --output-raw | aplay -r 22050 -f S16_LE -t raw -')
-	" Redraw the screen to clean up
+    let escaped_selection = shellescape(g:selection)
+    let command = 'echo ' . escaped_selection . ' | ' . g:piper_bin . ' --model ' . g:piper_voice . ' --output-raw | aplay -r 22050 -f S16_LE -t raw -'
+    call system(command)
+	set lazyredraw
 	redraw!
 endfunction
 
@@ -102,13 +108,13 @@ endfunction
 "│Speak Current File│
 "└──────────────────┘
 function! SpeakCurrentFile()
-	" Yank the current file to the 'a' register
 	execute "%y a"
-	" Get the contents of register 'a', split by newlines, and join into a single line
-	let paragraph_text = join(split(@a, "\n"), " ")
-	" Execute the Piper command using the contents of the paragraph
-	call system('echo ' . shellescape(paragraph_text) . ' | '. g:piper_bin .' --model '. g:piper_voice .' --output-raw | aplay -r 22050 -f S16_LE -t raw -')
-	" Redraw the screen to clean up
+	" split by newlines, and join into a single line
+	let file_text = join(split(@a, "\n"), " ")
+	let escaped_file = shellescape(file_text) 
+	let command = 'echo ' . escaped_file . ' | '. g:piper_bin .' --model '. g:piper_voice .' --output-raw | aplay -r 22050 -f S16_LE -t raw -'
+	call system(command)
+	set lazyredraw
 	redraw!
 endfunction
 

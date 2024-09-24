@@ -1,4 +1,5 @@
-*ddgpb.txt*     A Simple Plugin To Search DuckDuckGo OR Send Visual Selection To Paste Bin
+*ddgpb.txt* A Simple Plugin To Search DuckDuckGo OR Send Visual Selection
+To Paste Bin
 
 Author: wolandark
 Copyright: © 2024 wolandark
@@ -22,6 +23,9 @@ CONTENTS                                                *ddgpb-contents*
 This is a simple Vim plugin that allows you to either search DuckDuckGo or send
 a visual selection to a paste bin service. It requires Vim 9.0 or later to
 function correctly.
+To use the terminal browser instead of the GUI browser, you must also install 
+w3m and tmux. It is natural that you should be in a tmux session to use the 
+terminal browser functions.
 
 ==============================================================================
 2. Installation                                       *ddgpb-install*
@@ -56,9 +60,9 @@ The plugin defines the following key mappings:
 
 | Mode | Mapping    | Action                                     |
 |------|------------|--------------------------------------------|
-| v    | \p         | Calls :Binint                              |
-| v    | \s         | Calls :DDGV                                |
-| v    | \t         | Calls :DDGVT                               |
+| v    | <F12>         | Calls :Binint                           |
+| v    | <F7>         | Calls :DDGV                              |
+| v    | <F8>         | Calls :DDGVT                             |
 | n    | <F3>       | Calls :DDG                                 |
 | n    | <F4>       | Calls :DDGT                                |
 

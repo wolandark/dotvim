@@ -7,8 +7,9 @@ if line_count > 1000
 	set laststatus=0
 	set showtabline=0
 else
-	set nowrap
-	set textwidth=80
+	set wrap
+	set wrapmargin=2
+	set textwidth=0
 	set scrolloff=50
 	set relativenumber!
 	set foldmethod=marker
@@ -16,15 +17,13 @@ else
 	set listchars=tab:▸\ ,trail:·
 	colorscheme farout
 
-	packadd goyo
-	packadd limelight
+	" packadd goyo
+	" packadd limelight
 	packadd vim-ddgpb
 	packadd vimdict
 
 	nnoremap ]g ]s
 	nnoremap [g [s
-	nnoremap <F2> :Dict <CR>
-	nnoremap <F3> :DDGV <CR>
 
 	" :Goya
 	:Limelight

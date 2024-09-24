@@ -1,6 +1,7 @@
 vim9script
 
 def CodeRunner()
+	silent !clear
     if &ft ==# 'python'
         execute 'RPy'
     elseif &ft ==# 'sh'
@@ -11,6 +12,8 @@ def CodeRunner()
 		execute 'RPHP'
 	elseif &ft ==# 'go'
 		execute 'RGo'
+	elseif &ft ==# 'perl'
+		execute 'RPl'
     endif
 enddef
 
@@ -23,6 +26,7 @@ augroup custom_commands
 	au FileType javascript command! RJs :!node %
 	au FileType go command! RGo :!go run %
 	au FileType php command! RPHP :!php %
+	au FileType perl command! RPl :!perl %
 augroup end
 
 command! CodeRunner call CodeRunner()
